@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="worship">
+	<select id="getWorshipId" parameterType = "string" resultType="string">
+		<![CDATA[
+			SELECT worship_id
+			FROM WORSHIP
+			WHERE worship_date = #{date}
+		]]>		
+	</select>
+	<select id="getWorshipMap" parameterType = "string" resultType="map">
+		<![CDATA[
+			SELECT worship_id, worship_date, main_presenter, next_presenter, next_prayer, next_offer
+			FROM WORSHIP
+			WHERE worship_id = #{worshipId}
+		]]>		
+	</select>
+	<select id="getVersion" parameterType = "string" resultType="string">
+		<![CDATA[
+			SELECT version
+			FROM WORSHIP
+			WHERE worship_date = #{date}
+		]]>		
+	</select>
+</mapper>

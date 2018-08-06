@@ -1,0 +1,185 @@
+-- USER
+CREATE TABLE `ohjooyeo`.`USER` (
+	`user_id`  VARCHAR(20) NOT NULL COMMENT 'user_id', -- user_id
+	`password` VARCHAR(20) NOT NULL COMMENT 'password' -- password
+) DEFAULT CHARSET=utf8,
+COMMENT 'USER';
+
+-- USER
+ALTER TABLE `ohjooyeo`.`USER`
+	ADD CONSTRAINT `PK_USER` -- USER 기본키
+		PRIMARY KEY (
+			`user_id` -- user_id
+		);
+
+-- WORSHIP
+CREATE TABLE `ohjooyeo`.`WORSHIP` (
+	`worship_id`     CHAR(5)     NOT NULL COMMENT 'worship_id', -- worship_id
+	`worship_date`   DATE        NOT NULL COMMENT 'worship_date', -- worship_date
+	`main_presenter` VARCHAR(10) NULL     COMMENT 'main_presenter', -- main_presenter
+	`next_presenter` VARCHAR(10) NULL     COMMENT 'next_presenter', -- next_presenter
+	`next_prayer`    VARCHAR(10) NULL     COMMENT 'next_prayer', -- next_prayer
+	`next_offer`     VARCHAR(10) NULL     COMMENT 'next_offer', -- next_offer
+	`version`        CHAR(3)     NOT NULL DEFAULT 'aaa' COMMENT 'version', -- version
+	`user_id`        VARCHAR(20) NOT NULL COMMENT 'user_id' -- user_id
+) DEFAULT CHARSET=utf8,
+COMMENT 'WORSHIP';
+
+-- WORSHIP
+ALTER TABLE `ohjooyeo`.`WORSHIP`
+	ADD CONSTRAINT `PK_WORSHIP` -- WORSHIP 기본키
+		PRIMARY KEY (
+			`worship_id` -- worship_id
+		);
+
+-- ORDER
+CREATE TABLE `ohjooyeo`.`ORDER` (
+	`worship_id` CHAR(5)     NOT NULL COMMENT 'worship_id', -- worship_id
+	`order_id`   INTEGER     NOT NULL COMMENT 'order_id', -- order_id
+	`order`      INTEGER     NOT NULL COMMENT 'order', -- order
+	`title`      VARCHAR(10) NOT NULL COMMENT 'title', -- title
+	`detail`     VARCHAR(50) NULL     COMMENT 'detail', -- detail
+	`presenter`  VARCHAR(10) NOT NULL COMMENT 'presenter' -- presenter
+) DEFAULT CHARSET=utf8,
+COMMENT 'ORDER';
+
+-- ORDER
+ALTER TABLE `ohjooyeo`.`ORDER`
+	ADD CONSTRAINT `PK_ORDER` -- ORDER 기본키
+		PRIMARY KEY (
+			`worship_id`, -- worship_id
+			`order_id`    -- order_id
+		);
+
+ALTER TABLE `ohjooyeo`.`ORDER`
+	MODIFY COLUMN `order_id` INTEGER NOT NULL AUTO_INCREMENT COMMENT 'order_id';
+
+-- ADVERTISEMENT
+CREATE TABLE `ohjooyeo`.`ADVERTISEMENT` (
+	`worship_id`       CHAR(5)      NOT NULL COMMENT 'worship_id', -- worship_id
+	`advertisement_id` INTEGER      NOT NULL COMMENT 'advertisement_id', -- advertisement_id
+	`order`            INTEGER      NOT NULL COMMENT 'order', -- order
+	`title`            VARCHAR(10)  NULL     COMMENT 'title', -- title
+	`content`          VARCHAR(200) NOT NULL COMMENT 'content' -- content
+) DEFAULT CHARSET=utf8,
+COMMENT 'ADVERTISEMENT';
+
+-- ADVERTISEMENT
+ALTER TABLE `ohjooyeo`.`ADVERTISEMENT`
+	ADD CONSTRAINT `PK_ADVERTISEMENT` -- ADVERTISEMENT 기본키
+		PRIMARY KEY (
+			`worship_id`,     -- worship_id
+			`advertisement_id`  -- advertisement_id
+		);
+
+-- BIBLE
+CREATE TABLE `ohjooyeo`.`BIBLE` (
+	`book`    VARCHAR(7)   NOT NULL COMMENT 'book', -- book
+	`chapter` NUMERIC(3)   NOT NULL COMMENT 'chapter', -- chapter
+	`section` NUMERIC(3)   NOT NULL COMMENT 'section', -- section
+	`contents`  VARCHAR(300) NOT NULL COMMENT 'contents' -- contents
+) DEFAULT CHARSET=utf8,
+COMMENT 'BIBLE';
+
+-- BIBLE
+ALTER TABLE `ohjooyeo`.`BIBLE`
+	ADD CONSTRAINT `PK_BIBLE` -- BIBLE 기본키
+		PRIMARY KEY (
+			`book`,    -- book
+			`chapter`, -- chapter
+			`section`  -- section
+		);
+
+-- MUSIC
+CREATE TABLE `ohjooyeo`.`MUSIC` (
+	`music_id`      INTEGER      NOT NULL COMMENT 'music_id', -- music_id
+	`worship_id`    CHAR(5)      NOT NULL COMMENT 'worship_id', -- worship_id
+	`filename`      VARCHAR(20)  NOT NULL COMMENT 'filename', -- filename
+	`extention`     VARCHAR(5)   NOT NULL COMMENT 'extention', -- extention
+	`path`          VARCHAR(200) NOT NULL COMMENT 'path', -- path
+	`original_name` VARCHAR(20)  NOT NULL COMMENT 'original_name', -- original_name
+	`order`         INTEGER      NOT NULL COMMENT 'order' -- order
+) DEFAULT CHARSET=utf8,
+COMMENT 'MUSIC';
+
+-- MUSIC
+ALTER TABLE `ohjooyeo`.`MUSIC`
+	ADD CONSTRAINT `PK_MUSIC` -- MUSIC 기본키
+		PRIMARY KEY (
+			`music_id`,   -- music_id
+			`worship_id`  -- worship_id
+		);
+
+ALTER TABLE `ohjooyeo`.`MUSIC`
+	MODIFY COLUMN `music_id` INTEGER NOT NULL AUTO_INCREMENT COMMENT 'music_id';
+
+ALTER TABLE `ohjooyeo`.`MUSIC`
+	AUTO_INCREMENT = 1;
+
+-- LAUNCH_PHRASE
+CREATE TABLE `ohjooyeo`.`LAUNCH_PHRASE` (
+	`user_id`    VARCHAR(20)  NOT NULL COMMENT 'user_id', -- user_id
+	`start_date` DATE         NOT NULL COMMENT 'start_date', -- start_date
+	`end_date`   DATE         NOT NULL COMMENT 'end_date', -- end_date
+	`phrase`     VARCHAR(300) NOT NULL COMMENT 'phrase' -- phrase
+) DEFAULT CHARSET=utf8,
+COMMENT 'LAUNCH_PHRASE';
+
+-- LAUNCH_PHRASE
+ALTER TABLE `ohjooyeo`.`LAUNCH_PHRASE`
+	ADD CONSTRAINT `PK_LAUNCH_PHRASE` -- LAUNCH_PHRASE 기본키
+		PRIMARY KEY (
+			`user_id`,    -- user_id
+			`start_date`, -- start_date
+			`end_date`    -- end_date
+		);
+
+-- WORSHIP
+ALTER TABLE `ohjooyeo`.`WORSHIP`
+	ADD CONSTRAINT `FK_USER_TO_WORSHIP` -- USER -> WORSHIP
+		FOREIGN KEY (
+			`user_id` -- user_id
+		)
+		REFERENCES `ohjooyeo`.`USER` ( -- USER
+			`user_id` -- user_id
+		);
+
+-- ORDER
+ALTER TABLE `ohjooyeo`.`ORDER`
+	ADD CONSTRAINT `FK_WORSHIP_TO_ORDER` -- WORSHIP -> ORDER
+		FOREIGN KEY (
+			`worship_id` -- worship_id
+		)
+		REFERENCES `ohjooyeo`.`WORSHIP` ( -- WORSHIP
+			`worship_id` -- worship_id
+		);
+
+-- ADVERTISEMENT
+ALTER TABLE `ohjooyeo`.`ADVERTISEMENT`
+	ADD CONSTRAINT `FK_WORSHIP_TO_ADVERTISEMENT` -- WORSHIP -> ADVERTISEMENT
+		FOREIGN KEY (
+			`worship_id` -- worship_id
+		)
+		REFERENCES `ohjooyeo`.`WORSHIP` ( -- WORSHIP
+			`worship_id` -- worship_id
+		);
+
+-- MUSIC
+ALTER TABLE `ohjooyeo`.`MUSIC`
+	ADD CONSTRAINT `FK_WORSHIP_TO_MUSIC` -- WORSHIP -> MUSIC
+		FOREIGN KEY (
+			`worship_id` -- worship_id
+		)
+		REFERENCES `ohjooyeo`.`WORSHIP` ( -- WORSHIP
+			`worship_id` -- worship_id
+		);
+		
+-- LAUNCH_PHRASE
+ALTER TABLE `ohjooyeo`.`LAUNCH_PHRASE`
+	ADD CONSTRAINT `FK_USER_TO_LAUNCH_PHRASE` -- USER -> LAUNCH_PHRASE
+		FOREIGN KEY (
+			`user_id` -- user_id
+		)
+		REFERENCES `ohjooyeo`.`USER` ( -- USER
+			`user_id` -- user_id
+		);

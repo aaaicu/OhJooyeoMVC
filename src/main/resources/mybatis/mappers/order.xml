@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="order">
+	<select id="getOrder" parameterType="map" resultType="map">
+		<![CDATA[
+			SELECT *
+			FROM ohjooyeo.ORDER
+			WHERE worship_id like #{worshipId}
+			AND title like #{findOrder}
+		]]>	
+	</select>
+	<select id="getAllOrder" parameterType="string" resultType="map">
+		<![CDATA[
+			SELECT ORDER.presenter, ORDER.detail, ORDER.title, ORDER.order
+			FROM ohjooyeo.ORDER
+			WHERE worship_id like #{worshipId}
+		]]>
+	</select>
+	
+	<select id="getLaunchPhrase" parameterType="map" resultType="string">
+		<![CDATA[
+			SELECT lp.phrase
+			FROM ohjooyeo.LAUNCH_PHRASE lp
+			WHERE lp.user_id like #{userId} 
+			AND #{date} between lp.start_date and lp.end_date;
+		]]>
+	</select>
+	
+</mapper>

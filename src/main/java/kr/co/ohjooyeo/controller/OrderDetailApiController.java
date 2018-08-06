@@ -1,0 +1,32 @@
+package kr.co.ohjooyeo.controller;
+
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import kr.co.ohjooyeo.service.AdvertisementService;
+import kr.co.ohjooyeo.service.OrderService;
+
+@RestController
+@RequestMapping("/detail")
+public class OrderDetailApiController {
+	@Autowired
+	OrderService orderService;
+	
+	@Autowired
+	AdvertisementService adService;
+	
+	@RequestMapping(value = "/phrase", method = RequestMethod.POST)
+	public Map<String,Object> phrase(@RequestParam String date) {
+		return orderService.getPhraseByDate(date);
+	}
+	
+	@RequestMapping(value = "/advertisement", method = RequestMethod.POST)
+	public Map<String,Object> getAdvertisement(@RequestParam String date) {
+		return adService.getAdsByDate(date);
+	}
+}

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bible">
+	<select id="getPhrase" parameterType = "map" resultType="kr.co.ohjooyeo.vo.BibleVO">
+		<![CDATA[
+			SELECT book,chapter,section,contents
+			FROM BIBLE
+			WHERE book like #{book}
+				AND chapter = #{startChapter} 
+				AND section >= #{startSection}
+
+			UNION ALL
+			
+			SELECT book,chapter,section,contents
+			FROM BIBLE
+			WHERE book like #{book}
+				AND chapter BETWEEN #{startChapter} + 1 AND #{endChapter} -1
+
+			UNION ALL
+			SELECT book,chapter,section,contents
+			FROM BIBLE
+			WHERE book like #{book}
+				AND chapter = #{endChapter} 
+				AND section <= #{endSection}
+		]]>		
+	</select>
+	
+	<select id="getPhraseInChapter" parameterType = "map" resultType="kr.co.ohjooyeo.vo.BibleVO">
+		<![CDATA[
+			SELECT book,chapter,section,contents
+			FROM BIBLE
+			WHERE book like #{book}
+				AND chapter = #{chapter} 
+				AND section BETWEEN #{startSection} AND #{endSection} 
+		]]>
+	</select>
+
+</mapper>
