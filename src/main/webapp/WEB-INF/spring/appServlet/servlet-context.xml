@@ -27,20 +27,11 @@
 
 	<context:component-scan base-package="kr.co.ohjooyeo" />
 	<context:component-scan base-package="kr.co.ohjooyeo.controller" />
-<!-- 	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-		최대업로드 가능한 바이트크기
-		<beans:property name="maxUploadSize" value="52428800" />
 
-		디스크에 임시 파일을 생성하기 전에 메모리에 보관할수있는 최대 바이트 크기
-		<beans:property name="maxInMemorySize" value="52428800" />
-		
-		defaultEncoding
-		<beans:property name="defaultEncoding" value="utf-8" />
-	</beans:bean> -->
-	
 	<!-- url매핑-->
-	<mvc:resources mapping="/upload/**" location="file:D:/javaStudy/upload/" />
-	<beans:bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView" />
+	<mvc:resources mapping="/img/**" location="file:/Users/kyome/Pictures/" />
+<!-- 	사용해야하는 이유확인 후 주석 풀기  -->
+<!-- 	<beans:bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView" /> -->
 	
 </beans:beans>
 

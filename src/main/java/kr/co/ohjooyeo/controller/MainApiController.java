@@ -23,12 +23,12 @@ public class MainApiController {
 
 
 	@RequestMapping(value = "/order", method = RequestMethod.POST)
-	public Map<String,Object> getOrder(@RequestParam String date) {
+	public @ResponseBody Map<String,Object> getOrder(@RequestParam String date) {
 		return orderService.getOrderByDate(date);
 	}
 	
 	@RequestMapping(value = "/launch/{date}", method = RequestMethod.GET)
-	public Map<String,String> getLaunchPhrase(@PathVariable String date ) {
+	public @ResponseBody Map<String,String> getLaunchPhrase(@PathVariable String date ) {
 		/*사용자 활성화시 변수로 처리*/
 		String userId = "admin";
 		
