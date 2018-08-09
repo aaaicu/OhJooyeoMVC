@@ -18,11 +18,9 @@ public class AdvertisementService {
 	@Autowired
 	AdvertisementDAO advertisementDAO;
 	
-	public Map<String, Object> getAdsByDate(String date) {
+	public List<Map<String,String>> getAdsByDate(String date) {
 		String worshipId = worshipDAO.getWorshipId(date);
-		Map<String,Object> result = new HashMap<>();
-		List<Map<String,String>> adsList = advertisementDAO.getAdsList(worshipId);
-		result.put("advertisementList", adsList);
+		List<Map<String,String>> result = advertisementDAO.getAdsList(worshipId);
 		
 		return result;
 	}

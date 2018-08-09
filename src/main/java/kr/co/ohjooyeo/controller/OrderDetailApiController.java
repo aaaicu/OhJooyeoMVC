@@ -1,5 +1,6 @@
 package kr.co.ohjooyeo.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ public class OrderDetailApiController {
 	}
 	
 	@RequestMapping(value = "/advertisement", method = RequestMethod.POST)
-	public Map<String,Object> getAdvertisement(@RequestParam String date) {
+	public List<Map<String,String>> getAdvertisement(@RequestParam String date) {
 		return adService.getAdsByDate(date);
 	}
 }
