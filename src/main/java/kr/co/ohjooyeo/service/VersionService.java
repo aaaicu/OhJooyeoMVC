@@ -19,13 +19,13 @@ public class VersionService {
 	@Autowired
 	OrderService orderService;
 	
-	public Map<String, Object> compareVersion(String date, String userVersion) {
+	public Map<String, Object> compareVersion(String id, String userVersion) {
 		
 		Map<String, Object> result = new HashMap<>();		
-		String currentVersion = getVersion(date);
+		String currentVersion = getVersionById(id);
 		
 		//날짜기준으로 가장 가까운 업로드된 worship date 구하는 method 필요 
-		String worshipDate = date;
+		String worshipDate = worshipDAO.getWorshipDateById(id);
 		
 		result.put("worship", null);
 		result.put("advertisement", null);
@@ -34,8 +34,8 @@ public class VersionService {
 		result.put("worshipDate", worshipDate);
 
 		if (userVersion.equals("***")) {
-			result.put("worship", orderService.getOrderByDate(date));
-			result.put("advertisement", adService.getAdsByDate(date));
+			result.put("worship", orderService.getOrderById(id));
+			result.put("advertisement", adService.getAdsById(id));
 			result.put("music", "");
 		} else {
 			char userOrderVer = userVersion.charAt(0);
@@ -47,10 +47,10 @@ public class VersionService {
 			char musicVer = currentVersion.charAt(2);
 			
 			if(userOrderVer != orderVer) {
-				result.put("worship", orderService.getOrderByDate(date));
+				result.put("worship", orderService.getOrderById(id));
 			}
 			if(userAdVer != adVer) {
-				result.put("advertisement", adService.getAdsByDate(date));
+				result.put("advertisement", adService.getAdsById(id));
 			}
 			if(userMusicVer != musicVer) {
 				result.put("music", "");
@@ -59,7 +59,7 @@ public class VersionService {
 		return result;
 	}
 	
-	public String getVersion(String date) {
-		return worshipDAO.getVersion(date);
+	public String getVersionById(String id) {
+		return worshipDAO.getVersionById(id);
 	}
 }

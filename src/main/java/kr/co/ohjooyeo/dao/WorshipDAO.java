@@ -19,10 +19,13 @@ public class WorshipDAO {
 		return sqlSession.selectOne("worship.getWorshipMap", worshipId);
 	}
 	
-	public String getVersion(String date) {
-		return sqlSession.selectOne("worship.getVersion", date);
+	public String getVersionById(String id) {
+		return sqlSession.selectOne("worship.getVersionById", id);
 	}
 	public List<Map<String, String>> getWorshipList() {
 		return sqlSession.selectList("worship.getWorshipList");
+	}
+	public String getWorshipDateById(String id) {
+		return sqlSession.selectOne("worship.getWorshipDateById",id);
 	}
 }

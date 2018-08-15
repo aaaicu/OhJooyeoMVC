@@ -15,11 +15,11 @@
 			WHERE worship_id = #{worshipId}
 		]]>		
 	</select>
-	<select id="getVersion" parameterType = "string" resultType="string">
+	<select id="getVersionById" parameterType = "string" resultType="string">
 		<![CDATA[
 			SELECT version
 			FROM WORSHIP
-			WHERE worship_date = #{date}
+			WHERE worship_id = #{id}
 		]]>		
 	</select>
 	
@@ -29,4 +29,16 @@
 			FROM WORSHIP
 		]]>
 	</select>
+	
+	<select id="getWorshipDateById" parameterType = "string" resultType="string">
+		<![CDATA[
+			SELECT worship_date
+			FROM WORSHIP
+			WHERE worship_id = #{id}
+		]]>		
+	</select>
+	
+	
+	
+	
 </mapper>

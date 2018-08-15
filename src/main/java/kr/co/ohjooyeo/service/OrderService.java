@@ -42,8 +42,8 @@ public class OrderService {
 		return result;
 	}
 
-	public Map<String, Object> getOrderByDate(String date) {
-		String worshipId = worshipDAO.getWorshipId(date);
+	public Map<String, Object> getOrderById(String id) {
+		String worshipId = id;
 		Map<String,Object> result = new HashMap<>();
 		Map<String,String> worship = worshipDAO.getWorship(worshipId);
 		Map<String,String> nextPresenter = new HashMap<>();

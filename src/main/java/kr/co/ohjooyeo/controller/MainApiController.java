@@ -35,8 +35,8 @@ public class MainApiController {
 	}
 
 	@RequestMapping(value = "/order", method = RequestMethod.POST)
-	public @ResponseBody Map<String,Object> getOrder(@RequestParam String date) {
-		return orderService.getOrderByDate(date);
+	public @ResponseBody Map<String,Object> getOrder(@RequestParam String id) {
+		return orderService.getOrderById(id);
 	}
 	
 	@RequestMapping(value = "/launch/{date}", method = RequestMethod.GET)
@@ -47,12 +47,12 @@ public class MainApiController {
 		return orderService.getLaunchPhrase(userId, date);
 	}
 	
-	@RequestMapping(value = "/date/{date}/check/version/{version}", method = RequestMethod.POST)
+	@RequestMapping(value = "/worship-id/{id}/check/version/{version}", method = RequestMethod.POST)
 	public @ResponseBody Map<String,Object> compareVersion(
-			@PathVariable String date,
+			@PathVariable String id,
 			@PathVariable String version
 			) {
-		return versionService.compareVersion(date, version);
+		return versionService.compareVersion(id, version);
 	}
 	
 }
