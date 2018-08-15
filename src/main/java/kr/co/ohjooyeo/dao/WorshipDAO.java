@@ -1,5 +1,6 @@
 package kr.co.ohjooyeo.dao;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -20,5 +21,8 @@ public class WorshipDAO {
 	
 	public String getVersion(String date) {
 		return sqlSession.selectOne("worship.getVersion", date);
+	}
+	public List<Map<String, String>> getWorshipList() {
+		return sqlSession.selectList("worship.getWorshipList");
 	}
 }

@@ -24,10 +24,14 @@ public class VersionService {
 		Map<String, Object> result = new HashMap<>();		
 		String currentVersion = getVersion(date);
 		
+		//날짜기준으로 가장 가까운 업로드된 worship date 구하는 method 필요 
+		String worshipDate = date;
+		
 		result.put("worship", null);
 		result.put("advertisement", null);
 		result.put("music", null);
 		result.put("currentVersion", currentVersion);
+		result.put("worshipDate", worshipDate);
 
 		if (userVersion.equals("***")) {
 			result.put("worship", orderService.getOrderByDate(date));

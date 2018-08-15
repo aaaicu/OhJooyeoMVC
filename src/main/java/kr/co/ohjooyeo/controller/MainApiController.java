@@ -1,5 +1,6 @@
 package kr.co.ohjooyeo.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import kr.co.ohjooyeo.service.OrderService;
 import kr.co.ohjooyeo.service.VersionService;
+import kr.co.ohjooyeo.service.WorshipService;
 
 
 //메인 화면(주보관련 조회정보) 
@@ -22,7 +24,15 @@ public class MainApiController {
 	
 	@Autowired
 	VersionService versionService;
-
+	
+	@Autowired
+	WorshipService worshipService;
+	
+	@RequestMapping(value = "/worship-list", method = RequestMethod.GET)
+	public @ResponseBody List<Map<String, String>> worshipList(){
+		System.out.println(worshipService.getWorshipList());
+		return worshipService.getWorshipList();
+	}
 
 	@RequestMapping(value = "/order", method = RequestMethod.POST)
 	public @ResponseBody Map<String,Object> getOrder(@RequestParam String date) {

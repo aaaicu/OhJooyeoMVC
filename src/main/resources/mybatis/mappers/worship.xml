@@ -22,4 +22,11 @@
 			WHERE worship_date = #{date}
 		]]>		
 	</select>
+	
+	<select id = "getWorshipList" resultType ="map" >
+		<![CDATA[
+			SELECT worship_id AS worshipId, DATE_FORMAT(worship_date, '%Y-%m-%d') AS worshipDate
+			FROM WORSHIP
+		]]>
+	</select>
 </mapper>
