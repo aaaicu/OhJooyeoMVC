@@ -50,7 +50,7 @@ public class OrderService {
 		
 		List<Map<String,String>> order = orderDAO.getAllOrder(worshipId);
 		
-		result.put("order",order);
+		result.put("worshipOrder",order);
 		nextPresenter.put("offer",  worship.get("next_offer"));
 		nextPresenter.put("prayer",  worship.get("next_prayer"));
 		nextPresenter.put("mainPresenter", worship.get("next_presenter"));

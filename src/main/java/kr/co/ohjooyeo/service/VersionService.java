@@ -24,13 +24,13 @@ public class VersionService {
 		Map<String, Object> result = new HashMap<>();		
 		String currentVersion = getVersion(date);
 		
-		result.put("mainOrder", null);
+		result.put("worship", null);
 		result.put("advertisement", null);
 		result.put("music", null);
 		result.put("currentVersion", currentVersion);
 
 		if (userVersion.equals("***")) {
-			result.put("mainOrder", orderService.getOrderByDate(date));
+			result.put("worship", orderService.getOrderByDate(date));
 			result.put("advertisement", adService.getAdsByDate(date));
 			result.put("music", "");
 		} else {
@@ -43,7 +43,7 @@ public class VersionService {
 			char musicVer = currentVersion.charAt(2);
 			
 			if(userOrderVer != orderVer) {
-				result.put("mainOrder", orderService.getOrderByDate(date));
+				result.put("worship", orderService.getOrderByDate(date));
 			}
 			if(userAdVer != adVer) {
 				result.put("advertisement", adService.getAdsByDate(date));

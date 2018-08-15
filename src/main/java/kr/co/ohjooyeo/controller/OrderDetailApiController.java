@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import kr.co.ohjooyeo.service.AdvertisementService;
 import kr.co.ohjooyeo.service.OrderService;
-
+//미사용 
 @RestController
 @RequestMapping("/detail")
 public class OrderDetailApiController {

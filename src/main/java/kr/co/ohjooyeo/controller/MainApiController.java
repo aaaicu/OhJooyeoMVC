@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 import kr.co.ohjooyeo.service.OrderService;
 import kr.co.ohjooyeo.service.VersionService;
 
+
+//메인 화면(주보관련 조회정보) 
 @RestController
 public class MainApiController {
 	@Autowired
@@ -42,4 +44,5 @@ public class MainApiController {
 			) {
 		return versionService.compareVersion(date, version);
 	}
+	
 }
