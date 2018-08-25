@@ -90,15 +90,46 @@ ALTER TABLE `ohjooyeo`.`BIBLE`
 			`section`  -- section
 		);
 
+
+-- SCORE
+CREATE TABLE `ohjooyeo`.`SCORE` (
+	`title`      VARCHAR(20)  NOT NULL COMMENT 'title', -- title
+	`lyricist`   VARCHAR(20)  NOT NULL COMMENT 'lyricist', -- lyricist
+	`composer`   VARCHAR(20)  NOT NULL COMMENT 'composer', -- composer
+	`save_name`  INTEGER      NOT NULL COMMENT 'score_id', -- score_id
+	`extention`  VARCHAR(5)   NOT NULL COMMENT 'extention' -- extention
+) DEFAULT CHARSET=utf8,
+COMMENT 'SCORE';
+
+-- SCORE
+ALTER TABLE `ohjooyeo`.`SCORE`
+	ADD CONSTRAINT `PK_SCORE` -- SCORE 기본키
+		PRIMARY KEY (
+			`title`,   -- title
+			`lyricist`,   -- lyricist
+			`composer`   -- composer
+		);
+ALTER TABLE `ohjooyeo`.`SCORE`
+	ADD CONSTRAINT `UK_SCORE` -- SCORE UNIQUE
+		UNIQUE (
+			`save_name`   -- title
+		);
+
+ALTER TABLE `ohjooyeo`.`SCORE`
+	MODIFY COLUMN `save_name` INTEGER NOT NULL AUTO_INCREMENT COMMENT 'save_name';
+
+ALTER TABLE `ohjooyeo`.`SCORE`
+	AUTO_INCREMENT = 1;
+
 -- MUSIC
 CREATE TABLE `ohjooyeo`.`MUSIC` (
-	`music_id`      INTEGER      NOT NULL COMMENT 'music_id', -- music_id
+	`title`         VARCHAR(20)  NOT NULL COMMENT 'title', -- title
+	`lyricist`      VARCHAR(20)  NOT NULL COMMENT 'lyricist', -- lyricist
+	`composer`      VARCHAR(20)  NOT NULL COMMENT 'composer', -- composer
 	`worship_id`    CHAR(5)      NOT NULL COMMENT 'worship_id', -- worship_id
-	`filename`      VARCHAR(20)  NOT NULL COMMENT 'filename', -- filename
-	`extention`     VARCHAR(5)   NOT NULL COMMENT 'extention', -- extention
-	`path`          VARCHAR(200) NOT NULL COMMENT 'path', -- path
-	`original_name` VARCHAR(20)  NOT NULL COMMENT 'original_name', -- original_name
+	`category`      VARCHAR(2)   NOT NULL COMMENT 'category', -- category
 	`order`         INTEGER      NOT NULL COMMENT 'order' -- order
+
 ) DEFAULT CHARSET=utf8,
 COMMENT 'MUSIC';
 
@@ -106,15 +137,11 @@ COMMENT 'MUSIC';
 ALTER TABLE `ohjooyeo`.`MUSIC`
 	ADD CONSTRAINT `PK_MUSIC` -- MUSIC 기본키
 		PRIMARY KEY (
-			`music_id`,   -- music_id
+			`title`, -- title
+			`lyricist`, -- lyricist
+			`composer`,   -- composer
 			`worship_id`  -- worship_id
 		);
-
-ALTER TABLE `ohjooyeo`.`MUSIC`
-	MODIFY COLUMN `music_id` INTEGER NOT NULL AUTO_INCREMENT COMMENT 'music_id';
-
-ALTER TABLE `ohjooyeo`.`MUSIC`
-	AUTO_INCREMENT = 1;
 
 -- LAUNCH_PHRASE
 CREATE TABLE `ohjooyeo`.`LAUNCH_PHRASE` (
@@ -172,6 +199,19 @@ ALTER TABLE `ohjooyeo`.`MUSIC`
 		)
 		REFERENCES `ohjooyeo`.`WORSHIP` ( -- WORSHIP
 			`worship_id` -- worship_id
+		);
+-- MUSIC
+ALTER TABLE `ohjooyeo`.`MUSIC`
+	ADD CONSTRAINT `FK_SCORE_TO_MUSIC` -- SCORE -> MUSIC
+		FOREIGN KEY (
+			`title`, -- title
+			`lyricist`, -- lyricist
+			`composer`   -- composer
+		)
+		REFERENCES `ohjooyeo`.`SCORE` ( -- SCORE
+			`title`, -- title
+			`lyricist`, -- lyricist
+			`composer`    -- composer
 		);
 		
 -- LAUNCH_PHRASE
