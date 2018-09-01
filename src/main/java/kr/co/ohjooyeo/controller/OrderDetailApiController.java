@@ -28,6 +28,6 @@ public class OrderDetailApiController {
 	
 	@RequestMapping(value = "/advertisement", method = RequestMethod.POST)
 	public List<Map<String,String>> getAdvertisement(@RequestParam String worshipId) {
-		return adService.getAdsById(worshipId);
+		return adService.getAdsByWorshipId(worshipId);
 	}
 }

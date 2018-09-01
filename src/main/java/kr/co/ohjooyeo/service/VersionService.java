@@ -19,6 +19,9 @@ public class VersionService {
 	@Autowired
 	OrderService orderService;
 	
+	@Autowired
+	MusicService musicService;
+	
 	public Map<String, Object> compareVersion(String id, String userVersion) {
 		
 		Map<String, Object> result = new HashMap<>();		
@@ -34,9 +37,9 @@ public class VersionService {
 		result.put("worshipDate", worshipDate);
 
 		if (userVersion.equals("***")) {
-			result.put("worship", orderService.getOrderById(id));
-			result.put("advertisement", adService.getAdsById(id));
-			result.put("music", "");
+			result.put("worship", orderService.getOrderByWorshipId(id));
+			result.put("advertisement", adService.getAdsByWorshipId(id));
+			result.put("music", musicService.getMusicListByWorshipId(id));
 		} else {
 			char userOrderVer = userVersion.charAt(0);
 			char userAdVer = userVersion.charAt(1);
@@ -47,13 +50,13 @@ public class VersionService {
 			char musicVer = currentVersion.charAt(2);
 			
 			if(userOrderVer != orderVer) {
-				result.put("worship", orderService.getOrderById(id));
+				result.put("worship", orderService.getOrderByWorshipId(id));
 			}
 			if(userAdVer != adVer) {
-				result.put("advertisement", adService.getAdsById(id));
+				result.put("advertisement", adService.getAdsByWorshipId(id));
 			}
 			if(userMusicVer != musicVer) {
-				result.put("music", "");
+				result.put("music", musicService.getMusicListByWorshipId(id));
 			}
 		}
 		return result;

@@ -38,7 +38,20 @@
 		]]>		
 	</select>
 	
-	
+	<insert id ="insertWorship" parameterType = "kr.co.ohjooyeo.vo.WorshipVO">
+		<![CDATA[
+		INSERT INTO WORSHIP VALUES ( 
+			#{worshipId},
+			#{worshipDate},
+			#{mainPresenter},
+			#{nextPresenter},
+			#{nextPrayer},
+			#{nextOffer},
+			#{version},
+			#{userId}			
+		)
+		]]>
+	</insert>
 	
 	
 </mapper>

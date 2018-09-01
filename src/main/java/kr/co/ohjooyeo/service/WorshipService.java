@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.co.ohjooyeo.dao.WorshipDAO;
+import kr.co.ohjooyeo.vo.WorshipVO;
 
 @Service
 public class WorshipService {
@@ -17,4 +18,8 @@ public class WorshipService {
 		return worshipDAO.getWorshipList();
 	}
 
+	public void addWorship(WorshipVO worshipVO) {
+		worshipDAO.insertWorship(worshipVO);
+	}
+	
 }

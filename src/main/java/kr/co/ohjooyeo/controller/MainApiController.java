@@ -36,8 +36,8 @@ public class MainApiController {
 
 	@RequestMapping(value = "/order", method = RequestMethod.POST)
 	public @ResponseBody Map<String,Object> getOrder(@RequestParam String id) {
-		return orderService.getOrderById(id);
-	}
+		return orderService.getOrderByWorshipId(id);
+	}	
 	
 	@RequestMapping(value = "/launch/{date}", method = RequestMethod.GET)
 	public @ResponseBody Map<String,String> getLaunchPhrase(@PathVariable String date ) {

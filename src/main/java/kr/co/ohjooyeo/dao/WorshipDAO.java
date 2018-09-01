@@ -7,6 +7,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import kr.co.ohjooyeo.vo.WorshipVO;
+
 @Repository
 public class WorshipDAO {
 	@Autowired
@@ -27,5 +29,8 @@ public class WorshipDAO {
 	}
 	public String getWorshipDateById(String id) {
 		return sqlSession.selectOne("worship.getWorshipDateById",id);
+	}
+	public void insertWorship(WorshipVO worshipVO) {
+		sqlSession.insert("worship.insertWorship",worshipVO);
 	}
 }

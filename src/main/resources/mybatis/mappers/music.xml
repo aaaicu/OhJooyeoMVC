@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="music">
+	<select id="getMusicListByWorshipId" parameterType = "string" resultType="map">
+		<![CDATA[
+		
+			SELECT M.title, M.lyricist, M.composer, M.category, M.order, concat(S.save_name,".", S.extention) imageName
+			FROM ohjooyeo.MUSIC M , ohjooyeo.SCORE S
+			WHERE worship_id like #{id}
+			AND M.title = S.title
+			AND M.lyricist = S.lyricist
+			AND M.composer = S.composer			
+			
+		]]>		
+	</select>
+</mapper>

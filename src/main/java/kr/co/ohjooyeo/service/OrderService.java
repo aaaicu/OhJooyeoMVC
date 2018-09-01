@@ -42,7 +42,7 @@ public class OrderService {
 		return result;
 	}
 
-	public Map<String, Object> getOrderById(String id) {
+	public Map<String, Object> getOrderByWorshipId(String id) {
 		String worshipId = id;
 		Map<String,Object> result = new HashMap<>();
 		Map<String,String> worship = worshipDAO.getWorship(worshipId);

@@ -17,7 +17,7 @@ public class AdvertisementService {
 	@Autowired
 	AdvertisementDAO advertisementDAO;
 	
-	public List<Map<String,String>> getAdsById(String id) {
+	public List<Map<String,String>> getAdsByWorshipId(String id) {
 		List<Map<String,String>> result = advertisementDAO.getAdsList(id);
 		
 		return result;

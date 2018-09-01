@@ -96,6 +96,7 @@ CREATE TABLE `ohjooyeo`.`SCORE` (
 	`title`      VARCHAR(20)  NOT NULL COMMENT 'title', -- title
 	`lyricist`   VARCHAR(20)  NOT NULL COMMENT 'lyricist', -- lyricist
 	`composer`   VARCHAR(20)  NOT NULL COMMENT 'composer', -- composer
+	`lyrics`   TEXT  COMMENT 'lyrics', -- lyrics
 	`save_name`  INTEGER      NOT NULL COMMENT 'score_id', -- score_id
 	`extention`  VARCHAR(5)   NOT NULL COMMENT 'extention' -- extention
 ) DEFAULT CHARSET=utf8,
