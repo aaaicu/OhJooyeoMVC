@@ -68,6 +68,9 @@ public class BibleService {
 
 			startVO = new BibleVO(book, startChapter, startSection);
 			endVO = new BibleVO(book, endChapter, endSection);
+			
+			System.out.println(startVO);
+			System.out.println(endVO);
 
 			List<BibleVO> voList = bibleDAO.getPhrase(startVO, endVO);
 			

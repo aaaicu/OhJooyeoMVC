@@ -31,6 +31,8 @@ public class BibleDAO {
 				input.put("startSection", startVO.getSection());
 				input.put("endSection", endVO.getSection());
 				
+				System.out.println(sqlSession.selectList("bible.getPhrase",input));
+				
 				return sqlSession.selectList("bible.getPhrase",input);
 				
 			//Chapter 가 같은 경우는 절에 대해서 between 절에 대해서만 요청
@@ -38,6 +40,9 @@ public class BibleDAO {
 				input.put("chapter", startVO.getChapter());
 				input.put("startSection", startVO.getSection());
 				input.put("endSection", endVO.getSection());
+				
+				System.out.println(sqlSession.selectList("bible.getPhraseInChapter","요나서"));
+				
 				return sqlSession.selectList("bible.getPhraseInChapter",input);
 			}
 

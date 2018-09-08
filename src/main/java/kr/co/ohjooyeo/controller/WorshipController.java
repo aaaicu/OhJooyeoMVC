@@ -32,7 +32,6 @@ public class WorshipController {
 		System.out.println(vo);
 		worshipService.addWorship(vo);
 		
-		
 		return "redirect:worship";
 	}
 	
@@ -41,13 +40,10 @@ public class WorshipController {
 		return "worship-order-form";
 	}
 	
-	
 	@RequestMapping(value = "/add-worship-order", method = RequestMethod.POST)
 	public String addWorshipOrder(@ModelAttribute WorshipOrderVO vo) {
 		//확인 
 		System.out.println(vo);
-		
-		
 		return "redirect:worship-order";
 	}
 	

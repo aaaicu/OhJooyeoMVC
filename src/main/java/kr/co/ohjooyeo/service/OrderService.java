@@ -25,6 +25,7 @@ public class OrderService {
 	@Autowired
 	BibleService bibleService;
 
+	//미사용
 	public Map<String,Object> getPhraseByDate(String date) {
 
 		// return bibleDAO.getPhrase(sVO, eVO);
@@ -33,9 +34,6 @@ public class OrderService {
 		String worshipId = worshipDAO.getWorshipId(date);
 		String readPhrase = "성경봉독";
 		String rawPhrases = orderDAO.getOrder(worshipId, readPhrase).get("detail");
-
-//		성경 검색 test
-//		System.out.println(bibleService.getPhrase("마 1:1"));
 		
 		Map<String,Object> result = new HashMap<>();
 		result.put("phraseList", bibleService.getPhrase(rawPhrases));
