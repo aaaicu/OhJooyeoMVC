@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import kr.co.ohjooyeo.service.WorshipService;
 import kr.co.ohjooyeo.vo.WorshipOrderVO;
@@ -41,9 +42,19 @@ public class WorshipController {
 	}
 	
 	@RequestMapping(value = "/add-worship-order", method = RequestMethod.POST)
-	public String addWorshipOrder(@ModelAttribute WorshipOrderVO vo) {
+	public String addWorshipOrder(@ModelAttribute WorshipOrderVO vo, 
+			@RequestParam("worship_id") String worshipId,
+			@RequestParam("title") String [] titles,
+			@RequestParam("detail") String [] details,
+			@RequestParam("presenter") String [] presenters
+			) {
 		//확인 
-		System.out.println(vo);
+		
+		WorshipOrderVO [] orderArray = new WorshipOrderVO[titles.length];
+		for(int i = 0 ; i < titles.length ; i ++) {
+			orderArray[i] = new WorshipOrderVO(worshipId,i,i, titles[i],details[i], presenters[i] );
+			System.out.println(orderArray[i] );
+		}
 		return "redirect:worship-order";
 	}
 	

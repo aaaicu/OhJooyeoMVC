@@ -18,7 +18,7 @@ public class BibleService {
 	@Autowired
 	BibleDAO bibleDAO;
 	
-	//ex) rawPhrases = 욘 2:7-2:10/고전 2:1-3:1
+	//ex) rawPhrases = 요나서 2:7-2:10/고전 2:1-3:1
 	public List<Map<String,String>> getPhrase(String rawPhrases){
 		List<Map<String,String>> result = new LinkedList<>();
 		BibleVO startVO;
@@ -47,7 +47,8 @@ public class BibleService {
 			while (bookMatch.find()) {
 				book = bookMatch.group();
 			}
-			book = getBookName(book);
+			System.out.println("book : "+book);
+			System.out.println("book : "+book);
 
 			int count = 0;
 			while (detailMatch.find()) {
@@ -85,7 +86,7 @@ public class BibleService {
 		}
 		return result;
 	}
-	
+	//성경봉독 순서의 디테일이 변경되어 미사용 
 	public String getBookAddName(String bookName) {
 		String result = "";
 		switch (bookName) {
