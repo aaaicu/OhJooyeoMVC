@@ -6,10 +6,12 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import kr.co.ohjooyeo.dao.BibleDAO;
 import kr.co.ohjooyeo.dao.OrderDAO;
 import kr.co.ohjooyeo.dao.WorshipDAO;
+import kr.co.ohjooyeo.vo.WorshipOrderVO;
 
 @Service
 public class OrderService {
@@ -24,6 +26,17 @@ public class OrderService {
 	
 	@Autowired
 	BibleService bibleService;
+	
+	public void setWorshipOrder(String worshipId,String [] types,String [] titles,String [] details,String [] presenters) {
+		
+		WorshipOrderVO [] orderArray = new WorshipOrderVO[titles.length];
+		for(int i = 0 ; i < titles.length ; i ++) {
+			orderArray[i] = new WorshipOrderVO(worshipId,i,i,types[i], titles[i],details[i], presenters[i] );
+			System.out.println(orderArray[i] );
+		}
+		orderDAO.setWorshipOrder(orderArray);
+		
+	}
 
 	//미사용
 	public Map<String,Object> getPhraseByDate(String date) {
@@ -63,6 +76,10 @@ public class OrderService {
 		result.put("phrase", orderDAO.getLaunchPhrase(userId,date));
 		
 		return result;
+	}
+
+	public List<WorshipOrderVO> getWorshipOrderList(String worshipId) {
+		return orderDAO.getWorshipOrderList(worshipId);
 	}
 
 }

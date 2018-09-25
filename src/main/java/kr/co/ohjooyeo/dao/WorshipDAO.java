@@ -33,4 +33,8 @@ public class WorshipDAO {
 	public void insertWorship(WorshipVO worshipVO) {
 		sqlSession.insert("worship.insertWorship",worshipVO);
 	}
+	public List<String> getWorshipIdList(String userId) {
+		System.out.println(sqlSession.selectList("worship.getWorshipIdList",userId));
+		return sqlSession.selectList("worship.getWorshipIdList",userId);
+	}
 }

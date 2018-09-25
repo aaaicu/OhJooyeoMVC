@@ -21,5 +21,9 @@ public class WorshipService {
 	public void addWorship(WorshipVO worshipVO) {
 		worshipDAO.insertWorship(worshipVO);
 	}
+
+	public List<String> getWorshipIdList(String userId) {
+		return worshipDAO.getWorshipIdList(userId);
+	}
 	
 }

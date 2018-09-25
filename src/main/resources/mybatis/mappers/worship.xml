@@ -53,5 +53,12 @@
 		]]>
 	</insert>
 	
-	
+	<select id ="getWorshipIdList" parameterType = "string" resultType="string">
+		<![CDATA[
+			SELECT worship_id
+			FROM WORSHIP
+			WHERE user_id = #{userId}	
+			ORDER BY worship_id desc
+		]]>	
+	</select>
 </mapper>

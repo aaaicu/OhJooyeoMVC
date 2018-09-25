@@ -4,18 +4,19 @@ public class WorshipOrderVO {
 	private String worshipId;
 	private int orderId;
 	private int order;
+	private String type;
 	private String title;
 	private String detail;
 	private String presenter;
 	public WorshipOrderVO() {
-		super();
-		// TODO Auto-generated constructor stub
 	}
-	public WorshipOrderVO(String worshipId, int orderId, int order, String title, String detail, String presenter) {
+	public WorshipOrderVO(String worshipId, int orderId, int order, String type, String title, String detail,
+			String presenter) {
 		super();
 		this.worshipId = worshipId;
 		this.orderId = orderId;
 		this.order = order;
+		this.type = type;
 		this.title = title;
 		this.detail = detail;
 		this.presenter = presenter;
@@ -38,6 +39,12 @@ public class WorshipOrderVO {
 	public void setOrder(int order) {
 		this.order = order;
 	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
 	public String getTitle() {
 		return title;
 	}
@@ -58,10 +65,9 @@ public class WorshipOrderVO {
 	}
 	@Override
 	public String toString() {
-		return "WorshipOrderVO [worshipId=" + worshipId + ", orderId=" + orderId + ", order=" + order + ", title="
-				+ title + ", detail=" + detail + ", presenter=" + presenter + "]";
+		return "WorshipOrderVO [worshipId=" + worshipId + ", orderId=" + orderId + ", order=" + order + ", type=" + type
+				+ ", title=" + title + ", detail=" + detail + ", presenter=" + presenter + "]";
 	}
-	
 	
 	
 }

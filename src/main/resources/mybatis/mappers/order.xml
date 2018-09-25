@@ -17,6 +17,14 @@
 		]]>
 	</select>
 	
+	<select id="getWorshipOrderVOList" parameterType="string" resultType="kr.co.ohjooyeo.vo.WorshipOrderVO">
+		<![CDATA[
+			SELECT ORDER.presenter, ORDER.detail, ORDER.title, ORDER.order,ORDER.order_id, ORDER.type
+			FROM ohjooyeo.ORDER
+			WHERE worship_id like #{worshipId}
+		]]>
+	</select>
+	
 	<select id="getLaunchPhrase" parameterType="map" resultType="string">
 		<![CDATA[
 			SELECT lp.phrase
@@ -25,5 +33,13 @@
 			AND #{date} between lp.start_date and lp.end_date;
 		]]>
 	</select>
+	
+	<insert id="setWorshipOrder" parameterType="kr.co.ohjooyeo.vo.WorshipVO">
+		<![CDATA[
+			insert into ohjooyeo.ORDER values (#{worshipId}, #{orderId},#{order},#{type},#{title},#{detail}, #{presenter})
+		]]>
+	</insert>
+	
+	
 	
 </mapper>

@@ -8,6 +8,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import kr.co.ohjooyeo.vo.WorshipOrderVO;
+
 @Repository
 public class OrderDAO {
 	@Autowired
@@ -23,6 +25,9 @@ public class OrderDAO {
 	public List<Map<String, String>> getAllOrder(String worshipId) {
 		return sqlSession.selectList("order.getAllOrder", worshipId);
 	}
+	public List<WorshipOrderVO> getWorshipOrderList(String worshipId) {
+		return sqlSession.selectList("order.getWorshipOrderVOList", worshipId);
+	}
 
 	public String getLaunchPhrase(String userId, String date) {
 		Map<String,String> inputMap = new HashMap<>();
@@ -31,5 +36,13 @@ public class OrderDAO {
 		System.out.println(inputMap);
 		return sqlSession.selectOne("order.getLaunchPhrase", inputMap);
 	}
+
+	public void setWorshipOrder(WorshipOrderVO[] orderArray) {
+		for(WorshipOrderVO order : orderArray) {			
+			sqlSession.insert("order.setWorshipOrder", order);
+		}
+		
+	}
+
 	
 }
