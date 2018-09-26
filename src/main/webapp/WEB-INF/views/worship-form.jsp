@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <script type="text/javascript"
 	src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<title>Insert title here</title>
+<title>Add Worship</title>
 </head>
 <body>
 	<%-- <%@include file="nav.jsp" %> --%>
