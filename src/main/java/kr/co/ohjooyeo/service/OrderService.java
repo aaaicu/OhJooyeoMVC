@@ -28,29 +28,12 @@ public class OrderService {
 	BibleService bibleService;
 	
 	public void setWorshipOrder(String worshipId,String [] types,String [] titles,String [] details,String [] presenters) {
-		
 		WorshipOrderVO [] orderArray = new WorshipOrderVO[titles.length];
 		for(int i = 0 ; i < titles.length ; i ++) {
 			orderArray[i] = new WorshipOrderVO(worshipId,i,i,types[i], titles[i],details[i], presenters[i] );
-			System.out.println(orderArray[i] );
+//			System.out.println(orderArray[i] );
 		}
 		orderDAO.setWorshipOrder(orderArray);
-		
-	}
-
-	//미사용
-	public Map<String,Object> getPhraseByDate(String date) {
-
-		// return bibleDAO.getPhrase(sVO, eVO);
-		// '성경봉독' 이라는 단어는 바뀌지 않는다는 전제가 필요
-
-		String worshipId = worshipDAO.getWorshipId(date);
-		String readPhrase = "성경봉독";
-		String rawPhrases = orderDAO.getOrder(worshipId, readPhrase).get("detail");
-		
-		Map<String,Object> result = new HashMap<>();
-		result.put("phraseList", bibleService.getPhrase(rawPhrases));
-		return result;
 	}
 
 	public Map<String, Object> getOrderByWorshipId(String id) {
@@ -70,16 +53,32 @@ public class OrderService {
 		result.put("nextPresenter",nextPresenter);
 		return result;
 	}
-
+	/* 런처 말씀 */
 	public Map<String, String> getLaunchPhrase(String userId, String date) {
 		Map<String,String> result = new HashMap<>();
 		result.put("phrase", orderDAO.getLaunchPhrase(userId,date));
 		
 		return result;
 	}
-
+	
 	public List<WorshipOrderVO> getWorshipOrderList(String worshipId) {
 		return orderDAO.getWorshipOrderList(worshipId);
+	}
+	
+	
+	//미사용
+	public Map<String,Object> getPhraseByDate(String date) {
+
+		// return bibleDAO.getPhrase(sVO, eVO);
+		// '성경봉독' 이라는 단어는 바뀌지 않는다는 전제가 필요
+
+		String worshipId = worshipDAO.getWorshipId(date);
+		String readPhrase = "성경봉독";
+		String rawPhrases = orderDAO.getOrder(worshipId, readPhrase).get("detail");
+		
+		Map<String,Object> result = new HashMap<>();
+		result.put("phraseList", bibleService.getPhrase(rawPhrases));
+		return result;
 	}
 
 }

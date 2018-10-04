@@ -37,6 +37,14 @@
 			WHERE worship_id = #{id}
 		]]>		
 	</select>
+	<select id ="getWorshipIdList" parameterType = "string" resultType="string">
+		<![CDATA[
+			SELECT worship_id
+			FROM WORSHIP
+			WHERE user_id = #{userId}	
+			ORDER BY worship_id desc
+		]]>	
+	</select>
 	
 	<insert id ="insertWorship" parameterType = "kr.co.ohjooyeo.vo.WorshipVO">
 		<![CDATA[
@@ -53,12 +61,9 @@
 		]]>
 	</insert>
 	
-	<select id ="getWorshipIdList" parameterType = "string" resultType="string">
+	<update id = "setVersion" parameterType = "map">
 		<![CDATA[
-			SELECT worship_id
-			FROM WORSHIP
-			WHERE user_id = #{userId}	
-			ORDER BY worship_id desc
-		]]>	
-	</select>
+			UPDATE ohjooyeo.WORSHIP SET version = #{version} WHERE worship_id = #{worshipId}
+		]]>
+	</update>
 </mapper>

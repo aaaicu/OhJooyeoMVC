@@ -1,5 +1,6 @@
 package kr.co.ohjooyeo.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -34,7 +35,12 @@ public class WorshipDAO {
 		sqlSession.insert("worship.insertWorship",worshipVO);
 	}
 	public List<String> getWorshipIdList(String userId) {
-		System.out.println(sqlSession.selectList("worship.getWorshipIdList",userId));
 		return sqlSession.selectList("worship.getWorshipIdList",userId);
+	}
+	public void getVersionById(String worshipId, String version) {
+		Map<String, String > inputMap = new HashMap<>();
+		inputMap.put("worshipId",  worshipId);
+		inputMap.put("version", version);
+		sqlSession.selectList("worship.setVersion",inputMap);
 	}
 }
