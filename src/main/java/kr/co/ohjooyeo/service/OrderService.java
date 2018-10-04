@@ -1,12 +1,13 @@
 package kr.co.ohjooyeo.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.util.MultiValueMap;
 
 import kr.co.ohjooyeo.dao.BibleDAO;
 import kr.co.ohjooyeo.dao.OrderDAO;
@@ -65,6 +66,41 @@ public class OrderService {
 		return orderDAO.getWorshipOrderList(worshipId);
 	}
 	
+	public Map <String,List<WorshipOrderVO>> analyzeValues(MultiValueMap<String, String> params) {
+		Map <String,List<WorshipOrderVO>> result = new HashMap<>();
+		List<WorshipOrderVO> addList = new ArrayList<>();
+		List<WorshipOrderVO> updateList = new ArrayList<>();
+		
+		result.put("addList" ,addList);
+		result.put("updateList", updateList);
+		
+		/* worship_id에 속하는 orderId의 최대값 구하기 */
+		int maxId = 0;
+		for(String id : params.get("orderId")) {
+			if(maxId <= Integer.valueOf(id)) {
+				maxId = Integer.valueOf(id);				
+			}
+		}
+		
+		for(int i = 0 ; i < params.get("orderId").size() ; i++) {
+			WorshipOrderVO order = new WorshipOrderVO(
+					params.get("worship_id").get(0), 
+					Integer.valueOf(params.get("orderId").get(i)), 
+					i, 
+					params.get("type").get(i), 
+					params.get("title").get(i), 
+					params.get("detail").get(i), 
+					params.get("presenter").get(i));
+			if (params.get("orderId").get(i).equals("-1") ) {
+				order.setOrderId(++maxId);
+				addList.add(order);
+			}else if(params.get("updateYN").get(i).equals("1")){
+				updateList.add(order);
+			}
+			System.out.println(order);
+		}
+		return result;
+	}
 	
 	//미사용
 	public Map<String,Object> getPhraseByDate(String date) {

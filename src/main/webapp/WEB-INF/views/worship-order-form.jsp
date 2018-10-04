@@ -67,7 +67,7 @@ addOrderId = 0;
 				addOrderId = 0;
 				chk = new Map();
 				deleteList = [];
-				addList = [];
+				updateList = [];
 				
 				// table head 필요시 입력 
 				var str ="" ;
@@ -75,7 +75,10 @@ addOrderId = 0;
 		 			str += "<li id = '"+worshipOrderList[i].orderId+"'>";
 		 			str += "<table>";
 		 			str += "<tr>";
-		 			str += "<td><input type='hidden' class='orderId' id ='"+worshipOrderList[i].order+"'><select name='type' class ='chkTarget' >";
+		 			str += "<td><input type='hidden' name='orderId' value ='"+worshipOrderList[i].orderId+"'>"
+		 			str += "<input type='hidden' name='order' value ='"+worshipOrderList[i].order+"'>"
+		 			str += "<input type='hidden' name='updateYN' value ='0'>"
+		 			str += "<select name='type' class ='chkTarget' >";
 		 			str += "<option value = '0'";
 			 			if (worshipOrderList[i].type == '0'){
 			 				str += "selected = 'selected'";
@@ -117,7 +120,10 @@ addOrderId = 0;
 	addStr += "<li>";
 	addStr += "<table>";
 	addStr += "<tr>";
-	addStr += "<td><input type='hidden' class='order' id ='-1'><select name='type'>";
+	
+	addStr += "<td><input type='hidden' name='orderId' value ='-1'>"
+	addStr += "<input type='hidden' name='updateYN' value ='0'>"
+	addStr += "<input type='hidden' name='order' value ='-1'><select name='type'>";
 	addStr += "<option value = '0'>일반순서</option>";
 	addStr += "<option value = '1'>성경봉독</option>";
 	addStr += "<option value = '2'>찬양</option>";
@@ -133,18 +139,12 @@ addOrderId = 0;
 	
 	/* 리스트 추가 구현 */
 	function render() {
-		addOrderId = addOrderId - 1;
-		addList.push(addOrderId.toString());
-		console.log(addList);
-		var str = $(addStr).attr("id",addOrderId);
+		var str = $(addStr).attr("id","-1");
 		$("#form-list").append(str);
 	}
 	
 	$("#form-list").on("click", ".plus-before",function(){
-		addOrderId = addOrderId - 1;
-		addList.push(addOrderId.toString());
-		console.log(addList);
-		var str = $(addStr).attr("id",addOrderId);
+		var str = $(addStr).attr("id","-1");
 		$(this).closest("li").before(str);
 	})
 	
@@ -152,10 +152,7 @@ addOrderId = 0;
 	$("#form-list").on("click", ".del", function() {
 		var $this = $(this);
 		thisOrderId = $($this.closest("li")[0]).attr("id");
-		if(parseInt(thisOrderId)<0){
-			// 추가리스트에서 제거
-			removeKey(addList,thisOrderId);
-		}else {			
+		if(parseInt(thisOrderId)>=0){	
 			deleteList.push(thisOrderId);
 		}
 		console.log(deleteList);
@@ -221,10 +218,10 @@ addOrderId = 0;
 
 		if(memory.get(id)[name] != contents && chk.get(id) == false  ){
 			chk.set(id,true);
+			//console.log("변경",$this.closest("table")[0].getElementsById(''));
+			
+			// 업데이트 리스트 input value 변경 
 		}
-
-
-		console.log("chk Map : " , chk);
 	});
 	
 	/* 순서추가 클릭시 입력항목 추가 함수 호출 */
@@ -232,15 +229,26 @@ addOrderId = 0;
 		render();
 	});	
 	
+	/* @todo 
+		updateList 항목 추가 - 순서리스트를 만들고 비교해서 update항목에 추가
+	*/
 	$("#test").on("click", function () {
-		console.log("click");
-		console.log(deleteList);
+		values = $("#order-form").serialize();
+		
+		updateObject = { deleteList : deleteList,
+				updateList : [] ,
+				values : values }		
+		
+		console.log(updateObject);
+		
+		console.log(values);
 		
 		$.ajax({
 			url : "${pageContext.request.contextPath }/updateTarget",
 			type : "post",
 			contentType : "application/json; charset=UTF-8",
-			data : JSON.stringify("{ deleteList : "+deleteList+" }"),
+			dataType : "text",
+			data : JSON.stringify(updateObject),
 			error : function(XHR, status, error) {
 				console.error(status + " : " + error);
 			}

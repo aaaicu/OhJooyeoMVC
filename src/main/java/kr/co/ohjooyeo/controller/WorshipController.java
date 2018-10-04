@@ -1,17 +1,20 @@
 package kr.co.ohjooyeo.controller;
 
-import java.util.ArrayList;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import kr.co.ohjooyeo.service.OrderService;
 import kr.co.ohjooyeo.service.VersionService;
@@ -89,18 +92,27 @@ public class WorshipController {
 	
 	@RequestMapping(value = "/updateTarget", method = RequestMethod.POST)
 	public @ResponseBody String updateTarget(
-			@RequestBody  Map<String, Object> userId
-			) {
-		List<String> result = new ArrayList<>();
-		System.out.println("userId : "+userId);
-
+			@RequestBody Map<String,Object> inputMap
+			) throws UnsupportedEncodingException {
+		System.out.println("inputMap : "+ inputMap);
+		
+		/* 파라미터 처리 로직 */
+		String values = (String)inputMap.get("values");
+		values = "?"+URLDecoder.decode(values, "UTF-8");
+	    MultiValueMap<String, String> parameters =
+	            UriComponentsBuilder.fromUriString(values).build().getQueryParams();
+	    System.out.println(parameters);
+	    
+	    /* 업데이트 리스트로 변환 */
+	    Map <String,List<WorshipOrderVO>> updateWorshipOrderVOList = orderService.analyzeValues(parameters);
+	    
 		return "";
 	}
 //	System.out.println(URLDecoder.decode(deleteList, "UTF-8"));
+	//request 객체를 생성해서 생성자로 추가 후 조작하는 방법 고민
 	
 	@RequestMapping(value = "/getWorshipOrderList", method = RequestMethod.POST)
 	public @ResponseBody List<WorshipOrderVO> getWorshipOrderList(@RequestBody String worshipId) {
 		return orderService.getWorshipOrderList(worshipId);
 	}
-
 }

@@ -14,6 +14,7 @@
 			SELECT ORDER.presenter, ORDER.detail, ORDER.title, ORDER.order
 			FROM ohjooyeo.ORDER
 			WHERE worship_id like #{worshipId}
+			ORDER BY ORDER.order
 		]]>
 	</select>
 	
@@ -22,6 +23,7 @@
 			SELECT ORDER.presenter, ORDER.detail, ORDER.title, ORDER.order,ORDER.order_id orderId, ORDER.type
 			FROM ohjooyeo.ORDER
 			WHERE worship_id like #{worshipId}
+			ORDER BY ORDER.order
 		]]>
 	</select>
 	
