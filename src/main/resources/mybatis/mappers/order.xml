@@ -36,12 +36,28 @@
 		]]>
 	</select>
 	
-	<insert id="setWorshipOrder" parameterType="kr.co.ohjooyeo.vo.WorshipVO">
-		<![CDATA[
-			insert into ohjooyeo.ORDER values (#{worshipId}, #{orderId},#{order},#{type},#{title},#{detail}, #{presenter})
-		]]>
+	<insert id="insertVOList" parameterType="kr.co.ohjooyeo.vo.WorshipOrderVO">
+		<foreach collection="list" item = "vo" separator = ";">		
+			INSERT INTO ohjooyeo.ORDER VALUES
+			(#{vo.worshipId}, #{vo.orderId},#{vo.order},#{vo.type},#{vo.title},#{vo.detail}, #{vo.presenter})
+		</foreach> 
 	</insert>
 	
+	<update id="updateVOList" parameterType="kr.co.ohjooyeo.vo.WorshipOrderVO">
+	<!-- 다중 업데이트 가능하게하려면 jdbc 커넥션 url에 다음의 내용을 추가하여야 함 ==> &amp;allowMultiQueries=true  -->
+		<foreach collection="list" item = "vo" separator = ";">	
+			UPDATE ohjooyeo.ORDER 
+			SET ohjooyeo.ORDER.order = #{vo.order}, type = #{vo.type}, title = #{vo.title},detail = #{vo.detail}, presenter = #{vo.presenter}
+			WHERE worship_id = #{vo.worshipId} 
+			AND order_id = #{vo.orderId}
+		</foreach> 
+	</update>
 	
-	
+	<delete id="deleteVOList" parameterType="map">
+		<foreach collection="list" item = "vo" separator = ";" >	
+			DELETE FROM ohjooyeo.ORDER
+			WHERE worship_id = #{worshipId} 
+			AND order_id = #{vo}
+		</foreach>
+	</delete>
 </mapper>

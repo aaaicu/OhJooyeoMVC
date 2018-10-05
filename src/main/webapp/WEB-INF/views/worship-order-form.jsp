@@ -18,9 +18,8 @@
 		</select> <span><input type = "button" id = "add-button" class = "plus" value = "순서추가"></span><br/>
 		</div>
 		<ul id="form-list"></ul>
-		<!-- <br /> <br /> <input type="submit" id = "update-orders" value="확인"> -->
-		<br /> <br /> <input type="submit" id = "update-orders" value="확인">
-		<br /> <br /> <input type="button" id = "test" value="test">
+
+		<br /> <br /> <input type="button" id = "update-orders" value="확인">
 	</form>
 	<%-- <%@include file="footer.jsp" %> --%>
 </body>
@@ -50,6 +49,8 @@ addOrderId = 0;
 		});  
 		
 		
+		
+		
 	}); // document ready end
 	
 	
@@ -65,9 +66,7 @@ addOrderId = 0;
 				// 전송리스트 선언
 				memory = new Map();
 				addOrderId = 0;
-				chk = new Map();
 				deleteList = [];
-				updateList = [];
 				
 				// table head 필요시 입력 
 				var str ="" ;
@@ -103,8 +102,6 @@ addOrderId = 0;
 		 			str += "</tr>";
 		 			str += "</table>";
 		 			str += "</li>";
-		 			
-		 			chk.set(worshipOrderList[i].order.toString(),false);
 		 		}
 		 			$("#form-list").append(str);
 			},
@@ -137,16 +134,24 @@ addOrderId = 0;
 	addStr += "</table>";
 	addStr += "</li>";
 	
+
 	/* 리스트 추가 구현 */
 	function render() {
 		var str = $(addStr).attr("id","-1");
 		$("#form-list").append(str);
 	}
 	
+	/* 앞에추가 클릭시 입력항목 추가 함수 호출 */
 	$("#form-list").on("click", ".plus-before",function(){
 		var str = $(addStr).attr("id","-1");
 		$(this).closest("li").before(str);
+		
 	})
+	
+	/* 순서추가 클릭시 입력항목 추가 함수 호출 */
+	$(".plus").on("click", function() { 
+		render();
+	});	
 	
 	/* 삭제 버튼 클릭 구현 */
 	$("#form-list").on("click", ".del", function() {
@@ -201,8 +206,8 @@ addOrderId = 0;
 		}
 	});	
 	
-		/* 변경이 일어난 경우 처음 값에서 바뀌었는지 비교 후 바뀌었다면 chk Map의 OrderId Key의 값을 True로 변경 */
-		/* 한번 업데이트 대상으로 지정되면 (chk Map에서 true 처리되면) 원래값으로 변경했다 하더라도 false 로 돌아가지는 않음 (협의 후 결정)*/
+		/* 변경이 일어난 경우 처음 값에서 바뀌었는지 비교 후 바뀌었다면 chkInputBox의 값을 "1"로 변경 */
+		/* 한번 업데이트 대상으로 지정되면 (chkInputBox에서 "1"로 처리되면) 원래값으로 변경했다 하더라도 "0" 로 돌아가지는 않음 (10/4 협의)*/
 	$("ul").on("change", ".chkTarget",function() { 
 		var $this = $(this);
 		
@@ -215,40 +220,50 @@ addOrderId = 0;
 		console.log("원본 데이터 : " , memory.get(id)[name] );
 		console.log("원본 데이터와 비교 : " , memory.get(id)[name] == contents );
 		
-
-		if(memory.get(id)[name] != contents && chk.get(id) == false  ){
-			chk.set(id,true);
-			//console.log("변경",$this.closest("table")[0].getElementsById(''));
-			
+		chkInputBox = $($this.parent().siblings()[0]).find("[name='updateYN']");
+		if(memory.get(id)[name] != contents && chkInputBox.val() == "0"  ){
+			chkInputBox.val("1");
 			// 업데이트 리스트 input value 변경 
 		}
 	});
+
 	
-	/* 순서추가 클릭시 입력항목 추가 함수 호출 */
-	$(".plus").on("click", function() { 
-		render();
-	});	
-	
-	/* @todo 
-		updateList 항목 추가 - 순서리스트를 만들고 비교해서 update항목에 추가
-	*/
-	$("#test").on("click", function () {
+	/* 저장 버튼 구현 */
+	$("#update-orders").on("click", function () {
+		
+		/* order update 처리 */
+		liTagList = $("#form-list").children("li");
+		for(var i = 0 ; i < liTagList.length ; i ++ ){
+			hiddenInput = $($("#form-list").children("li")[i]);
+			orderValue = $(hiddenInput.find("[name='order']")[0]).val();
+			
+			
+			if ( i.toString() != orderValue ){
+				if(orderValue != "-1"){
+					hiddenInput.find("[name='updateYN']").val("1");
+				}
+				$(hiddenInput.find("[name='order']")[0]).val(i);
+			}
+		}
+		
+		/* ajax 전송 */
 		values = $("#order-form").serialize();
 		
-		updateObject = { deleteList : deleteList,
-				updateList : [] ,
+		paramObject = { deleteList : deleteList,
 				values : values }		
-		
-		console.log(updateObject);
-		
-		console.log(values);
+		/* 
+		console.log("paramObject : ",paramObject);
+		console.log("values : ",values); */
 		
 		$.ajax({
 			url : "${pageContext.request.contextPath }/updateTarget",
 			type : "post",
 			contentType : "application/json; charset=UTF-8",
 			dataType : "text",
-			data : JSON.stringify(updateObject),
+			data : JSON.stringify(paramObject),
+			success : function(data){
+				alert("수정되었습니다.")
+			},
 			error : function(XHR, status, error) {
 				console.error(status + " : " + error);
 			}

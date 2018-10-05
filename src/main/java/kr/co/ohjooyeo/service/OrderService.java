@@ -29,12 +29,11 @@ public class OrderService {
 	BibleService bibleService;
 	
 	public void setWorshipOrder(String worshipId,String [] types,String [] titles,String [] details,String [] presenters) {
-		WorshipOrderVO [] orderArray = new WorshipOrderVO[titles.length];
+		List<WorshipOrderVO> orderList = new ArrayList<>();
 		for(int i = 0 ; i < titles.length ; i ++) {
-			orderArray[i] = new WorshipOrderVO(worshipId,i,i,types[i], titles[i],details[i], presenters[i] );
-//			System.out.println(orderArray[i] );
+			orderList.add(new WorshipOrderVO(worshipId,i,i,types[i], titles[i],details[i], presenters[i] ));
 		}
-		orderDAO.setWorshipOrder(orderArray);
+		orderDAO.insertVOList(orderList);
 	}
 
 	public Map<String, Object> getOrderByWorshipId(String id) {
@@ -86,7 +85,7 @@ public class OrderService {
 			WorshipOrderVO order = new WorshipOrderVO(
 					params.get("worship_id").get(0), 
 					Integer.valueOf(params.get("orderId").get(i)), 
-					i, 
+					Integer.valueOf(params.get("order").get(i)),
 					params.get("type").get(i), 
 					params.get("title").get(i), 
 					params.get("detail").get(i), 
@@ -97,10 +96,41 @@ public class OrderService {
 			}else if(params.get("updateYN").get(i).equals("1")){
 				updateList.add(order);
 			}
-			System.out.println(order);
 		}
 		return result;
 	}
+	/* 순서추가 */
+	public int add(List<WorshipOrderVO> list) {
+		if(list.size() > 0 ) {
+			orderDAO.insertVOList(list);
+			return 1;
+		}
+		return 0;
+	}
+
+	/* 순서수정 */
+	public int update(List<WorshipOrderVO> list) {
+		if(list.size() > 0 ) {
+			orderDAO.updateVOList(list);
+			return 1;
+		}
+		return 0;
+	}
+
+	/* 순서삭제 */
+	public int delete(String worshipId , List<String> list) {
+		if(list.size() > 0 ) {
+			Map<String,Object> deleteMap = new HashMap<>();
+			deleteMap.put("worshipId", worshipId );
+			deleteMap.put("list",list);
+			
+			System.out.println(deleteMap);
+			orderDAO.deleteVOList(deleteMap);
+			return 1;
+		}
+		return 0;
+	}
+	
 	
 	//미사용
 	public Map<String,Object> getPhraseByDate(String date) {
@@ -116,5 +146,6 @@ public class OrderService {
 		result.put("phraseList", bibleService.getPhrase(rawPhrases));
 		return result;
 	}
+
 
 }

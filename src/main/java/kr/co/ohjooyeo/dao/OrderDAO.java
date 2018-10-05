@@ -37,12 +37,16 @@ public class OrderDAO {
 		return sqlSession.selectOne("order.getLaunchPhrase", inputMap);
 	}
 
-	//mybatis에서 리스트로 insert 방법 확인후 적용 필요
-	public void setWorshipOrder(WorshipOrderVO[] orderArray) {
-		for(WorshipOrderVO order : orderArray) {			
-			sqlSession.insert("order.setWorshipOrder", order);
-		}
-		
+	public void insertVOList(List<WorshipOrderVO> list) {
+		sqlSession.insert("order.insertVOList", list);
+	}
+
+	public void updateVOList(List<WorshipOrderVO> list) {
+		sqlSession.update("order.updateVOList", list);
+	}
+
+	public void deleteVOList(Map<String,Object> map) {
+		sqlSession.delete("order.deleteVOList", map);
 	}
 
 	

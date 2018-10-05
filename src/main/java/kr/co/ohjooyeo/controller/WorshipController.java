@@ -2,6 +2,7 @@ package kr.co.ohjooyeo.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -67,29 +68,8 @@ public class WorshipController {
 	public String worshipOrderForm() {
 		return "worship-order-form";
 	}
-
-	@RequestMapping(value = "/update-worship-order", method = RequestMethod.POST)
-	public String updateWorshipOrder(
-			@RequestParam(value = "worship_id", required=false, defaultValue="") String worshipId,
-			@RequestParam(value = "type", required=false, defaultValue="") String[] types, 
-			@RequestParam(value = "title", required=false, defaultValue="") String[] titles,
-			@RequestParam(value = "detail", required=false, defaultValue="") String[] details, 
-			@RequestParam(value = "presenter", required=false, defaultValue="") String[] presenters
-			) {
-		
-		for(String a : titles) {
-			System.out.println(a);
-		}
-		/* 순서 추가 */
-//		orderService.setWorshipOrder(worshipId,types, titles, details, presenters);
-		
-		/* 버전 관리 부분 */
-		String version = versionService.getVersionById(worshipId);
-//		versionService.updateVersion(worshipId , versionService.versionUp(version,0));
-		
-		return "redirect:worship-order";
-	}
 	
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/updateTarget", method = RequestMethod.POST)
 	public @ResponseBody String updateTarget(
 			@RequestBody Map<String,Object> inputMap
@@ -99,17 +79,28 @@ public class WorshipController {
 		/* 파라미터 처리 로직 */
 		String values = (String)inputMap.get("values");
 		values = "?"+URLDecoder.decode(values, "UTF-8");
-	    MultiValueMap<String, String> parameters =
-	            UriComponentsBuilder.fromUriString(values).build().getQueryParams();
+	    MultiValueMap<String, String> parameters = UriComponentsBuilder.fromUriString(values).build().getQueryParams();
 	    System.out.println(parameters);
 	    
-	    /* 업데이트 리스트로 변환 */
+	    /* 파라미터 가공  */
 	    Map <String,List<WorshipOrderVO>> updateWorshipOrderVOList = orderService.analyzeValues(parameters);
+//	    System.out.println(updateWorshipOrderVOList);
+	    String worshipId = parameters.get("worship_id").get(0);
+	    
+	    int chk = 0;
+	    /* add update delete 처리하는 method */
+	    chk += orderService.add(updateWorshipOrderVOList.get("addList")); 
+	    chk += orderService.update(updateWorshipOrderVOList.get("updateList"));
+	    chk += orderService.delete(worshipId,(List<String>)inputMap.get("deleteList"));
+	    
+		if (chk > 0) {			
+			/* 버전 관리 부분 (버전증가) */
+			String version = versionService.getVersionById(worshipId);
+			versionService.updateVersion(worshipId , versionService.versionUp(version,0));
+		}
 	    
 		return "";
 	}
-//	System.out.println(URLDecoder.decode(deleteList, "UTF-8"));
-	//request 객체를 생성해서 생성자로 추가 후 조작하는 방법 고민
 	
 	@RequestMapping(value = "/getWorshipOrderList", method = RequestMethod.POST)
 	public @ResponseBody List<WorshipOrderVO> getWorshipOrderList(@RequestBody String worshipId) {
