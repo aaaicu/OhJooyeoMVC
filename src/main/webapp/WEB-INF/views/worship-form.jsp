@@ -6,11 +6,11 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <script type="text/javascript"
 	src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<title>Add Worship</title>
+<title>Delete Worship</title>
 </head>
 <body>
 	<%-- <%@include file="nav.jsp" %> --%>
-	<form action="${pageContext.request.contextPath}/add-worship"
+	<form action="${pageContext.request.contextPath}/delete-worship"
 		method="post">
 		<table>
 			<tr>
@@ -108,5 +108,6 @@
 		}
 	}
 </script>
+
 
 </html>

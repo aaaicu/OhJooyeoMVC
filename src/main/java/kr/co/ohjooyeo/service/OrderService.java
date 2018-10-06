@@ -75,6 +75,7 @@ public class OrderService {
 		
 		/* worship_id에 속하는 orderId의 최대값 구하기 */
 		int maxId = 0;
+		
 		for(String id : params.get("orderId")) {
 			if(maxId <= Integer.valueOf(id)) {
 				maxId = Integer.valueOf(id);				

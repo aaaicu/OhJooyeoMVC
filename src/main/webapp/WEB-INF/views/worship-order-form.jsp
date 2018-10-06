@@ -47,10 +47,6 @@ addOrderId = 0;
 				console.error(status + " : " + error);
 			}
 		});  
-		
-		
-		
-		
 	}); // document ready end
 	
 	
@@ -250,10 +246,7 @@ addOrderId = 0;
 		values = $("#order-form").serialize();
 		
 		paramObject = { deleteList : deleteList,
-				values : values }		
-		/* 
-		console.log("paramObject : ",paramObject);
-		console.log("values : ",values); */
+				values : values }
 		
 		$.ajax({
 			url : "${pageContext.request.contextPath }/updateTarget",
@@ -262,6 +255,8 @@ addOrderId = 0;
 			dataType : "text",
 			data : JSON.stringify(paramObject),
 			success : function(data){
+				$("#form-list").children().remove();
+				getOrders($("#select-box").val());
 				alert("수정되었습니다.")
 			},
 			error : function(XHR, status, error) {

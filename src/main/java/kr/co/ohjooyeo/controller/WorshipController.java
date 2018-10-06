@@ -47,6 +47,11 @@ public class WorshipController {
 		return "worship-form";
 	}
 
+	@RequestMapping(value = "/worship-delete", method = RequestMethod.GET)
+	public String worshipDelete() {
+		return "worship-delete";
+	}
+	
 	@RequestMapping(value = "/add-worship", method = RequestMethod.POST)
 	public String addWorship(@ModelAttribute WorshipVO vo,@RequestParam("type") String[] types, @RequestParam("title") String[] titles,
 			@RequestParam("detail") String[] details, @RequestParam("presenter") String[] presenters) {
@@ -64,7 +69,7 @@ public class WorshipController {
 		return "redirect:worship";
 	}
 
-	@RequestMapping(value = "/worship-order", method = RequestMethod.GET)
+	@RequestMapping(value = "/worship-update", method = RequestMethod.GET)
 	public String worshipOrderForm() {
 		return "worship-order-form";
 	}
@@ -83,14 +88,17 @@ public class WorshipController {
 	    System.out.println(parameters);
 	    
 	    /* 파라미터 가공  */
-	    Map <String,List<WorshipOrderVO>> updateWorshipOrderVOList = orderService.analyzeValues(parameters);
 //	    System.out.println(updateWorshipOrderVOList);
 	    String worshipId = parameters.get("worship_id").get(0);
-	    
 	    int chk = 0;
+	    if(parameters.get("orderId")!=null) {
+	    	
+	    Map <String,List<WorshipOrderVO>> updateWorshipOrderVOList = orderService.analyzeValues(parameters);
+	    
 	    /* add update delete 처리하는 method */
 	    chk += orderService.add(updateWorshipOrderVOList.get("addList")); 
 	    chk += orderService.update(updateWorshipOrderVOList.get("updateList"));
+	    }
 	    chk += orderService.delete(worshipId,(List<String>)inputMap.get("deleteList"));
 	    
 		if (chk > 0) {			
