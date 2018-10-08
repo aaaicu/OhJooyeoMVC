@@ -2,12 +2,12 @@ package kr.co.ohjooyeo.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -48,7 +48,9 @@ public class WorshipController {
 	}
 
 	@RequestMapping(value = "/worship-delete", method = RequestMethod.GET)
-	public String worshipDelete() {
+	public String worshipDelete(Model model) {
+		//userId 하드코딩
+		model.addAttribute("worshipIdList", worshipService.getWorshipIdList("admin"));
 		return "worship-delete";
 	}
 	

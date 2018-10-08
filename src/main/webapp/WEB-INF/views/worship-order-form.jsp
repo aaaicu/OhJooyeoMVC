@@ -73,7 +73,7 @@ addOrderId = 0;
 		 			str += "<td><input type='hidden' name='orderId' value ='"+worshipOrderList[i].orderId+"'>"
 		 			str += "<input type='hidden' name='order' value ='"+worshipOrderList[i].order+"'>"
 		 			str += "<input type='hidden' name='updateYN' value ='0'>"
-		 			str += "<select name='type' class ='chkTarget' >";
+		 			str += "<select name='type' class ='type-select chkTarget' >";
 		 			str += "<option value = '0'";
 			 			if (worshipOrderList[i].type == '0'){
 			 				str += "selected = 'selected'";
@@ -90,8 +90,15 @@ addOrderId = 0;
 			 			}
 		 			str += ">찬양</option>";
 		 			str += "</select></td>";
-		 			str += "<td><input type='text' class ='chkTarget' name='title' value ='"+worshipOrderList[i].title+"'></td>";
-		 			str += "<td><input type='text' class ='chkTarget' name='detail' value ='"+worshipOrderList[i].detail+"'></td>";
+		 			str += "<td width = '140px'><input type='text' class ='chkTarget' name='title' value ='"+worshipOrderList[i].title+"'></td>";
+		 			str += "<td width = '140px'>"
+		 			if (worshipOrderList[i].type == '1'){
+		 				str += "<input type='text' size = '15' class ='chkTarget' name='detail' disabled value ='"+worshipOrderList[i].detail+"'>";
+		 				str += "<input type='button' class='searchBible' value = '찾기'>"
+		 			}else {
+			 			str += "<input type='text' class ='chkTarget' name='detail' value ='"+worshipOrderList[i].detail+"'>";
+		 			}
+		 			str += "</td>"
 		 			str += "<td><input type='text' class ='chkTarget' name='presenter' value ='"+worshipOrderList[i].presenter+"'></td>";
 		 			str += "<td><input type = 'button' class = 'plus-before' value = '앞에추가'></td>";
 		 			str += "<td class = 'del'>x</td>";
@@ -116,13 +123,13 @@ addOrderId = 0;
 	
 	addStr += "<td><input type='hidden' name='orderId' value ='-1'>"
 	addStr += "<input type='hidden' name='updateYN' value ='0'>"
-	addStr += "<input type='hidden' name='order' value ='-1'><select name='type'>";
+	addStr += "<input type='hidden' name='order' value ='-1'><select class = 'type-select' name='type'>";
 	addStr += "<option value = '0'>일반순서</option>";
 	addStr += "<option value = '1'>성경봉독</option>";
 	addStr += "<option value = '2'>찬양</option>";
 	addStr += "</select></td>";
-	addStr += "<td><input type='text' name='title'></td>";
-	addStr += "<td><input type='text' name='detail'></td>";
+	addStr += "<td width = '140px'><input type='text' name='title'></td>";
+	addStr += "<td width = '140px'><input type='text' name='detail'></td>";
 	addStr += "<td><input type='text' name='presenter'></td>";
 	addStr += "<td><input type = 'button' class = 'plus-before' value = '앞에추가'></td>";
 	addStr += "<td class = 'del'>x</td>";
@@ -222,6 +229,25 @@ addOrderId = 0;
 			// 업데이트 리스트 input value 변경 
 		}
 	});
+		/* type 변경시 "1"일 경우 detail input box 비활성화
+		   다른 타입으로 변경시 disabled 풀림
+		*/
+	$("ul").on("change", ".type-select" , function () {
+		var $this = $(this);
+		var detailTag = $($this.closest("li")).find("[name='detail']");
+		if( $this.val() == "1"){
+			detailTag.val("");
+			detailTag.attr("disabled","disabled");
+			detailTag.attr("size","15");
+			detailTag.after("<input type='button' class='searchBible' value = '찾기'>");
+		}else {
+			detailTag.removeAttr("disabled");
+			if(detailTag.siblings("[class='searchBible']").length == 1){
+				detailTag.siblings("[class='searchBible']").remove();
+				detailTag.removeAttr("size");
+			}
+		}
+	})
 
 	
 	/* 저장 버튼 구현 */
@@ -264,6 +290,12 @@ addOrderId = 0;
 			}
 		});  
 	})
+	/* 찾기 버튼 구현 */
+	$("ul").on("click",".searchBible",function () {
+		window.open("${pageContext.request.contextPath}/search-bible", "search-bible", "width=500, height=400, toolbar=no, menubar=no, scrollbars=no, resizable=no" );  
+		
+		$(this).siblings("[name='detail']").val("test");
+	});
 	
 </script>
 

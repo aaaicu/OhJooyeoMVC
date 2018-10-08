@@ -6,15 +6,15 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <script type="text/javascript"
 	src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<title>Delete Worship</title>
+<title>Add Worship</title>
 </head>
 <body>
 	<%-- <%@include file="nav.jsp" %> --%>
 	<form action="${pageContext.request.contextPath}/delete-worship"
 		method="post">
-		<table>
+		<table width = "500px">
 			<tr>
-				<td>입력</td>
+				<td width = "200px">입력</td>
 			</tr>
 			<tr>
 				<td>Worship ID</td>
@@ -42,23 +42,18 @@
 			</tr>
 
 			<tr>
-				<td colspan=2>
-					<ul id="form-list">
-						<li>
-							<table id="form-head">
-								<thead>
-									<tr>
-										<th>type</th>
-										<th>title</th>
-										<th>detail</th>
-										<th>presenter</th>
-										<th id="plus">+</th>
-									</tr>
-								</thead>
-							</table>
-						</li>
-					</ul>
+				<td>
+					예배순서
 				</td>
+				<td>
+					<input type = "button" id = "plus" value = "순서추가">
+				</td>
+			</tr>
+			<tr>
+			<td colspan = "2">
+					<ul id="form-list">
+					</ul>
+			</td>
 			</tr>
 			<tr>
 				<td><input type="submit" value="등록"></td>
@@ -74,7 +69,7 @@
 
 		$("#plus").on("click", function() {
 			console.log("click plus");
-			render("down");
+			render();
 
 		});
 		
@@ -85,28 +80,43 @@
 		$this.closest("li").remove();
 	});
 
-	function render(updown) {
-		var str = "";
-		str += " <li>";
-		str += "		<table>";
-		str += "			<tr>";
-		str += "				<td><input type='text' name='type'></td>";
-		str += "				<td><input type='text' name='title'></td>";
-		str += "				<td><input type='text' name='detail'></td>";
-		str += "				<td><input type='text' name='presenter'></td>";
-		str += "				<td class = 'del'>x</td>";
-		str += "			</tr>";
-		str += "		</table>";
-		str += "</li>";
-		if (updown == "up") {
-			$("#form-list").prepend(str);
-		} else if (updown == "down") {
-			$("#form-list").append(str);
+	
+	/* 추가 html */
+	/* 추가되는 html의 orederId는 음수를 사용 */
+	addStr = "";
+	addStr += "<li>";
+	addStr += "<table>";
+	addStr += "<tr>";
+	
+	addStr += "<td><input type='hidden' name='orderId' value ='-1'>"
+	addStr += "<input type='hidden' name='updateYN' value ='0'>"
+	addStr += "<input type='hidden' name='order' value ='-1'><select name='type'>";
+	addStr += "<option value = '0'>일반순서</option>";
+	addStr += "<option value = '1'>성경봉독</option>";
+	addStr += "<option value = '2'>찬양</option>";
+	addStr += "</select></td>";
+	addStr += "<td><input type='text' name='title'></td>";
+	addStr += "<td><input type='text' name='detail'></td>";
+	addStr += "<td><input type='text' name='presenter'></td>";
+	addStr += "<td><input type = 'button' class = 'plus-before' value = '앞에추가'></td>";
+	addStr += "<td class = 'del'>x</td>";
+	addStr += "</tr>";
+	addStr += "</table>";
+	addStr += "</li>";
+	
 
-		} else {
-			console.log("오류")
-		}
+	/* 리스트 추가 구현 */
+	function render() {
+		$("#form-list").append(addStr);
 	}
+	
+	/* 앞에추가 클릭시 입력항목 추가 함수 호출 */
+	$("#form-list").on("click", ".plus-before",function(){
+		var str = $(addStr).attr("id","-1");
+		$(this).closest("li").before(str);
+		
+	})
+	
 </script>
 
 
