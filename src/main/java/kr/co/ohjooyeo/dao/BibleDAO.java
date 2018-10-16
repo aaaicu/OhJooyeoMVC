@@ -41,8 +41,6 @@ public class BibleDAO {
 				input.put("startSection", startVO.getSection());
 				input.put("endSection", endVO.getSection());
 				
-				System.out.println(sqlSession.selectList("bible.getPhraseInChapter","요나서"));
-				
 				return sqlSession.selectList("bible.getPhraseInChapter",input);
 			}
 
@@ -50,5 +48,16 @@ public class BibleDAO {
 			return null;
 		}
 		
+	}
+
+	public List<String> getChapterList(String book) {
+		return sqlSession.selectList("bible.getChapterList",book);
+	}
+
+	public List<String> getSectionList(String book, String chapter) {
+		Map<String,String> input = new HashMap<>();
+		input.put("book", book);
+		input.put("chapter", chapter);
+		return sqlSession.selectList("bible.getSectionList",input);
 	}
 }

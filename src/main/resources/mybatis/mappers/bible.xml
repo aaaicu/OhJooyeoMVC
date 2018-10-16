@@ -34,6 +34,21 @@
 				AND section BETWEEN #{startSection} AND #{endSection} 
 		]]>
 	</select>
-
+	
+	<select id="getChapterList" parameterType = "string" resultType="string">
+		<![CDATA[
+			SELECT chapter FROM BIBLE WHERE book = #{book} GROUP BY chapter
+		]]>
+	</select>
+	
+		<select id="getSectionList" parameterType = "map" resultType="string">
+		<![CDATA[
+			SELECT section 
+			FROM BIBLE
+			WHERE book = #{book} 
+			AND chapter = #{chapter}
+		]]>
+	</select>
+	
 
 </mapper>

@@ -86,6 +86,14 @@ public class BibleService {
 		}
 		return result;
 	}
+	
+	public List<String> getChapterList(String book) {
+		return bibleDAO.getChapterList(book);
+	}
+	public List<String> getSectionList(String book, String chapter) {
+		return bibleDAO.getSectionList(book,chapter);
+	}
+	
 	//성경봉독 순서의 디테일이 변경되어 미사용 
 	public String getBookAddName(String bookName) {
 		String result = "";
@@ -498,4 +506,6 @@ public class BibleService {
 
 		return result;
 	}
+
+
 }
