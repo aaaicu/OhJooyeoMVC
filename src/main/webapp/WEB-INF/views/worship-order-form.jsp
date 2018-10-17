@@ -217,13 +217,9 @@ addOrderId = 0;
 		var id = $this.closest("li")[0].id
 		var name = $this.attr("name")
 		var contents = $this.val();
-		
-		
-		console.log("변경이벤트 발생 : " , memory);
-		console.log("원본 데이터 : " , memory.get(id)[name] );
-		console.log("원본 데이터와 비교 : " , memory.get(id)[name] == contents );
-		
-		chkInputBox = $($this.parent().siblings()[0]).find("[name='updateYN']");
+
+		chkInputBox = $($this.closest("li")[0]).find("[name='updateYN']");
+		console.log(chkInputBox);
 		if(memory.get(id)[name] != contents && chkInputBox.val() == "0"  ){
 			chkInputBox.val("1");
 			// 업데이트 리스트 input value 변경 
@@ -273,6 +269,8 @@ addOrderId = 0;
 		
 		paramObject = { deleteList : deleteList,
 				values : values }
+		
+		console.log(values);
 		
 		$.ajax({
 			url : "${pageContext.request.contextPath }/updateTarget",
