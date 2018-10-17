@@ -93,7 +93,7 @@ addOrderId = 0;
 		 			str += "<td width = '140px'><input type='text' class ='chkTarget' name='title' value ='"+worshipOrderList[i].title+"'></td>";
 		 			str += "<td width = '140px'>"
 		 			if (worshipOrderList[i].type == '1'){
-		 				str += "<input type='text' size = '15' class ='chkTarget' name='detail' disabled value ='"+worshipOrderList[i].detail+"'>";
+		 				str += "<input type='text' size = '15' class ='chkTarget' name='detail' readonly value ='"+worshipOrderList[i].detail+"'>";
 		 				str += "<input type='button' class='searchBible' value = '찾기'>"
 		 			}else {
 			 			str += "<input type='text' class ='chkTarget' name='detail' value ='"+worshipOrderList[i].detail+"'>";
@@ -226,18 +226,18 @@ addOrderId = 0;
 		}
 	});
 		/* type 변경시 "1"일 경우 detail input box 비활성화
-		   다른 타입으로 변경시 disabled 풀림
+		   다른 타입으로 변경시 readonly 풀림
 		*/
 	$("ul").on("change", ".type-select" , function () {
 		var $this = $(this);
 		var detailTag = $($this.closest("li")).find("[name='detail']");
 		if( $this.val() == "1"){
 			detailTag.val("");
-			detailTag.attr("disabled","disabled");
+			detailTag.attr("readonly","readonly");
 			detailTag.attr("size","15");
 			detailTag.after("<input type='button' class='searchBible' value = '찾기'>");
 		}else {
-			detailTag.removeAttr("disabled");
+			detailTag.removeAttr("readonly");
 			if(detailTag.siblings("[class='searchBible']").length == 1){
 				detailTag.siblings("[class='searchBible']").remove();
 				detailTag.removeAttr("size");
@@ -290,9 +290,11 @@ addOrderId = 0;
 	})
 	/* 찾기 버튼 구현 */
 	$("ul").on("click",".searchBible",function () {
-		window.open("${pageContext.request.contextPath}/search-bible", "search-bible", "width=500, height=400, toolbar=no, menubar=no, scrollbars=no, resizable=no" );  
-		
-		$(this).siblings("[name='detail']").val("test");
+		openWin = window.open("${pageContext.request.contextPath}/search-bible", "search-bible", "width=500, height=400, toolbar=no, menubar=no, scrollbars=no, resizable=no" );  
+		$this = $(this);
+		$(openWin).on("load", function(){
+			openWin.document.getElementById("targetId").value = $this.closest("li")[0].id;
+		});
 	});
 	
 </script>
