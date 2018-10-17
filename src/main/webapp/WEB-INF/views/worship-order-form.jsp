@@ -292,8 +292,18 @@ addOrderId = 0;
 	$("ul").on("click",".searchBible",function () {
 		openWin = window.open("${pageContext.request.contextPath}/search-bible", "search-bible", "width=500, height=400, toolbar=no, menubar=no, scrollbars=no, resizable=no" );  
 		$this = $(this);
+		initValue = $this.siblings()[0].value.split("/");
+		
+		
 		$(openWin).on("load", function(){
 			openWin.document.getElementById("targetId").value = $this.closest("li")[0].id;
+			
+			if($this.siblings()[0].value != null && $this.siblings()[0].value != ""){	
+				for( var i = 0 ; i < initValue.length ; i ++){
+					tag = "<tr><td class = 'range'>"+initValue[i]+"</td><td class = 'del'><input type = 'button' del = 'del-button' value = '삭제'></td></tr>";
+					$(openWin.document).find("#addArea").append($(tag));				
+				}
+			}
 		});
 	});
 	

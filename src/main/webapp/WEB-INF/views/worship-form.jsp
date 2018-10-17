@@ -10,7 +10,7 @@
 </head>
 <body>
 	<%-- <%@include file="nav.jsp" %> --%>
-	<form action="${pageContext.request.contextPath}/delete-worship"
+	<form action="${pageContext.request.contextPath}/add-worship"
 		method="post">
 		<table width = "500px">
 			<tr>
@@ -66,6 +66,7 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
+		liId = 0 ;
 
 		$("#plus").on("click", function() {
 			console.log("click plus");
@@ -90,7 +91,7 @@
 	
 	addStr += "<td><input type='hidden' name='orderId' value ='-1'>"
 	addStr += "<input type='hidden' name='updateYN' value ='0'>"
-	addStr += "<input type='hidden' name='order' value ='-1'><select name='type'>";
+	addStr += "<input type='hidden' name='order' value ='-1'><select class = 'type-select'  name='type'>";
 	addStr += "<option value = '0'>일반순서</option>";
 	addStr += "<option value = '1'>성경봉독</option>";
 	addStr += "<option value = '2'>찬양</option>";
@@ -104,19 +105,60 @@
 	addStr += "</table>";
 	addStr += "</li>";
 	
-
+	
 	/* 리스트 추가 구현 */
 	function render() {
-		$("#form-list").append(addStr);
+		liId -=1;
+		var str =  $(addStr).attr("id",liId);
+		$("#form-list").append(str);
 	}
 	
 	/* 앞에추가 클릭시 입력항목 추가 함수 호출 */
 	$("#form-list").on("click", ".plus-before",function(){
-		var str = $(addStr).attr("id","-1");
+		liId -=1;
+		var str = $(addStr).attr("id",liId);
 		$(this).closest("li").before(str);
 		
 	})
 	
+	/* type 변경시 "1"일 경우 detail input box 비활성화
+	   다른 타입으로 변경시 readonly 풀림
+	*/
+	$("ul").on("change", ".type-select" , function () {
+		var $this = $(this);
+		var detailTag = $($this.closest("li")).find("[name='detail']");
+		if( $this.val() == "1"){
+			detailTag.val("");
+			detailTag.attr("readonly","readonly");
+			detailTag.attr("size","15");
+			detailTag.after("<input type='button' class='searchBible' value = '찾기'>");
+		}else {
+			detailTag.removeAttr("readonly");
+			if(detailTag.siblings("[class='searchBible']").length == 1){
+				detailTag.siblings("[class='searchBible']").remove();
+				detailTag.removeAttr("size");
+			}
+		}
+	})
+	
+	/* 찾기 버튼 구현 */
+	$("ul").on("click",".searchBible",function () {
+		openWin = window.open("${pageContext.request.contextPath}/search-bible", "search-bible", "width=500, height=400, toolbar=no, menubar=no, scrollbars=no, resizable=no" );  
+		$this = $(this);
+		initValue = $this.siblings()[0].value.split("/");
+		
+		
+		$(openWin).on("load", function(){
+			openWin.document.getElementById("targetId").value = $this.closest("li")[0].id;
+			if($this.siblings()[0].value != null && $this.siblings()[0].value != ""){	
+				for( var i = 0 ; i < initValue.length ; i ++){
+					tag = "<tr><td class = 'range'>"+initValue[i]+"</td><td class = 'del'><input type = 'button' del = 'del-button' value = '삭제'></td></tr>";
+					$(openWin.document).find("#addArea").append($(tag));				
+				}
+			}
+		});
+	});
+
 </script>
 
 
