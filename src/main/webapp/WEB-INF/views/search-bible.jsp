@@ -27,6 +27,7 @@
 	<br>
 	<div>
 		<span> 
+			<input type = "hidden" id = "targetId" value = "">
 			<select size="5" id="select-book" name="book">
 				<optgroup label = "=== 성경 ===">
 					<option value="갈라디아서">갈라디아서</option>
@@ -172,7 +173,7 @@ $("#addList").on("click",function(){
 			+"</td><td class = 'del'><input type = 'button' del = 'del-button' value = '삭제'></td></tr>"
 		} else {
 			tag = "<tr><td class = 'range'>"+book +" "+ startChapter +":"+ startSection
-			+"~"+ book +" "+ endChapter +":"
+			+"-"+ endChapter +":"
 			+ endSection +"</td><td class = 'del'><input type = 'button' del = 'del-button' value = '삭제'></td></tr>";
 		}
 		
@@ -196,6 +197,7 @@ $("table").on("click",".del",function(){
 $("#saveBible").on("click",function(){
 	var findList = $("#addArea").find("[class='range']")
 	var saveText = "";
+	var targetId = $("#targetId").val();
 
 	for(var i = 0 ; i < findList.length ; i++){
 		if( i != 0){
@@ -203,8 +205,9 @@ $("#saveBible").on("click",function(){
 		}
 		saveText +=findList[i].innerText;
 	}
-	$(opener.document).find("[id='2']").find("[name='detail']").val(saveText);
-	window.close();
+	$(opener.document).find("[id='"+targetId+"']").find("[name='detail']").val(saveText);
+	$(opener.document).find("[id='"+targetId+"']").find("[name='updateYN']").val("1");
+	window.close(); 
 });
 
 $("#select-book").change(function(){
@@ -324,7 +327,7 @@ $("#select-end-section").change(function() {
 ///*  "성경 a:b(~성경 c:d)(/성경 a:b(~성경 c:d))" [String] */
 	requestPhrase = {
 			"phraseRange" : $("#select-book").val() +" "+ $("#select-start-chapter").val() +":"+ $("#select-start-section").val()
-			+"~"+ $("#select-book").val() +" "+ $("#select-end-chapter").val() +":"+ $("#select-end-section").val()
+			+"-"+ $("#select-end-chapter").val() +":"+ $("#select-end-section").val()
 	};
 	
 	console.log(requestPhrase);
