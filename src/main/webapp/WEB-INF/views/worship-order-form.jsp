@@ -17,7 +17,7 @@
 		Worship ID : <select id="select-box" name="worship_id">
 		</select> <span><input type = "button" id = "add-button" class = "plus" value = "순서추가"></span><br/>
 		</div>
-		<ul id="form-list"></ul>
+		<ul id="order-list"></ul>
 
 		<br /> <br /> <input type="button" id = "update-orders" value="확인">
 	</form>
@@ -106,7 +106,7 @@ addOrderId = 0;
 		 			str += "</table>";
 		 			str += "</li>";
 		 		}
-		 			$("#form-list").append(str);
+		 			$("#order-list").append(str);
 			},
 			error : function (XHR, status, error) {
 				console.error(status + " : " + error)
@@ -141,11 +141,11 @@ addOrderId = 0;
 	/* 리스트 추가 구현 */
 	function render() {
 		var str = $(addStr).attr("id","-1");
-		$("#form-list").append(str);
+		$("#order-list").append(str);
 	}
 	
 	/* 앞에추가 클릭시 입력항목 추가 함수 호출 */
-	$("#form-list").on("click", ".plus-before",function(){
+	$("#order-list").on("click", ".plus-before",function(){
 		var str = $(addStr).attr("id","-1");
 		$(this).closest("li").before(str);
 		
@@ -157,7 +157,7 @@ addOrderId = 0;
 	});	
 	
 	/* 삭제 버튼 클릭 구현 */
-	$("#form-list").on("click", ".del", function() {
+	$("#order-list").on("click", ".del", function() {
 		var $this = $(this);
 		thisOrderId = $($this.closest("li")[0]).attr("id");
 		if(parseInt(thisOrderId)>=0){	
@@ -187,8 +187,8 @@ addOrderId = 0;
 	
 	/* 셀렉트박스 변경시 순서 재호출 */
 	$("#select-box").change(function() {
-				/* console.log(document.querySelector('#form-list').childNodes); */
-				$("#form-list").children().remove();
+				/* console.log(document.querySelector('#order-list').childNodes); */
+				$("#order-list").children().remove();
 				getOrders($(this).val());
 	});
 	
@@ -250,9 +250,9 @@ addOrderId = 0;
 	$("#update-orders").on("click", function () {
 		
 		/* order update 처리 */
-		liTagList = $("#form-list").children("li");
+		liTagList = $("#order-list").children("li");
 		for(var i = 0 ; i < liTagList.length ; i ++ ){
-			hiddenInput = $($("#form-list").children("li")[i]);
+			hiddenInput = $($("#order-list").children("li")[i]);
 			orderValue = $(hiddenInput.find("[name='order']")[0]).val();
 			
 			
@@ -279,7 +279,7 @@ addOrderId = 0;
 			dataType : "text",
 			data : JSON.stringify(paramObject),
 			success : function(data){
-				$("#form-list").children().remove();
+				$("#order-list").children().remove();
 				getOrders($("#select-box").val());
 				alert("수정되었습니다.")
 			},

@@ -51,10 +51,25 @@
 			</tr>
 			<tr>
 			<td colspan = "2">
-					<ul id="form-list">
+					<ul id="order-list">
 					</ul>
 			</td>
 			</tr>
+			<tr>
+				<td>
+					광고
+				</td>
+				<td>
+					<input type = "button" id = "plusAd" value = "광고추가">
+				</td>
+			</tr>
+			<tr>
+			<td colspan = "2">
+					<ul id="ad-list">
+					</ul>
+			</td>
+			</tr>
+
 			<tr>
 				<td><input type="submit" value="등록"></td>
 			</tr>
@@ -67,58 +82,64 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		liId = 0 ;
-
+		
+		
+		/* 추가 html */
+		/* 추가되는 html의 orederId는 음수를 사용 */
+		addStr = "";
+		addStr += "<li>";
+		addStr += "<table>";
+		addStr += "<tr>";
+		
+		addStr += "<td><input type='hidden' name='orderId' value ='-1'>"
+		addStr += "<input type='hidden' name='updateYN' value ='0'>"
+		addStr += "<input type='hidden' name='order' value ='-1'><select class = 'type-select'  name='type'>";
+		addStr += "<option value = '0'>일반순서</option>";
+		addStr += "<option value = '1'>성경봉독</option>";
+		addStr += "<option value = '2'>찬양</option>";
+		addStr += "</select></td>";
+		addStr += "<td><input type='text' name='title'></td>";
+		addStr += "<td><input type='text' name='detail'></td>";
+		addStr += "<td><input type='text' name='presenter'></td>";
+		addStr += "<td><input type = 'button' class = 'plus-before' value = '앞에추가'></td>";
+		addStr += "<td class = 'del'>x</td>";
+		addStr += "</tr>";
+		addStr += "</table>";
+		addStr += "</li>";
+		
 		$("#plus").on("click", function() {
 			console.log("click plus");
 			render();
 
 		});
 		
+		$("#plusAd").on("click", function() {
+			console.log("plusAd");
+		});
+		
+
+		
+		/* 리스트 추가 구현 */
+		function render() {
+			liId -=1;
+			var str =  $(addStr).attr("id",liId);
+			$("#order-list").append(str);
+		}
+		
 	});
 
-	$("#form-list").on("click", ".del", function() {
+	$("#order-list").on("click", ".del", function() {
 		var $this = $(this);
 		$this.closest("li").remove();
 	});
 
-	
-	/* 추가 html */
-	/* 추가되는 html의 orederId는 음수를 사용 */
-	addStr = "";
-	addStr += "<li>";
-	addStr += "<table>";
-	addStr += "<tr>";
-	
-	addStr += "<td><input type='hidden' name='orderId' value ='-1'>"
-	addStr += "<input type='hidden' name='updateYN' value ='0'>"
-	addStr += "<input type='hidden' name='order' value ='-1'><select class = 'type-select'  name='type'>";
-	addStr += "<option value = '0'>일반순서</option>";
-	addStr += "<option value = '1'>성경봉독</option>";
-	addStr += "<option value = '2'>찬양</option>";
-	addStr += "</select></td>";
-	addStr += "<td><input type='text' name='title'></td>";
-	addStr += "<td><input type='text' name='detail'></td>";
-	addStr += "<td><input type='text' name='presenter'></td>";
-	addStr += "<td><input type = 'button' class = 'plus-before' value = '앞에추가'></td>";
-	addStr += "<td class = 'del'>x</td>";
-	addStr += "</tr>";
-	addStr += "</table>";
-	addStr += "</li>";
-	
-	
-	/* 리스트 추가 구현 */
-	function render() {
-		liId -=1;
-		var str =  $(addStr).attr("id",liId);
-		$("#form-list").append(str);
-	}
+
 	
 	/* 앞에추가 클릭시 입력항목 추가 함수 호출 */
-	$("#form-list").on("click", ".plus-before",function(){
+	$("#order-list").on("click", ".plus-before",function(){
 		liId -=1;
 		var str = $(addStr).attr("id",liId);
 		$(this).closest("li").before(str);
-		
 	})
 	
 	/* type 변경시 "1"일 경우 detail input box 비활성화
