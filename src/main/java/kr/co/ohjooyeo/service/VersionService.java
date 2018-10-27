@@ -59,6 +59,7 @@ public class VersionService {
 				result.put("music", musicService.getMusicListByWorshipId(id));
 			}
 		}
+		System.out.println(result);
 		return result;
 	}
 	

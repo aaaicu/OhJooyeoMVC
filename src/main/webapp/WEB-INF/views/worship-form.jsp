@@ -83,14 +83,12 @@
 	$(document).ready(function() {
 		liId = 0 ;
 		
-		
 		/* 추가 html */
 		/* 추가되는 html의 orederId는 음수를 사용 */
 		addStr = "";
 		addStr += "<li>";
 		addStr += "<table>";
 		addStr += "<tr>";
-		
 		addStr += "<td><input type='hidden' name='orderId' value ='-1'>"
 		addStr += "<input type='hidden' name='updateYN' value ='0'>"
 		addStr += "<input type='hidden' name='order' value ='-1'><select class = 'type-select'  name='type'>";
@@ -110,14 +108,29 @@
 		$("#plus").on("click", function() {
 			console.log("click plus");
 			render();
-
 		});
+		
+		ad = "";
+		ad += "<li>";
+		ad += "<table>";
+		ad += "<tr>";
+		ad += "<td><input type='hidden' name='orderId' value ='-1'>"
+		ad += "<input type='hidden' name='updateYN' value ='0'>"
+		ad += "<input type='hidden' name='order' value ='-1'></td>";
+		ad += "<td><input type='text' name='title'></td>";
+		ad += "<td><textarea name='content' style='margin: 0px; width: 330px; height: 90px; resize: none;'></textarea></td>";
+		
+		
+		ad += "<td><input type = 'button' class = 'ad-plus-before' value = '앞에추가'></td>";
+		ad += "<td class = 'del'>x</td>";
+		ad += "</tr>";
+		ad += "</table>";
+		ad += "</li>";
 		
 		$("#plusAd").on("click", function() {
 			console.log("plusAd");
+			renderAd();
 		});
-		
-
 		
 		/* 리스트 추가 구현 */
 		function render() {
@@ -126,9 +139,16 @@
 			$("#order-list").append(str);
 		}
 		
+		/* 리스트 추가 구현 */
+		function renderAd() {
+			liId -=1;
+			var str =  $(ad).attr("id","ad"+liId);
+			$("#ad-list").append(str);
+		}
+		
 	});
 
-	$("#order-list").on("click", ".del", function() {
+	$("table").on("click", ".del", function() {
 		var $this = $(this);
 		$this.closest("li").remove();
 	});
@@ -141,6 +161,14 @@
 		var str = $(addStr).attr("id",liId);
 		$(this).closest("li").before(str);
 	})
+	
+	/* 앞에추가 클릭시 입력항목 추가 함수 호출 */
+	$("#ad-list").on("click", ".ad-plus-before",function(){
+		liId -=1;
+		var str = $(ad).attr("id",liId);
+		$(this).closest("li").before(str);
+	})
+	
 	
 	/* type 변경시 "1"일 경우 detail input box 비활성화
 	   다른 타입으로 변경시 readonly 풀림
@@ -168,7 +196,6 @@
 		$this = $(this);
 		initValue = $this.siblings()[0].value.split("/");
 		
-		
 		$(openWin).on("load", function(){
 			openWin.document.getElementById("targetId").value = $this.closest("li")[0].id;
 			if($this.siblings()[0].value != null && $this.siblings()[0].value != ""){	
@@ -179,8 +206,6 @@
 			}
 		});
 	});
-
 </script>
-
 
 </html>

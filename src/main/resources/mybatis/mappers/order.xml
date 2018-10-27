@@ -11,7 +11,7 @@
 	</select>
 	<select id="getAllOrder" parameterType="string" resultType="map">
 		<![CDATA[
-			SELECT ORDER.presenter, ORDER.detail, ORDER.title, ORDER.order
+			SELECT ORDER.presenter, ORDER.detail, ORDER.title, ORDER.order, ORDER.order_id orderId
 			FROM ohjooyeo.ORDER
 			WHERE worship_id like #{worshipId}
 			ORDER BY ORDER.order

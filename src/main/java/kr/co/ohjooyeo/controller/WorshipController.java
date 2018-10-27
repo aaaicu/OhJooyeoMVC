@@ -64,9 +64,9 @@ public class WorshipController {
 
 		// 확인
 		System.out.println(vo);
-		worshipService.addWorship(vo);
+//		worshipService.addWorship(vo);
 		// 순서 추가
-		orderService.setWorshipOrder(vo.getWorshipId(),types, titles, details, presenters);
+//		orderService.setWorshipOrder(vo.getWorshipId(),types, titles, details, presenters);
 
 		return "redirect:worship";
 	}
