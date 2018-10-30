@@ -116,9 +116,9 @@
 		ad += "<tr>";
 		ad += "<td><input type='hidden' name='orderId' value ='-1'>"
 		ad += "<input type='hidden' name='updateYN' value ='0'>"
-		ad += "<input type='hidden' name='order' value ='-1'></td>";
-		ad += "<td><input type='text' name='title'></td>";
-		ad += "<td><textarea name='content' style='margin: 0px; width: 330px; height: 90px; resize: none;'></textarea></td>";
+		ad += "<input type='hidden' name='adOrder' value ='-1'></td>";
+		ad += "<td><input type='text' name='adTitle'></td>";
+		ad += "<td><textarea name='adContent' style='margin: 0px; width: 330px; height: 90px; resize: none;'></textarea></td>";
 		
 		
 		ad += "<td><input type = 'button' class = 'ad-plus-before' value = '앞에추가'></td>";

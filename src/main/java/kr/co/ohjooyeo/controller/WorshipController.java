@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import kr.co.ohjooyeo.service.AdvertisementService;
 import kr.co.ohjooyeo.service.OrderService;
 import kr.co.ohjooyeo.service.VersionService;
 import kr.co.ohjooyeo.service.WorshipService;
@@ -35,6 +36,9 @@ public class WorshipController {
 	@Autowired
 	VersionService versionService;
 
+	@Autowired
+	AdvertisementService adService;
+	
 	@RequestMapping(value = "/getWorshipIdList", method = RequestMethod.POST)
 	public @ResponseBody List<String> getWorshipIdList(@RequestBody String userId) {
 
@@ -56,7 +60,9 @@ public class WorshipController {
 	
 	@RequestMapping(value = "/add-worship", method = RequestMethod.POST)
 	public String addWorship(@ModelAttribute WorshipVO vo,@RequestParam("type") String[] types, @RequestParam("title") String[] titles,
-			@RequestParam("detail") String[] details, @RequestParam("presenter") String[] presenters) {
+			@RequestParam("detail") String[] details, @RequestParam("presenter") String[] presenters,
+			@RequestParam("adOrder") String[] adOrders, @RequestParam("adTitle") String[] adTitles,
+			@RequestParam("adContent") String[] adContents) {
 		// 디폴트 버전
 		vo.setVersion("aaa");
 		// 하드코딩 (유저생성시 변경)
@@ -64,9 +70,19 @@ public class WorshipController {
 
 		// 확인
 		System.out.println(vo);
-//		worshipService.addWorship(vo);
+		for(String a : adOrders) {			
+			System.out.println(a);
+		}
+		for(String a : adTitles) {			
+			System.out.println(a);
+		}
+		for(String a : adContents) {			
+			System.out.println(a);
+		}
+		worshipService.addWorship(vo);
 		// 순서 추가
-//		orderService.setWorshipOrder(vo.getWorshipId(),types, titles, details, presenters);
+		orderService.setWorshipOrder(vo.getWorshipId(),types, titles, details, presenters);
+		adService.setWorshipAd(vo.getWorshipId(), adTitles, adContents);
 
 		return "redirect:worship";
 	}

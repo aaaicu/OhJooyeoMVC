@@ -8,4 +8,9 @@
 			WHERE ad.worship_id = #{worshipId}
 		]]>		
 	</select>
+	<insert id="insertVOList" parameterType = "kr.co.ohjooyeo.vo.WorshipAdVO">
+		<foreach collection="list" item = "vo" separator = ";">
+			INSERT INTO ohjooyeo.ADVERTISEMENT VALUES (#{vo.worshipId}, #{vo.adId}, #{vo.order}, #{vo.title}, #{vo.content})
+		</foreach>
+	</insert>
 </mapper>
