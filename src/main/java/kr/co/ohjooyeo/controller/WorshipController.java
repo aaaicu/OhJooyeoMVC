@@ -87,6 +87,12 @@ public class WorshipController {
 		return "redirect:worship";
 	}
 
+	@RequestMapping(value = "/worship-update-temp", method = RequestMethod.GET)
+	public String worshipOrderFormTemp() {
+//		return "worship-order-form";
+		return "worship-update";
+	}
+	
 	@RequestMapping(value = "/worship-update", method = RequestMethod.GET)
 	public String worshipOrderForm() {
 		return "worship-order-form";

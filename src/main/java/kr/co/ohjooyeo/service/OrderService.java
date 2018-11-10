@@ -42,7 +42,7 @@ public class OrderService {
 		Map<String,String> worship = worshipDAO.getWorship(worshipId);
 		Map<String,String> nextPresenter = new HashMap<>();
 		
-		List<Map<String,String>> order = orderDAO.getAllOrder(worshipId);
+		List<WorshipOrderVO> order = orderDAO.getWorshipOrderList(worshipId);
 		
 		result.put("worshipOrder",order);
 		nextPresenter.put("offer",  worship.get("next_offer"));
@@ -132,23 +132,5 @@ public class OrderService {
 		return 0;
 	}
 	
-
-	
-	
-	//미사용
-	public Map<String,Object> getPhraseByDate(String date) {
-
-		// return bibleDAO.getPhrase(sVO, eVO);
-		// '성경봉독' 이라는 단어는 바뀌지 않는다는 전제가 필요
-
-		String worshipId = worshipDAO.getWorshipId(date);
-		String readPhrase = "성경봉독";
-		String rawPhrases = orderDAO.getOrder(worshipId, readPhrase).get("detail");
-		
-		Map<String,Object> result = new HashMap<>();
-		result.put("phraseList", bibleService.getPhrase(rawPhrases));
-		return result;
-	}
-
 
 }

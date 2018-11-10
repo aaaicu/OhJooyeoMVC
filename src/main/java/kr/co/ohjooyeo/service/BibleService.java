@@ -1,5 +1,6 @@
 package kr.co.ohjooyeo.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -18,8 +19,15 @@ public class BibleService {
 	@Autowired
 	BibleDAO bibleDAO;
 	
+	public List<List<Map<String,String>>> getPhrase(String [] phrases){
+		List<List<Map<String,String>>> result = new ArrayList<List<Map<String,String>>>();
+		for (String phrase : phrases) {
+			result.add(getRawPhrase(phrase));
+		}
+		return result;
+	}
 	//ex) rawPhrases = 요나서 2:7-2:10/고전 2:1-3:1
-	public List<Map<String,String>> getPhrase(String rawPhrases){
+	public List<Map<String,String>> getRawPhrase(String rawPhrases){
 		List<Map<String,String>> result = new LinkedList<>();
 		BibleVO startVO;
 		BibleVO endVO;

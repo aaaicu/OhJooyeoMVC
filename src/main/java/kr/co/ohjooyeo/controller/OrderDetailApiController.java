@@ -28,8 +28,7 @@ public class OrderDetailApiController {
 
 	/*  "성경 a:b(~성경 c:d)(/성경 a:b(~성경 c:d))" [String] */
 	@RequestMapping(value = "/phrase", method = RequestMethod.POST)
-	public List<Map<String, String>> phrase(@RequestBody Map<String, String> phrase) {
-		System.out.println(bibleService.getPhrase(phrase.get("phraseRange")));
+	public List<List<Map<String, String>>> phrase(@RequestBody Map<String, String []> phrase) {
 		return bibleService.getPhrase(phrase.get("phraseRange"));	
 	}
 	
