@@ -19,6 +19,9 @@
 		</div>
 		<ul id="order-list"></ul>
 
+		광고 <span><input type = "button" id = "add-button" class = "plusAd" value = "순서추가"></span><br/>
+		<ul id="ad-list"></ul>
+		
 		<br /> <br /> <input type="button" id = "update-orders" value="확인">
 	</form>
 	<%-- <%@include file="footer.jsp" %> --%>
@@ -27,7 +30,6 @@
 
 addOrderId = 0;
 	$(document).ready(function() {
-		
 		/* 초기 세팅 */
 		$.ajax({
 			url : "${pageContext.request.contextPath }/getWorshipIdList",
@@ -48,7 +50,6 @@ addOrderId = 0;
 			}
 		});  
 	}); // document ready end
-	
 	
 	/* DB에 저장된 순서 가져오기 */
 	function getOrders (value) {
@@ -120,7 +121,6 @@ addOrderId = 0;
 	addStr += "<li>";
 	addStr += "<table>";
 	addStr += "<tr>";
-	
 	addStr += "<td><input type='hidden' name='orderId' value ='-1'>"
 	addStr += "<input type='hidden' name='updateYN' value ='0'>"
 	addStr += "<input type='hidden' name='order' value ='-1'><select class = 'type-select' name='type'>";
@@ -137,6 +137,20 @@ addOrderId = 0;
 	addStr += "</table>";
 	addStr += "</li>";
 	
+	ad = "";
+	ad += "<li>";
+	ad += "<table>";
+	ad += "<tr>";
+	ad += "<td><input type='hidden' name='orderId' value ='-1'>"
+	ad += "<input type='hidden' name='updateYN' value ='0'>"
+	ad += "<input type='hidden' name='adOrder' value ='-1'></td>";
+	ad += "<td><input type='text' name='adTitle'></td>";
+	ad += "<td><textarea name='adContent' style='margin: 0px; width: 330px; height: 90px; resize: none;'></textarea></td>";
+	ad += "<td><input type = 'button' class = 'ad-plus-before' value = '앞에추가'></td>";
+	ad += "<td class = 'del'>x</td>";
+	ad += "</tr>";
+	ad += "</table>";
+	ad += "</li>";
 
 	/* 리스트 추가 구현 */
 	function render() {
@@ -144,17 +158,35 @@ addOrderId = 0;
 		$("#order-list").append(str);
 	}
 	
+	/* 광고 리스트 추가 구현 */
+	function renderAd() {
+		liId -=1;
+		var str =  $(ad).attr("id","ad-1");
+		$("#ad-list").append(str);
+	}
+	
 	/* 앞에추가 클릭시 입력항목 추가 함수 호출 */
 	$("#order-list").on("click", ".plus-before",function(){
 		var str = $(addStr).attr("id","-1");
 		$(this).closest("li").before(str);
-		
 	})
+	
+	/* 앞에추가 클릭시 입력항목 추가 함수 호출 */
+	$("#add-list").on("click", ".ad-plus-before",function(){
+		var str = $(addStr).attr("id","ad-1");
+		$(this).closest("li").before(str);
+	})
+	
 	
 	/* 순서추가 클릭시 입력항목 추가 함수 호출 */
 	$(".plus").on("click", function() { 
 		render();
 	});	
+	
+	$("#plusAd").on("click", function() {
+		console.log("plusAd");
+		renderAd();
+	});
 	
 	/* 삭제 버튼 클릭 구현 */
 	$("#order-list").on("click", ".del", function() {
@@ -187,9 +219,9 @@ addOrderId = 0;
 	
 	/* 셀렉트박스 변경시 순서 재호출 */
 	$("#select-box").change(function() {
-				/* console.log(document.querySelector('#order-list').childNodes); */
-				$("#order-list").children().remove();
-				getOrders($(this).val());
+		/* console.log(document.querySelector('#order-list').childNodes); */
+		$("#order-list").children().remove();
+		getOrders($(this).val());
 	});
 	
 	/* 포커스되는 순간을 변경의 시작으로 보고 변경전 값을 Map(:memory)에 추가 */
@@ -244,7 +276,6 @@ addOrderId = 0;
 			}
 		}
 	})
-
 	
 	/* 저장 버튼 구현 */
 	$("#update-orders").on("click", function () {
