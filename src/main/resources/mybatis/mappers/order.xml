@@ -20,7 +20,7 @@
 	
 	<select id="getWorshipOrderVOList" parameterType="string" resultType="kr.co.ohjooyeo.vo.WorshipOrderVO">
 		<![CDATA[
-			SELECT ORDER.presenter, ORDER.detail, ORDER.title, ORDER.order,ORDER.order_id orderId, ORDER.type
+			SELECT ORDER.worship_id worshipId, ORDER.presenter, ORDER.detail, ORDER.title, ORDER.order,ORDER.order_id orderId, ORDER.type
 			FROM ohjooyeo.ORDER
 			WHERE worship_id like #{worshipId}
 			ORDER BY ORDER.order
