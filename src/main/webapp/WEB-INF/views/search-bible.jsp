@@ -277,7 +277,7 @@ $("#select-start-section").change(function() {
 	
 ///*  "성경 a:b(~성경 c:d)(/성경 a:b(~성경 c:d))" [String] */
 	requestPhrase = {
-			"phraseRange" : $("#select-book").val() +" "+ $("#select-start-chapter").val() +":"+ $("#select-start-section").val()
+			"phraseRange" : [$("#select-book").val() +" "+ $("#select-start-chapter").val() +":"+ $("#select-start-section").val()]
 	};
 	
 	
@@ -297,8 +297,8 @@ $("#select-start-section").change(function() {
 		dataType : "json",
 		success : function(data) {
 			$("#content-container").text("");
-			for(var i = 0 ; i < data.length ; i++ ){
-				$("#content-container").append(data[i].phrase+" "+ data[i].contents);				
+			for(var i = 0 ; i < data.length[0] ; i++ ){
+				$("#content-container").append(data[0][i].phrase+" "+ data[0][i].contents);				
 			}
 		}
 	});
@@ -326,8 +326,8 @@ $("#select-end-section").change(function() {
 	
 ///*  "성경 a:b(~성경 c:d)(/성경 a:b(~성경 c:d))" [String] */
 	requestPhrase = {
-			"phraseRange" : $("#select-book").val() +" "+ $("#select-start-chapter").val() +":"+ $("#select-start-section").val()
-			+"-"+ $("#select-end-chapter").val() +":"+ $("#select-end-section").val()
+			"phraseRange" : [$("#select-book").val() +" "+ $("#select-start-chapter").val() +":"+ $("#select-start-section").val()
+			+"-"+ $("#select-end-chapter").val() +":"+ $("#select-end-section").val()]
 	};
 	
 	console.log(requestPhrase);
@@ -340,8 +340,8 @@ $("#select-end-section").change(function() {
 		dataType : "json",
 		success : function(data) {
 			$("#content-container").text("");
-			for(var i = 0 ; i < data.length ; i++ ){
-				$("#content-container").append(data[i].phrase+" "+ data[i].contents + "<br>");				
+			for(var i = 0 ; i < data[0].length ; i++ ){
+				$("#content-container").append(data[0][i].phrase+" "+ data[0][i].contents + "<br>");				
 			}
 		}
 	});
