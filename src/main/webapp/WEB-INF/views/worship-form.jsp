@@ -205,5 +205,5 @@
 		});
 	});
 </script>
-
+<%-- <script src="<c:url value="/js/insert-worship.js" />"></script> --%>
 </html>

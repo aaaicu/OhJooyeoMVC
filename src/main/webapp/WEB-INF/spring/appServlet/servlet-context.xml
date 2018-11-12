@@ -18,6 +18,9 @@
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
+	<resources mapping="/js/**" location="/js/" />
+	<!-- url매핑-->
+	<mvc:resources mapping="/img/**" location="file:/home/ubuntu/deploy/images/" />
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -28,8 +31,6 @@
 	<context:component-scan base-package="kr.co.ohjooyeo" />
 	<context:component-scan base-package="kr.co.ohjooyeo.controller" />
 
-	<!-- url매핑-->
-	<mvc:resources mapping="/img/**" location="file:/home/ubuntu/deploy/images/" />
 <!-- 	사용해야하는 이유확인 후 주석 풀기  -->
 <!-- 	<beans:bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView" /> -->
 	
