@@ -1,33 +1,34 @@
-var addOrderList;
 var updateOrderList;
 var removeOrderList;
 
-var addAdList;
 var updateAdList;
 var removeAdList;
 
 var tempId;
+var memory;
 
 function init() {
-	addOrderList = [];
+	memory = new Map();
 	updateOrderList = [];
 	removeOrderList = [];
 
-	addAdList = [];
 	updateAdList = [];	
 	removeAdList = [];
 	tempId = -1;
 }
 
 function templateFactory(templateType,optionalObject) {
-
+console.log("함수",optionalObject);
 /*
  * 추가된 li의 경우 Id 값이 정해지 않았기 때문에 기본값 "-1"로 저장 (실제 저장 값은 서버에서 할당)
  * order의 경우 기존의 값과 비교하여 변경된 li를 구분하기위한 변수이기 때문에 추가된 li의 경우 기본값 "-1"로 저장 (실제 저장 값은 서버에서 할당)
+ * 광고 : ad + 숫자
+ * 예배순서 : od + 숫자
+ * 새롭게 추가된 li의 일련번호는 음수로함.
  */
 	var resultHtml = "";
 	
-	var liId = "tp"+tempId;
+	var liId = tempId;
 	var id = "-1";
 	var order = "-1";
 	var type = "0";
@@ -35,7 +36,8 @@ function templateFactory(templateType,optionalObject) {
 	var detail = "";
 	var presenter = "";
 	
-	if(templateType === "orderButton"){
+	if(templateType === "order"){
+		liId = "od" +liId;
 		if(optionalObject instanceof Object){
 			liId = "od"+optionalObject.orderId;
 			id = optionalObject.orderId;
@@ -46,7 +48,8 @@ function templateFactory(templateType,optionalObject) {
 			presenter = optionalObject.presenter;
 		}
 		
-	} else if(templateType === "adButton"){
+	} else if(templateType === "ad"){
+		liId = "ad" +liId;
 		if(optionalObject instanceof Object){		
 		liId = "ad"+optionalObject.orderId;
 		id = optionalObject.adId;
@@ -61,8 +64,8 @@ function templateFactory(templateType,optionalObject) {
 	resultHtml += "<tr>";
 	/* 순서 템플릿 생성 */
 	 console.log(templateType);
-	 console.log(templateType === "orderButton");
-	if(templateType === "orderButton"){
+	 console.log(templateType === "order");
+	if(templateType === "order"){
 		/* 처음 td hidden input 포함  */
 		resultHtml += "<td>"
 		resultHtml += "<input type='hidden' name='orderUpdateYN' value ='0'>"
@@ -102,10 +105,10 @@ function templateFactory(templateType,optionalObject) {
 		resultHtml +="</td>";
 		
 		resultHtml += "<td><input type='text' class ='chkTarget' name='orderPresenter' value ='"+presenter+"'></td>";
-		resultHtml += "<td><input type = 'button' class ='addBeforeHtml chkTarget' name = 'orderButton' value = '앞에추가'></td>";
+		resultHtml += "<td><input type = 'button' class ='addBeforeHtml chkTarget' name = 'order' value = '앞에추가'></td>";
 		
 	/* 광고 템플릿 생성 */	
-	}else if(templateType === "adButton"){
+	}else if(templateType === "ad"){
 		/* 처음 td hidden input 포함  */
 		resultHtml += "<td>"
 		resultHtml += "<input type='hidden' name='adUpdateYN' value ='0'>"
@@ -114,15 +117,19 @@ function templateFactory(templateType,optionalObject) {
 		resultHtml += "<input type='text' class ='chkTarget' name='adTitle' value ='"+title+"'></td>";
 		/* 처음 td 끝  */
 		resultHtml += "<td><textarea name='adContent' class ='chkTarget' style='margin: 0px; width: 330px; height: 90px; resize: none;'>"+detail+"</textarea></td>";
-		resultHtml += "<td><input type = 'button' class ='addBeforeHtml chkTarget' name = 'adButton' value = '앞에추가'></td>";
+		resultHtml += "<td><input type = 'button' class ='addBeforeHtml chkTarget' name = 'ad' value = '앞에추가'></td>";
 	}
 	resultHtml += "<td class = 'del'>x</td>";
 	resultHtml += "</tr>";
 	resultHtml += "</table>";
 	resultHtml += "</li>";
-		return resultHtml;
-	};
+	return resultHtml;
+};
  
+function render(area, html, method) {
+	$(area)[method](html);
+	tempId -= 1;
+};
 	/* type 변경시 "1"일 경우 detail input box 비활성화
    다른 타입으로 변경시 readonly 풀림
 */
@@ -167,14 +174,22 @@ $("ul").on("click",".searchBible",function () {
 	});
 });
 
-function render(area, html, method) {
-	$(area)[method](html);
-	tempId -= 1;
-};
 
-/* 삭제 기능*/
+/* 삭제버튼 클릭*/
 $("#renderArea").on("click", ".del", function() {
 	var $this = $(this);
+	var thisId = $($this.closest("li")[0]).attr("id");
+	var thisNo = thisId.substr(2);
+	var thisType = thisId.substr(0,2);
+	console.log(thisType == "od");
+	//새롭게 추가되는 li는 삭제명단에서 관리할 필요가 없기때문에 음수는 배제
+	if(parseInt(thisNo)>=0){	
+		if(thisType === "od"){
+			removeOrderList.push(thisNo)
+		}else if(thisType === "ad"){
+			removeAdList.push(thisNo);
+		}
+	}
 	$this.closest("li").remove();
 });
 
@@ -185,9 +200,9 @@ $(".addHtml").on("click",function(){
 	var area = "";
 	console.log(html);		
 	
-	if($this[0].name === "orderButton") {
+	if($this[0].name === "order") {
 		area = "#orderList";
-	} else if ($this[0].name === "adButton") {
+	} else if ($this[0].name === "ad") {
 		area = "#adList";
 	}
 	render(area,html,"append");
@@ -200,3 +215,56 @@ $("#renderArea").on("click",".addBeforeHtml",function(){
 	render($this.closest("li"),html,"before");
 })	
 
+/* 업데이트 관리 */
+/* 포커스되는 순간을 변경의 시작으로 보고 변경전 값을 Map(:memory)에 추가 */
+$("ul").on("focus", ".chkTarget",function() { 
+	var $this = $(this);
+	
+	var thisId = $this.closest("li")[0].id
+	var thisNo = thisId.substr(2);
+	var name = $this.attr("name")
+	var contents = $this.val();
+
+	if(thisNo > 0 ){
+		/* 처음 포커스되는 태그의 경우 처리 로직 */
+		if (memory.get(thisId) == undefined ){
+			memory.set(thisId,{});
+		} 
+		if(!memory.get(thisId).hasOwnProperty(name)){
+			memory.get(thisId)[name] = contents;
+		}
+	}
+	console.log(memory);
+});	
+
+/* 변경이 일어난 경우 처음 값에서 바뀌었는지 비교 후 바뀌었다면 chkInputBox의 값을 "1"로 변경 */
+/* 한번 업데이트 대상으로 지정되면 (chkInputBox에서 "1"로 처리되면) 원래값으로 변경했다 하더라도 "0" 로 돌아가지는 않음 (10/4 협의)*/
+$("ul").on("change", ".chkTarget",function() { 
+	var $this = $(this);
+	
+	var thisId = $this.closest("li")[0].id;
+	var thisNo = thisId.substr(2);
+	var thisType =thisId.substr(0,2);
+	var name = $this.attr("name")
+	var updateTargetStr = "UpdateYN";
+	var contents = $this.val();
+	
+	/* thisNo가 양수인 경우는 디비에서 내용을 갖고와서 수정이 가능한 대상임 
+	 * 음수인 경우는 새롭게 추가한 li이기 때문에 update관리를 할 필요없이 일괄 등록하면 됨
+	 */
+	if(thisNo > 0 ){
+		if(thisType === "od"){
+			updateTargetStr = "order"+updateTargetStr;
+		}else if(thisType === "ad") {
+			updateTargetStr = "ad"+updateTargetStr;
+		}
+		
+		var chkInputBox = $($this.closest("li")[0]).find("[name='"+updateTargetStr+"']");
+		console.log(chkInputBox);
+		
+		if(memory.get(thisId)[name] != contents && chkInputBox.val() == "0"  ){
+			chkInputBox.val("1");
+			// 업데이트 리스트 input value 변경 
+		}
+	}
+});
