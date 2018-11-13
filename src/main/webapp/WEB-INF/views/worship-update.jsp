@@ -62,9 +62,66 @@
 <script src="<c:url value="/js/insert-worship.js" />" ></script>
 <script type ="text/javascript">
 $(document).ready(function(){
+	
+/* 예배ID 리스트 비동기식으로 조회 */
+	$.ajax({
+		url : "${pageContext.request.contextPath }/getWorshipIdList",
+		type : "post",
+		contentType : "application/json",
+		data : "admin",
+		dataType : "json",
+		success : function(worshipIdList){
+			for(var i = 0; i <worshipIdList.length; i++){
+				$("#selectWorshipId").prepend("<option>"+worshipIdList[i]+"</option>")
+			}
+			if(worshipIdList.length > 0 ) {
+				console.log("호출대상", worshipIdList[0]);
+				
+				getOrders(worshipIdList[0]).then(function (worshipVO) {
+					for(var j = 0 ; j <  worshipVO.length ; j++){
+						var html = templateFactory("order",worshipVO[j]);
+						render("#orderList",html,"append")
+						console.log(worshipVO);
+						console.log(html);
+						console.log(render);
+					}
+					
+				});
+			}
+		},
+		error : function(XHR, status, error) {
+			console.error(status + " : " + error);
+		}
+	});  
+
 	init();
-	console.log(addOrderList);
 });
+
+function getOrders (value) {
+	return new Promise(function(resolve, reject){
+		$.ajax({
+			url : "${pageContext.request.contextPath}/getWorshipOrderList",
+			type : "post",
+			contentType : "application/json",
+			data : value,
+			dataType : "json",
+			success : function (data) {
+				resolve(data);
+			},
+			error : function(err) {
+				reject();
+			}
+		})
+	})
+}
+
+/* 예배ID 변경시 순서 재호출 */
+$("#selectWorshipId").change(function() {
+	$("#orderList").children().remove();
+	$("#adList").children().remove();
+	/* getOrders($(this).val()); */
+});
+
 </script>
 
 </html>
