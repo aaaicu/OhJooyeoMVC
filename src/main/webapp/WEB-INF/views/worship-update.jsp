@@ -75,18 +75,7 @@ $(document).ready(function(){
 				$("#selectWorshipId").prepend("<option>"+worshipIdList[i]+"</option>")
 			}
 			if(worshipIdList.length > 0 ) {
-				console.log("호출대상", worshipIdList[0]);
-				
-				getOrders(worshipIdList[0]).then(function (worshipVO) {
-					for(var j = 0 ; j <  worshipVO.length ; j++){
-						var html = templateFactory("order",worshipVO[j]);
-						render("#orderList",html,"append")
-						console.log(worshipVO);
-						console.log(html);
-						console.log(render);
-					}
-					
-				});
+				getWorshipDetailList(worshipIdList[0],"order");
 			}
 		},
 		error : function(XHR, status, error) {
@@ -97,7 +86,17 @@ $(document).ready(function(){
 	init();
 });
 
-function getOrders (value) {
+/* value : li에 들어갈 VO, 
+ *listType : order / ad 
+ */
+function getWorshipDetailList (value,listType) {
+	 var area ;
+	 if (listType === "order"){
+		 area = "#orderList";
+	 }else if(listType === "ad"){
+		 area = "#adList";
+	 };
+	 
 	return new Promise(function(resolve, reject){
 		$.ajax({
 			url : "${pageContext.request.contextPath}/getWorshipOrderList",
@@ -112,14 +111,20 @@ function getOrders (value) {
 				reject();
 			}
 		})
-	})
+		}).then(function (worshipVO) {
+			for(var j = 0 ; j <  worshipVO.length ; j++){
+				var html = templateFactory(listType,worshipVO[j]);
+				render(area,html,"append")
+			}
+		});
 }
 
 /* 예배ID 변경시 순서 재호출 */
 $("#selectWorshipId").change(function() {
 	$("#orderList").children().remove();
 	$("#adList").children().remove();
-	/* getOrders($(this).val()); */
+	getWorshipDetailList($(this).val(),"order"); 
+	
 });
 
 </script>
