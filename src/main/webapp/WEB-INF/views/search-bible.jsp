@@ -280,6 +280,7 @@ $("#select-start-section").change(function() {
 			"phraseRange" : [$("#select-book").val() +" "+ $("#select-start-chapter").val() +":"+ $("#select-start-section").val()]
 	};
 	
+	console.log(requestPhrase);
 	
 	optionTag = "";
 	for ( var i = 0 ; i < chapterList.length; i++){
@@ -296,10 +297,9 @@ $("#select-start-section").change(function() {
 		contentType : "application/json",
 		dataType : "json",
 		success : function(data) {
+			console.log(data);
 			$("#content-container").text("");
-			for(var i = 0 ; i < data.length[0] ; i++ ){
-				$("#content-container").append(data[0][i].phrase+" "+ data[0][i].contents);				
-			}
+			$("#content-container").append(data[0][0].phrase+" "+ data[0][0].contents);		
 		}
 	});
 });
