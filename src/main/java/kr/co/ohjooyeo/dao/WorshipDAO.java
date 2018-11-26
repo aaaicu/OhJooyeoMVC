@@ -18,7 +18,7 @@ public class WorshipDAO {
 	public String getWorshipId(String date) {
 		return sqlSession.selectOne("worship.getWorshipId", date);
 	}
-	public Map<String, String> getWorship(String worshipId) {
+	public Map<String, String> getWorshipInfo(String worshipId) {
 		return sqlSession.selectOne("worship.getWorshipMap", worshipId);
 	}
 	

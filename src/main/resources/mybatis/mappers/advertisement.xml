@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="advertisement">
-	<select id="getAdsMap" parameterType = "string" resultType="map">
+
+	<select id="getAdsList" parameterType = "string" resultType="kr.co.ohjooyeo.vo.AdvertisementVO">
 		<![CDATA[
-			SELECT ad.content, ad.title, ad.order
+			SELECT ad.worship_id worshipId, ad.advertisement_id advertisementId, ad.content, ad.title, ad.order
 			FROM ohjooyeo.ADVERTISEMENT ad
 			WHERE ad.worship_id = #{worshipId}
 		]]>		

@@ -38,7 +38,7 @@ public class VersionService {
 
 		if (userVersion.equals("***")) {
 			result.put("worship", orderService.getOrderByWorshipId(id));
-			result.put("advertisement", adService.getAdsByWorshipId(id));
+			result.put("advertisement", adService.getWorshipAdList(id));
 			result.put("music", musicService.getMusicListByWorshipId(id));
 		} else {
 			char userOrderVer = userVersion.charAt(0);
@@ -53,7 +53,7 @@ public class VersionService {
 				result.put("worship", orderService.getOrderByWorshipId(id));
 			}
 			if(userAdVer != adVer) {
-				result.put("advertisement", adService.getAdsByWorshipId(id));
+				result.put("advertisement", adService.getWorshipAdList(id));
 			}
 			if(userMusicVer != musicVer) {
 				result.put("music", musicService.getMusicListByWorshipId(id));

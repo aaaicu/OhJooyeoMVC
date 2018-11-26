@@ -20,7 +20,7 @@ public class OrderService {
 	BibleDAO bibleDAO;
 
 	@Autowired
-	WorshipDAO worshipDAO;
+	WorshipService worshipService;
 
 	@Autowired
 	OrderDAO orderDAO;
@@ -39,17 +39,17 @@ public class OrderService {
 	public Map<String, Object> getOrderByWorshipId(String id) {
 		String worshipId = id;
 		Map<String,Object> result = new HashMap<>();
-		Map<String,String> worship = worshipDAO.getWorship(worshipId);
+		Map<String,String> worship = worshipService.getWorshipInfo(worshipId);
 		Map<String,String> nextPresenter = new HashMap<>();
 		
 		List<WorshipOrderVO> order = orderDAO.getWorshipOrderList(worshipId);
 		
 		result.put("worshipOrder",order);
-		nextPresenter.put("offer",  worship.get("next_offer"));
-		nextPresenter.put("prayer",  worship.get("next_prayer"));
-		nextPresenter.put("mainPresenter", worship.get("next_presenter"));
+		nextPresenter.put("offer",  worship.get("nextOffer"));
+		nextPresenter.put("prayer",  worship.get("nextPrayer"));
+		nextPresenter.put("mainPresenter", worship.get("nextPresenter"));
 		
-		result.put("mainPresenter",worship.get("main_presenter"));
+		result.put("mainPresenter",worship.get("mainPresenter"));
 		result.put("nextPresenter",nextPresenter);
 		return result;
 	}

@@ -46,11 +46,5 @@ public class OrderDetailApiController {
 		List<String> result = bibleService.getSectionList(inputMap.get("book"), inputMap.get("chapter"));
 		return result;	
 	}
-	
-	
-	//미사용
-	@RequestMapping(value = "/advertisement", method = RequestMethod.POST)
-	public List<Map<String,String>> getAdvertisement(@RequestParam String worshipId) {
-		return adService.getAdsByWorshipId(worshipId);
-	}
+
 }

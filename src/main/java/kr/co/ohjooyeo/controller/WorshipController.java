@@ -21,6 +21,7 @@ import kr.co.ohjooyeo.service.AdvertisementService;
 import kr.co.ohjooyeo.service.OrderService;
 import kr.co.ohjooyeo.service.VersionService;
 import kr.co.ohjooyeo.service.WorshipService;
+import kr.co.ohjooyeo.vo.AdvertisementVO;
 import kr.co.ohjooyeo.vo.WorshipOrderVO;
 import kr.co.ohjooyeo.vo.WorshipVO;
 
@@ -32,7 +33,7 @@ public class WorshipController {
 
 	@Autowired
 	OrderService orderService;
-	
+
 	@Autowired
 	VersionService versionService;
 
@@ -98,6 +99,7 @@ public class WorshipController {
 		return "worship-order-form";
 	}
 	
+	/* 업데이트 내용을 받는 컨트롤러 */
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/updateTarget", method = RequestMethod.POST)
 	public @ResponseBody String updateTarget(
@@ -106,30 +108,38 @@ public class WorshipController {
 		System.out.println("inputMap : "+ inputMap);
 		
 		/* 파라미터 처리 로직 */
-		String values = (String)inputMap.get("values");
-		values = "?"+URLDecoder.decode(values, "UTF-8");
-	    MultiValueMap<String, String> parameters = UriComponentsBuilder.fromUriString(values).build().getQueryParams();
-	    System.out.println(parameters);
+		String worship = (String)inputMap.get("worship");
+		String order = (String)inputMap.get("order");
+		String ad= (String)inputMap.get("ad");
+		worship = "?"+URLDecoder.decode(worship, "UTF-8");
+		order = "?"+URLDecoder.decode(order, "UTF-8");
+		ad = "?"+URLDecoder.decode(ad, "UTF-8");
+	    MultiValueMap<String, String> worshipParam = UriComponentsBuilder.fromUriString(worship).build().getQueryParams();
+	    MultiValueMap<String, String> orderParam = UriComponentsBuilder.fromUriString(order).build().getQueryParams();
+	    MultiValueMap<String, String> adParam = UriComponentsBuilder.fromUriString(ad).build().getQueryParams();
+	    System.out.println(worshipParam);
+	    System.out.println(orderParam);
+	    System.out.println(adParam);
 	    
 	    /* 파라미터 가공  */
-//	    System.out.println(updateWorshipOrderVOList);
-	    String worshipId = parameters.get("worship_id").get(0);
-	    int chk = 0;
-	    if(parameters.get("orderId")!=null) {
-	    	
-	    Map <String,List<WorshipOrderVO>> updateWorshipOrderVOList = orderService.analyzeValues(parameters);
-	    
-	    /* add update delete 처리하는 method */
-	    chk += orderService.add(updateWorshipOrderVOList.get("addList")); 
-	    chk += orderService.update(updateWorshipOrderVOList.get("updateList"));
-	    }
-	    chk += orderService.delete(worshipId,(List<String>)inputMap.get("deleteList"));
-	    
-		if (chk > 0) {			
-			/* 버전 관리 부분 (버전증가) */
-			String version = versionService.getVersionById(worshipId);
-			versionService.updateVersion(worshipId , versionService.versionUp(version,0));
-		}
+////	    System.out.println(updateWorshipOrderVOList);
+//	    String worshipId = parameters.get("worship_id").get(0);
+//	    int chk = 0;
+//	    if(parameters.get("orderId")!=null) {
+//	    	
+//	    Map <String,List<WorshipOrderVO>> updateWorshipOrderVOList = orderService.analyzeValues(parameters);
+//	    
+//	    /* add update delete 처리하는 method */
+//	    chk += orderService.add(updateWorshipOrderVOList.get("addList")); 
+//	    chk += orderService.update(updateWorshipOrderVOList.get("updateList"));
+//	    }
+//	    chk += orderService.delete(worshipId,(List<String>)inputMap.get("deleteList"));
+//	    
+//		if (chk > 0) {			
+//			/* 버전 관리 부분 (버전증가) */
+//			String version = versionService.getVersionById(worshipId);
+//			versionService.updateVersion(worshipId , versionService.versionUp(version,0));
+//		}
 	    
 		return "";
 	}
@@ -137,5 +147,17 @@ public class WorshipController {
 	@RequestMapping(value = "/getWorshipOrderList", method = RequestMethod.POST)
 	public @ResponseBody List<WorshipOrderVO> getWorshipOrderList(@RequestBody String worshipId) {
 		return orderService.getWorshipOrderList(worshipId);
+	}
+	
+	
+	@RequestMapping(value = "/getWorshipAdList", method = RequestMethod.POST)
+	public @ResponseBody List<AdvertisementVO> getWorshipAdList(@RequestBody String worshipId) {
+		return adService.getWorshipAdList(worshipId);
+	}
+	@RequestMapping(value = "/getWorshipInfo", method = RequestMethod.POST)
+	public @ResponseBody Map<String,String> getWorshipInfo(@RequestBody String worshipId) {
+		
+		System.out.println("요청 : " + worshipService.getWorshipInfo(worshipId));
+		return worshipService.getWorshipInfo(worshipId);
 	}
 }

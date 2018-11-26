@@ -25,5 +25,10 @@ public class WorshipService {
 	public List<String> getWorshipIdList(String userId) {
 		return worshipDAO.getWorshipIdList(userId);
 	}
+
+	public Map<String, String> getWorshipInfo(String worshipId) {
+		System.out.println("요청 : " + worshipId);
+		return worshipDAO.getWorshipInfo(worshipId);
+	}
 	
 }
