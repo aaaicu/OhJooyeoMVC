@@ -20,7 +20,6 @@ function init() {
 function templateFactory(templateType,optionalObject) {
 console.log("함수",optionalObject);
 /*
- * 추가된 li의 경우 Id 값이 정해지 않았기 때문에 기본값 "-1"로 저장 (실제 저장 값은 서버에서 할당)
  * order의 경우 기존의 값과 비교하여 변경된 li를 구분하기위한 변수이기 때문에 추가된 li의 경우 기본값 "-1"로 저장 (실제 저장 값은 서버에서 할당)
  * 광고 : ad + 숫자
  * 예배순서 : od + 숫자
@@ -51,8 +50,8 @@ console.log("함수",optionalObject);
 	} else if(templateType === "ad"){
 		liId = "ad" +liId;
 		if(optionalObject instanceof Object){		
-		liId = "ad"+optionalObject.orderId;
-		id = optionalObject.adId;
+		liId = "ad"+optionalObject.advertisementId;
+		id = optionalObject.advertisementId;
 		order = optionalObject.order;
 		title = optionalObject.title;
 		detail = optionalObject.content;
@@ -63,8 +62,6 @@ console.log("함수",optionalObject);
 	resultHtml += "<table>";
 	resultHtml += "<tr>";
 	/* 순서 템플릿 생성 */
-	 console.log(templateType);
-	 console.log(templateType === "order");
 	if(templateType === "order"){
 		/* 처음 td hidden input 포함  */
 		resultHtml += "<td>"
@@ -128,7 +125,6 @@ console.log("함수",optionalObject);
  
 function render(area, html, method) {
 	$(area)[method](html);
-	tempId -= 1;
 };
 	/* type 변경시 "1"일 경우 detail input box 비활성화
    다른 타입으로 변경시 readonly 풀림
@@ -198,13 +194,15 @@ $(".addHtml").on("click",function(){
 	var $this = $(this);
 	var html = templateFactory($this[0].name,"");
 	var area = "";
-	console.log(html);		
-	
 	if($this[0].name === "order") {
 		area = "#orderList";
 	} else if ($this[0].name === "ad") {
 		area = "#adList";
 	}
+	console.log($this[0]);
+	console.log(area);
+	console.log(html);
+	tempId -= 1;
 	render(area,html,"append");
 })
 /* 앞에추가버튼 클릭 */
@@ -212,6 +210,7 @@ $("#renderArea").on("click",".addBeforeHtml",function(){
 	console.log("앞에추가");	
 	var $this = $(this);
 	var html = templateFactory($this[0].name);
+	tempId -= 1;
 	render($this.closest("li"),html,"before");
 })	
 
@@ -225,7 +224,7 @@ $("ul").on("focus", ".chkTarget",function() {
 	var name = $this.attr("name")
 	var contents = $this.val();
 
-	if(thisNo > 0 ){
+	if(thisNo >= 0 ){
 		/* 처음 포커스되는 태그의 경우 처리 로직 */
 		if (memory.get(thisId) == undefined ){
 			memory.set(thisId,{});
@@ -246,22 +245,25 @@ $("ul").on("change", ".chkTarget",function() {
 	var thisNo = thisId.substr(2);
 	var thisType =thisId.substr(0,2);
 	var name = $this.attr("name")
-	var updateTargetStr = "UpdateYN";
+	var updateTargetStr ;
 	var contents = $this.val();
 	
 	/* thisNo가 양수인 경우는 디비에서 내용을 갖고와서 수정이 가능한 대상임 
 	 * 음수인 경우는 새롭게 추가한 li이기 때문에 update관리를 할 필요없이 일괄 등록하면 됨
 	 */
-	if(thisNo > 0 ){
+	if(thisNo >= 0 ){
+		
 		if(thisType === "od"){
-			updateTargetStr = "order"+updateTargetStr;
+			updateTargetStr = "orderUpdateYN";
 		}else if(thisType === "ad") {
-			updateTargetStr = "ad"+updateTargetStr;
+			updateTargetStr = "adUpdateYN";
+		}else if(thisType === "ws") {
+			updateTargetStr = "worshipUpdateYN";
 		}
+		
 		
 		var chkInputBox = $($this.closest("li")[0]).find("[name='"+updateTargetStr+"']");
 		console.log(chkInputBox);
-		
 		if(memory.get(thisId)[name] != contents && chkInputBox.val() == "0"  ){
 			chkInputBox.val("1");
 			// 업데이트 리스트 input value 변경 
