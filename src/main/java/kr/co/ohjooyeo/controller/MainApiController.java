@@ -47,12 +47,11 @@ public class MainApiController {
 		return orderService.getLaunchPhrase(userId, date);
 	}
 	
-	@RequestMapping(value = "/worship-id/{id}/check/version/{version}", method = RequestMethod.POST)
-	public @ResponseBody Map<String,Object> compareVersion(
-			@PathVariable String id,
-			@PathVariable String version
+	@RequestMapping(value = "/worship-id/{id}", method = RequestMethod.POST)
+	public @ResponseBody Map<String,Object> getAllData(
+			@PathVariable String id
 			) {
-		return versionService.compareVersion(id, version);
+		return versionService.getAllData(id);
 	}
 	
 }
