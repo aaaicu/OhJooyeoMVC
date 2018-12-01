@@ -10,7 +10,7 @@
 	</select>
 	<select id="getWorshipMap" parameterType = "string" resultType="map">
 		<![CDATA[
-			SELECT worship_id worshipId, worship_date worshipDate, main_presenter mainPresenter, next_presenter nextPresenter, next_prayer nextPrayer, next_offer nextOffer
+			SELECT worship_id worshipId, DATE_FORMAT(worship_date, '%Y-%m-%d') AS worshipDate, main_presenter mainPresenter, next_presenter nextPresenter, next_prayer nextPrayer, next_offer nextOffer
 			FROM WORSHIP
 			WHERE worship_id = #{worshipId}
 		]]>		

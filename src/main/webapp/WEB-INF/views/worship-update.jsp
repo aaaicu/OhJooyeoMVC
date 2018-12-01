@@ -13,7 +13,7 @@
 </head>
 <body>
 	<%-- <%@include file="nav.jsp" %> --%>
-	<p><c:url value="/js/insert-worship.js" /> </p>
+	<%-- <p><c:url value="/js/insert-worship.js" /> </p> --%>
 	<%-- <%@include file="nav.jsp" %> --%>
 
 	<div id = "worshipArea">
@@ -104,7 +104,22 @@ $(document).ready(function(){
 });
 
 function getWorshipInfo(worshipId){
-	console.log("test");
+	console.log("함수 시작");
+	console.log(worshipId);
+	$.ajax({
+		url : "${pageContext.request.contextPath}/getWorshipInfo",
+		type : "post",
+		contentType : "application/json",
+		data : worshipId,
+		dataType : "json",
+		success : function (data) {
+			/* resolve(data); */
+			console.log("성공");
+		},
+		error : function(err) {
+			console.log(err);
+		}
+	})
 	return new Promise(function(resolve, reject){
 		$.ajax({
 			url : "${pageContext.request.contextPath}/getWorshipInfo",
@@ -113,19 +128,20 @@ function getWorshipInfo(worshipId){
 			data : worshipId,
 			dataType : "json",
 			success : function (data) {
+				console.log(data);
 				resolve(data);
-				console.log("test");
 			},
 			error : function(err) {
-				reject();
+				reject("에러ㅎㅎㅎ");
 			}
 		})
 		}).then(function (vo) {
-			$("#worshipDate").val(vo.worshipDate);
-			$("#mainPresenter").val(vo.mainPresenter);
-			$("#nextPresenter").val(vo.nextPresenter);
-			$("#nextPrayer").val(vo.nextPrayer);
-			$("#nextOffer").val(vo.nextOffer);
+			$("[name=worshipUpdateYN]").val("0");
+			$("[name=worshipDate]").val(vo.worshipDate);
+			$("[name=mainPresenter]").val(vo.mainPresenter);
+			$("[name=nextPresenter]").val(vo.nextPresenter);
+			$("[name=nextPrayer]").val(vo.nextPrayer);
+			$("[name=nextOffer]").val(vo.nextOffer);
 		});
 }
 
@@ -169,6 +185,7 @@ function getWorshipDetailList (value,listType) {
 $("#selectWorshipId").change(function() {
 	$("#orderList").children().remove();
 	$("#adList").children().remove();
+	getWorshipInfo($(this).val());
 	getWorshipDetailList($(this).val(),"order"); 
 	getWorshipDetailList($(this).val(),"ad"); 
 	
@@ -196,6 +213,7 @@ $("#updateOrders").on("click",function() {
 		success : function(){
 			$("#orderList").children().remove();
 			$("#adList").children().remove();
+			getWorshipInfo($("#selectWorshipId").val());
 			getWorshipDetailList($("#selectWorshipId").val(),"order");
 			getWorshipDetailList($("#selectWorshipId").val(),"ad");
 			alert("수정되었습니다.")
