@@ -149,7 +149,6 @@ public class WorshipController {
 		return orderService.getWorshipOrderList(worshipId);
 	}
 	
-	
 	@RequestMapping(value = "/getWorshipAdList", method = RequestMethod.POST)
 	public @ResponseBody List<AdvertisementVO> getWorshipAdList(@RequestBody String worshipId) {
 		return adService.getWorshipAdList(worshipId);
@@ -157,7 +156,7 @@ public class WorshipController {
 	@RequestMapping(value = "/getWorshipInfo", method = RequestMethod.POST)
 	public @ResponseBody Map<String,String> getWorshipInfo(@RequestBody String worshipId) {
 		
-		System.out.println("요청 : " + worshipService.getWorshipInfo(worshipId));
+		System.out.println("결과 : " + worshipService.getWorshipInfo(worshipId));
 		return worshipService.getWorshipInfo(worshipId);
 	}
 }
