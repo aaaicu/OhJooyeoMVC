@@ -65,57 +65,18 @@ public class OrderService {
 		return orderDAO.getWorshipOrderList(worshipId);
 	}
 	
-	public Map <String,List<WorshipOrderVO>> analyzeValues(MultiValueMap<String, String> params) {
-		Map <String,List<WorshipOrderVO>> result = new HashMap<>();
-		List<WorshipOrderVO> addList = new ArrayList<>();
-		List<WorshipOrderVO> updateList = new ArrayList<>();
-		
-		result.put("addList" ,addList);
-		result.put("updateList", updateList);
-		
-		/* worship_id에 속하는 orderId의 최대값 구하기 */
-		int maxId = 0;
-		
-		for(String id : params.get("orderId")) {
-			if(maxId <= Integer.valueOf(id)) {
-				maxId = Integer.valueOf(id);				
-			}
-		}
-		
-		for(int i = 0 ; i < params.get("orderId").size() ; i++) {
-			WorshipOrderVO order = new WorshipOrderVO(
-					params.get("worship_id").get(0), 
-					Integer.valueOf(params.get("orderId").get(i)), 
-					Integer.valueOf(params.get("order").get(i)),
-					params.get("type").get(i), 
-					params.get("title").get(i), 
-					params.get("detail").get(i), 
-					params.get("presenter").get(i));
-			if (params.get("orderId").get(i).equals("-1") ) {
-				order.setOrderId(++maxId);
-				addList.add(order);
-			}else if(params.get("updateYN").get(i).equals("1")){
-				updateList.add(order);
-			}
-		}
-		return result;
-	}
 	/* 순서추가 */
-	public int add(List<WorshipOrderVO> list) {
+	public void add(List<WorshipOrderVO> list) {
 		if(list.size() > 0 ) {
 			orderDAO.insertVOList(list);
-			return 1;
 		}
-		return 0;
 	}
 
 	/* 순서수정 */
-	public int update(List<WorshipOrderVO> list) {
+	public void update(List<WorshipOrderVO> list) {
 		if(list.size() > 0 ) {
 			orderDAO.updateVOList(list);
-			return 1;
 		}
-		return 0;
 	}
 
 	/* 순서삭제 */
