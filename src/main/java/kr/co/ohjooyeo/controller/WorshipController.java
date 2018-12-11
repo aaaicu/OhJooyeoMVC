@@ -132,12 +132,13 @@ public class WorshipController {
 	    
 	    String version = versionService.getVersionById(worshipParam.get("selectWorshipId").get(0));
 
+	    boolean worshipVersionUp = false;
 	    
 	    /* 예배정보 업데이트 */
 	    if(worshipParam.get("worshipUpdateYN").contains("1")) {
 	    	System.out.println("예배정보 업데이트메서드 추가");
-	    	//versionService.versionUp(version,0) 채번 메서드
-//	    	versionService.updateVersion(worshipId , versionService.versionUp(version,0));
+	    	
+	    	worshipVersionUp = true;
 	    	
 	    	WorshipVO updateWorshipVO = new WorshipVO(
 	    			worshipParam.get("selectWorshipId").get(0),
@@ -156,8 +157,9 @@ public class WorshipController {
 	    if(!orderParam.isEmpty()&&(orderParam.get("orderUpdateYN").contains("1") || orderParam.get("orderOrder").contains("-1"))) {
 	    	
 	    	System.out.println("예배순서 업데이트메서드 추가");
-//	    	versionService.updateVersion(worshipId , versionService.versionUp(version,0));
 
+	    	worshipVersionUp = true;
+	    	
 		    orderParam.put("worshipId", worshipParam.get("selectWorshipId"));
 	    	Map<String, List<Object>> updateWorshipOrderVOList = worshipService.analyzeValues(orderParam,"order");
 	    	System.out.println("분석결과 : "+updateWorshipOrderVOList);
@@ -178,10 +180,16 @@ public class WorshipController {
 		    orderService.update(convertUpdateList);
 	    }
 	    
+	    /* 둘중 하나라도 업데이트가 됐다면 버전변경 */
+	    if(worshipVersionUp) {
+	    	//versionService.versionUp(version,0) 채번 메서드
+	    	versionService.updateVersion(worshipParam.get("selectWorshipId").get(0) , versionService.versionUp(version,0));
+	    }
+	    
 	    /* 광고 업데이트 */
 	    if(!adParam.isEmpty()&&(adParam.get("adUpdateYN").contains("1") || adParam.get("adOrder").contains("-1"))) {
 	    	System.out.println("광고 업데이트메서드 추가");
-//	    	versionService.updateVersion(worshipId , versionService.versionUp(version,1));
+	    	versionService.updateVersion(worshipParam.get("selectWorshipId").get(0) , versionService.versionUp(version,1));
 
 		    adParam.put("worshipId", worshipParam.get("selectWorshipId"));
 	    	Map<String, List<Object>> updateAdVOList = worshipService.analyzeValues(adParam,"ad");
@@ -203,14 +211,7 @@ public class WorshipController {
 	    
 	    /* 찬양 업데이트 */
 	    
-	    
-	    if(orderParam.get("orderId")!=null) {
-	    	
-	    
-//	    
 //	    /* add update delete 처리하는 method */
-
-	    }
 //	    chk += orderService.delete(worshipId,(List<String>)inputMap.get("deleteList"));
 //	    
 //		if (chk > 0) {			
