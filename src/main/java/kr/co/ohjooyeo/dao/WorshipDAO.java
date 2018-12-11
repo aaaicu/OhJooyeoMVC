@@ -43,4 +43,7 @@ public class WorshipDAO {
 		inputMap.put("version", version);
 		sqlSession.selectList("worship.setVersion",inputMap);
 	}
+	public void updateWorship(WorshipVO worshipVO) {
+		sqlSession.update("worship.updateWorship",worshipVO);
+	}
 }

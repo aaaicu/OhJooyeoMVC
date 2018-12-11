@@ -2,13 +2,14 @@ package kr.co.ohjooyeo.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +22,7 @@ import kr.co.ohjooyeo.service.AdvertisementService;
 import kr.co.ohjooyeo.service.OrderService;
 import kr.co.ohjooyeo.service.VersionService;
 import kr.co.ohjooyeo.service.WorshipService;
-import kr.co.ohjooyeo.vo.AdvertisementVO;
+import kr.co.ohjooyeo.vo.WorshipAdVO;
 import kr.co.ohjooyeo.vo.WorshipOrderVO;
 import kr.co.ohjooyeo.vo.WorshipVO;
 
@@ -83,7 +84,7 @@ public class WorshipController {
 		worshipService.addWorship(vo);
 		// 순서 추가
 		orderService.setWorshipOrder(vo.getWorshipId(),types, titles, details, presenters);
-		adService.setWorshipAd(vo.getWorshipId(), adTitles, adContents);
+//		adService.setWorshipAd(vo.getWorshipId(), adTitles, adContents);
 
 		return "redirect:worship";
 	}
@@ -100,9 +101,8 @@ public class WorshipController {
 	}
 	
 	/* 업데이트 내용을 받는 컨트롤러 */
-	@SuppressWarnings("unchecked")
-	@RequestMapping(value = "/updateTarget", method = RequestMethod.POST)
-	public @ResponseBody String updateTarget(
+	@RequestMapping(value = "/updateWorship", method = RequestMethod.POST)
+	public @ResponseBody String updateWorship(
 			@RequestBody Map<String,Object> inputMap
 			) throws UnsupportedEncodingException {
 		System.out.println("inputMap : "+ inputMap);
@@ -114,25 +114,103 @@ public class WorshipController {
 		worship = "?"+URLDecoder.decode(worship, "UTF-8");
 		order = "?"+URLDecoder.decode(order, "UTF-8");
 		ad = "?"+URLDecoder.decode(ad, "UTF-8");
-	    MultiValueMap<String, String> worshipParam = UriComponentsBuilder.fromUriString(worship).build().getQueryParams();
-	    MultiValueMap<String, String> orderParam = UriComponentsBuilder.fromUriString(order).build().getQueryParams();
-	    MultiValueMap<String, String> adParam = UriComponentsBuilder.fromUriString(ad).build().getQueryParams();
+		
+		/* 파라미터 가공  */
+		/* VO업데이트 및 추가 시 예배 ID 필요*/
+		Map<String, List<String>> worshipParam = new HashMap<>();
+		worshipParam.putAll(UriComponentsBuilder.fromUriString(worship).build().getQueryParams());
+		
+	    Map<String, List<String>> orderParam = new HashMap<>();
+	    orderParam.putAll(UriComponentsBuilder.fromUriString(order).build().getQueryParams());
+	    
+	    Map<String, List<String>> adParam = new HashMap<>();
+	    adParam.putAll(UriComponentsBuilder.fromUriString(ad).build().getQueryParams());
+	    
 	    System.out.println(worshipParam);
 	    System.out.println(orderParam);
 	    System.out.println(adParam);
 	    
-	    /* 파라미터 가공  */
-////	    System.out.println(updateWorshipOrderVOList);
-//	    String worshipId = parameters.get("worship_id").get(0);
-//	    int chk = 0;
-//	    if(parameters.get("orderId")!=null) {
-//	    	
-//	    Map <String,List<WorshipOrderVO>> updateWorshipOrderVOList = orderService.analyzeValues(parameters);
+	    String version = versionService.getVersionById(worshipParam.get("selectWorshipId").get(0));
+
+	    
+	    /* 예배정보 업데이트 */
+	    if(worshipParam.get("worshipUpdateYN").contains("1")) {
+	    	System.out.println("예배정보 업데이트메서드 추가");
+	    	//versionService.versionUp(version,0) 채번 메서드
+//	    	versionService.updateVersion(worshipId , versionService.versionUp(version,0));
+	    	
+	    	WorshipVO updateWorshipVO = new WorshipVO(
+	    			worshipParam.get("selectWorshipId").get(0),
+	    			worshipParam.get("worshipDate").get(0),
+	    			worshipParam.get("mainPresenter").get(0),
+	    			worshipParam.get("nextPresenter").get(0),
+	    			worshipParam.get("nextPrayer").get(0),
+	    			worshipParam.get("nextOffer").get(0),
+	    			"",
+	    			"admin");
+	    	worshipService.update(updateWorshipVO);
+	    }
+	    
+	    /* 예배순서 업데이트 */
+	    /* 변경이 되었거나 새롭게 추가된 순서가 있다면 업데이트 실행 */
+	    if(!orderParam.isEmpty()&&(orderParam.get("orderUpdateYN").contains("1") || orderParam.get("orderOrder").contains("-1"))) {
+	    	
+	    	System.out.println("예배순서 업데이트메서드 추가");
+//	    	versionService.updateVersion(worshipId , versionService.versionUp(version,0));
+
+		    orderParam.put("worshipId", worshipParam.get("selectWorshipId"));
+	    	Map<String, List<Object>> updateWorshipOrderVOList = worshipService.analyzeValues(orderParam,"order");
+	    	System.out.println("분석결과 : "+updateWorshipOrderVOList);
+	    	
+	    	List<Object> addList = updateWorshipOrderVOList.get("addList");
+	    	List<WorshipOrderVO> convertAddList = new ArrayList<>(addList.size());
+	    	for(Object obj : addList) {
+	    		convertAddList.add((WorshipOrderVO)obj);
+	    	}
+		    orderService.add(convertAddList); 
+		
+		    
+	    	List<Object> updateList = updateWorshipOrderVOList.get("updateList");
+	    	List<WorshipOrderVO> convertUpdateList = new ArrayList<>(updateList.size());
+	    	for(Object obj : updateList) {
+	    		convertUpdateList.add((WorshipOrderVO)obj);
+	    	}
+		    orderService.update(convertUpdateList);
+	    }
+	    
+	    /* 광고 업데이트 */
+	    if(!adParam.isEmpty()&&(adParam.get("adUpdateYN").contains("1") || adParam.get("adOrder").contains("-1"))) {
+	    	System.out.println("광고 업데이트메서드 추가");
+//	    	versionService.updateVersion(worshipId , versionService.versionUp(version,1));
+
+		    adParam.put("worshipId", worshipParam.get("selectWorshipId"));
+	    	Map<String, List<Object>> updateAdVOList = worshipService.analyzeValues(adParam,"ad");
+	    	List<Object> addList = updateAdVOList.get("addList");
+	    	List<WorshipAdVO> convertAddList = new ArrayList<>(addList.size());
+	    	for(Object obj : addList) {
+	    		convertAddList.add((WorshipAdVO)obj);
+	    	}
+		    adService.add(convertAddList);
+		    
+	    	List<Object> updateList = updateAdVOList.get("updateList");
+	    	List<WorshipAdVO> convertUpdateList = new ArrayList<>(updateList.size());
+	    	for(Object obj : updateList) {
+	    		convertUpdateList.add((WorshipAdVO)obj);
+	    	}
+	    	adService.update(convertUpdateList);
+		    
+	    }
+	    
+	    /* 찬양 업데이트 */
+	    
+	    
+	    if(orderParam.get("orderId")!=null) {
+	    	
+	    
 //	    
 //	    /* add update delete 처리하는 method */
-//	    chk += orderService.add(updateWorshipOrderVOList.get("addList")); 
-//	    chk += orderService.update(updateWorshipOrderVOList.get("updateList"));
-//	    }
+
+	    }
 //	    chk += orderService.delete(worshipId,(List<String>)inputMap.get("deleteList"));
 //	    
 //		if (chk > 0) {			
@@ -140,7 +218,6 @@ public class WorshipController {
 //			String version = versionService.getVersionById(worshipId);
 //			versionService.updateVersion(worshipId , versionService.versionUp(version,0));
 //		}
-	    
 		return "";
 	}
 	
@@ -150,7 +227,8 @@ public class WorshipController {
 	}
 	
 	@RequestMapping(value = "/getWorshipAdList", method = RequestMethod.POST)
-	public @ResponseBody List<AdvertisementVO> getWorshipAdList(@RequestBody String worshipId) {
+	public @ResponseBody List<WorshipAdVO> getWorshipAdList(@RequestBody String worshipId) {
+		System.out.println(adService.getWorshipAdList(worshipId));
 		return adService.getWorshipAdList(worshipId);
 	}
 	@RequestMapping(value = "/getWorshipInfo", method = RequestMethod.POST)

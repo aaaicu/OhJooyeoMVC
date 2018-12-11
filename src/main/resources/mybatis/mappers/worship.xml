@@ -66,4 +66,17 @@
 			UPDATE ohjooyeo.WORSHIP SET version = #{version} WHERE worship_id = #{worshipId}
 		]]>
 	</update>
+	
+	<update id = "updateWorship" parameterType = "kr.co.ohjooyeo.vo.WorshipVO">
+	<![CDATA[
+			UPDATE ohjooyeo.WORSHIP SET 
+				worship_date = #{worshipDate},
+				main_presenter = #{mainPresenter},
+				next_presenter = #{nextPresenter},
+				next_prayer = #{nextPrayer},
+				next_offer = #{nextOffer},
+				user_id = #{userId}	
+			WHERE worship_id = #{worshipId}
+	]]>
+	</update>
 </mapper>
