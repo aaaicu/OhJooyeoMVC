@@ -41,10 +41,10 @@ public class VersionService {
 		return result;
 	}
 	
-	/* 미사용 (12/1 회의를 통해 list에서 버전을 가져오기로하였음 )*/
-//	public String getVersionById(String id) {
-//		return worshipDAO.getVersionById(id);
-//	}
+	/* WorshipControlle.updateWorship에서 버전업데이트 시에 사용 (12/1 회의를 통해 list에서 버전을 가져오기로하였음 )*/
+	public String getVersionById(String id) {
+		return worshipDAO.getVersionById(id);
+	}
 	
 	/* a-z(97-122) A-Z() */
 	/* index = 0 : orderVersion / 1 : advertiseVersion / 2 : musicVersrion  */
