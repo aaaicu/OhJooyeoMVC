@@ -50,8 +50,8 @@ console.log("함수",optionalObject);
 	} else if(templateType === "ad"){
 		liId = "ad" +liId;
 		if(optionalObject instanceof Object){		
-		liId = "ad"+optionalObject.advertisementId;
-		id = optionalObject.advertisementId;
+		liId = "ad"+optionalObject.adId;
+		id = optionalObject.adId;
 		order = optionalObject.order;
 		title = optionalObject.title;
 		detail = optionalObject.content;
