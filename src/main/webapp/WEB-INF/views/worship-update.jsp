@@ -191,7 +191,6 @@ $("#selectWorshipId").change(function() {
 	
 });
 
-
 /* 예배ID 변경시 순서 재호출 */
 $("#updateOrders").on("click",function() {
 	console.log("클릭");
@@ -199,15 +198,19 @@ $("#updateOrders").on("click",function() {
 	orderForm = $("#orderForm").serialize();
 	adForm = $("#adForm").serialize();
 	
-	paramObject = { removeOrderList : removeOrderList,
+	paramObject = { 
+			removeOrderList : removeOrderList,
+			removeAdList : removeAdList,
 			worship : worshipForm,
 			order : orderForm,
 			ad : adForm }
 	
+	console.log(paramObject);
+	
 	$.ajax({
-		url : "${pageContext.request.contextPath }/updateTarget",
+		url : "${pageContext.request.contextPath }/updateWorship",
 		type : "post",
-		contentType : "application/json; charset=UTF-8",
+		contentType : "application/json",
 		dataType : "text",
 		data : JSON.stringify(paramObject),
 		success : function(){
@@ -218,6 +221,7 @@ $("#updateOrders").on("click",function() {
 			getWorshipDetailList($("#selectWorshipId").val(),"ad");
 			alert("수정되었습니다.")
 		},
+		
 		error : function(XHR, status, error) {
 			console.error(status + " : " + error);
 		}
