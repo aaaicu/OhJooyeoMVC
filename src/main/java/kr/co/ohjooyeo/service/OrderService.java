@@ -80,7 +80,7 @@ public class OrderService {
 	}
 
 	/* 순서삭제 */
-	public int delete(String worshipId , List<String> list) {
+	public void delete(String worshipId , List<String> list) {
 		if(list.size() > 0 ) {
 			Map<String,Object> deleteMap = new HashMap<>();
 			deleteMap.put("worshipId", worshipId );
@@ -88,9 +88,7 @@ public class OrderService {
 			
 			System.out.println(deleteMap);
 			orderDAO.deleteVOList(deleteMap);
-			return 1;
 		}
-		return 0;
 	}
 	
 

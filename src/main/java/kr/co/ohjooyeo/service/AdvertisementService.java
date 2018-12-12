@@ -1,6 +1,8 @@
 package kr.co.ohjooyeo.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,6 +40,17 @@ public class AdvertisementService {
 	public void update(List<WorshipAdVO> list ) {
 		if(list.size() > 0 ) {
 			advertisementDAO.updateVOList(list);
+		}
+	}
+
+	public void delete(String worshipId, List<String> list) {
+		if(list.size() > 0 ) {
+			Map<String,Object> deleteMap = new HashMap<>();
+			deleteMap.put("worshipId", worshipId );
+			deleteMap.put("list",list);
+			
+			System.out.println(deleteMap);
+			advertisementDAO.deleteVOList(deleteMap);
 		}
 	}
 

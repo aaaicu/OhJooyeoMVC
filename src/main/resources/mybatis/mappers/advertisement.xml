@@ -25,4 +25,12 @@
 			AND advertisement_id = #{vo.adId}
 		</foreach> 
 	</update>
+	
+	<delete id="deleteVOList" parameterType="map">
+		<foreach collection="list" item = "id" separator = ";" >	
+			DELETE FROM ohjooyeo.ADVERTISEMENT
+			WHERE worship_id = #{worshipId} 
+			AND advertisement_id = #{id}
+		</foreach>
+	</delete>
 </mapper>

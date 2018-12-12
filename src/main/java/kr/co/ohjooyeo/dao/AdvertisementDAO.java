@@ -1,6 +1,7 @@
 package kr.co.ohjooyeo.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,4 +27,9 @@ public class AdvertisementDAO {
 		System.out.println("업데이트 광고 내용 : "+list);
 		sqlSession.update("advertisement.updateVOList",list);
 	}
+
+	public void deleteVOList(Map<String, Object> map) {
+		sqlSession.delete("advertisement.deleteVOList", map);
+	}
+	
 }
