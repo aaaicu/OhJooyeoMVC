@@ -129,8 +129,9 @@ public class WorshipController {
 	    System.out.println(worshipParam);
 	    System.out.println(orderParam);
 	    System.out.println(adParam);
+	    List<String> worshipId = worshipParam.get("selectWorshipId");
 	    
-	    String version = versionService.getVersionById(worshipParam.get("selectWorshipId").get(0));
+	    String version = versionService.getVersionById(worshipId.get(0));
 
 	    boolean worshipVersionUp = false;
 	    
@@ -141,7 +142,7 @@ public class WorshipController {
 	    	worshipVersionUp = true;
 	    	
 	    	WorshipVO updateWorshipVO = new WorshipVO(
-	    			worshipParam.get("selectWorshipId").get(0),
+	    			worshipId.get(0),
 	    			worshipParam.get("worshipDate").get(0),
 	    			worshipParam.get("mainPresenter").get(0),
 	    			worshipParam.get("nextPresenter").get(0),
@@ -160,7 +161,7 @@ public class WorshipController {
 
 	    	worshipVersionUp = true;
 	    	
-		    orderParam.put("worshipId", worshipParam.get("selectWorshipId"));
+		    orderParam.put("worshipId", worshipId);
 	    	Map<String, List<Object>> updateWorshipOrderVOList = worshipService.analyzeValues(orderParam,"order");
 	    	System.out.println("분석결과 : "+updateWorshipOrderVOList);
 	    	
@@ -180,18 +181,27 @@ public class WorshipController {
 		    orderService.update(convertUpdateList);
 	    }
 	    
+	    @SuppressWarnings("unchecked")
+		List<String> removeOrderList = (List<String>)inputMap.get("removeOrderList");
+	    
+	    /* 예배순서 삭제 */
+	    if (!removeOrderList.isEmpty()) {	    	
+	    	System.out.println(removeOrderList);
+	    	orderService.delete(worshipId.get(0),removeOrderList);
+	    }
+	    
 	    /* 둘중 하나라도 업데이트가 됐다면 버전변경 */
 	    if(worshipVersionUp) {
 	    	//versionService.versionUp(version,0) 채번 메서드
-	    	versionService.updateVersion(worshipParam.get("selectWorshipId").get(0) , versionService.versionUp(version,0));
+	    	versionService.updateVersion(worshipId.get(0) , versionService.versionUp(version,0));
 	    }
 	    
 	    /* 광고 업데이트 */
 	    if(!adParam.isEmpty()&&(adParam.get("adUpdateYN").contains("1") || adParam.get("adOrder").contains("-1"))) {
 	    	System.out.println("광고 업데이트메서드 추가");
-	    	versionService.updateVersion(worshipParam.get("selectWorshipId").get(0) , versionService.versionUp(version,1));
+	    	versionService.updateVersion(worshipId.get(0) , versionService.versionUp(version,1));
 
-		    adParam.put("worshipId", worshipParam.get("selectWorshipId"));
+		    adParam.put("worshipId", worshipId);
 	    	Map<String, List<Object>> updateAdVOList = worshipService.analyzeValues(adParam,"ad");
 	    	List<Object> addList = updateAdVOList.get("addList");
 	    	List<WorshipAdVO> convertAddList = new ArrayList<>(addList.size());
@@ -207,6 +217,15 @@ public class WorshipController {
 	    	}
 	    	adService.update(convertUpdateList);
 		    
+	    }
+	    
+		@SuppressWarnings("unchecked")
+		List<String> removeAdList = (List<String>) inputMap.get("removeAdList");
+	    
+	    /* 광고 삭제 */
+	    if (!removeAdList.isEmpty()) {	    	
+	    	System.out.println(removeAdList);
+	    	adService.delete(worshipId.get(0),removeAdList);
 	    }
 	    
 	    /* 찬양 업데이트 */
