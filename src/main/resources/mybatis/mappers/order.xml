@@ -54,10 +54,10 @@
 	</update>
 	
 	<delete id="deleteVOList" parameterType="map">
-		<foreach collection="list" item = "vo" separator = ";" >	
+		<foreach collection="list" item = "id" separator = ";" >	
 			DELETE FROM ohjooyeo.ORDER
 			WHERE worship_id = #{worshipId} 
-			AND order_id = #{vo}
+			AND order_id = #{id}
 		</foreach>
 	</delete>
 </mapper>
