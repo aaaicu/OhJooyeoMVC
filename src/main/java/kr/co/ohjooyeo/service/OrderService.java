@@ -90,6 +90,10 @@ public class OrderService {
 			orderDAO.deleteVOList(deleteMap);
 		}
 	}
+
+	public void deleteAll(String worshipId) {
+		orderDAO.deleteAll(worshipId);
+	}
 	
 
 }

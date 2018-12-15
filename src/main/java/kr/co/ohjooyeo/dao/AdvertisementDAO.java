@@ -31,5 +31,9 @@ public class AdvertisementDAO {
 	public void deleteVOList(Map<String, Object> map) {
 		sqlSession.delete("advertisement.deleteVOList", map);
 	}
+
+	public void deleteAll(String worshipId) {
+		sqlSession.delete("advertisement.deleteAll", worshipId);
+	}
 	
 }

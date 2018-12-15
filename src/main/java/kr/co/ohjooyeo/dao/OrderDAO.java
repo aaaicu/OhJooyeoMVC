@@ -49,5 +49,9 @@ public class OrderDAO {
 		sqlSession.delete("order.deleteVOList", map);
 	}
 
+	public void deleteAll(String worshipId) {
+		sqlSession.delete("order.deleteAll", worshipId);
+	}
+
 	
 }

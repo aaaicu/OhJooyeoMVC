@@ -46,4 +46,7 @@ public class WorshipDAO {
 	public void updateWorship(WorshipVO worshipVO) {
 		sqlSession.update("worship.updateWorship",worshipVO);
 	}
+	public void delete(String worshipId) {
+		sqlSession.delete("worship.deleteWorship",worshipId);
+	}
 }

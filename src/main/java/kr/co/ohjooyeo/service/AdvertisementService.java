@@ -54,4 +54,8 @@ public class AdvertisementService {
 		}
 	}
 
+	public void deleteAll(String worshipId) {
+		advertisementDAO.deleteAll(worshipId);
+	}
+
 }

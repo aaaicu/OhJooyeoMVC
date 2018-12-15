@@ -32,7 +32,10 @@ public class WorshipService {
 	
 	public void update(WorshipVO worshipVO) {
 		worshipDAO.updateWorship(worshipVO);
-		
+	}
+	
+	public void delete(String worshipId) {
+		worshipDAO.delete(worshipId);
 	}
 
 	public Map<String, String> getWorshipInfo(String worshipId) {
@@ -50,7 +53,6 @@ public class WorshipService {
 		
 		/* worship_id에 속하는 orderId의 최대값 구하기 */
 		int maxId = 0;
-		
 		
 		if(voName.equals("order")) {
 			for(String id : params.get("orderId")) {
@@ -98,7 +100,6 @@ public class WorshipService {
 				}
 			}
 		}
-		
 		
 		return result;
 	}

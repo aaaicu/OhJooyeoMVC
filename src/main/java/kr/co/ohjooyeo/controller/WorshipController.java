@@ -53,11 +53,16 @@ public class WorshipController {
 		return "worship-form";
 	}
 
-	@RequestMapping(value = "/worship-delete", method = RequestMethod.GET)
-	public String worshipDelete(Model model) {
-		//userId 하드코딩
-		model.addAttribute("worshipIdList", worshipService.getWorshipIdList("admin"));
-		return "worship-delete";
+	@RequestMapping(value = "/deleteWorship", method = RequestMethod.POST)
+	public @ResponseBody String deleteWorship(@RequestBody String worshipId) {
+		System.out.println("test" + worshipId);
+		
+		orderService.deleteAll(worshipId);
+		adService.deleteAll(worshipId);
+		worshipService.delete(worshipId);
+		
+		
+		return "";
 	}
 	
 	@RequestMapping(value = "/add-worship", method = RequestMethod.POST)

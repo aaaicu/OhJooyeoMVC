@@ -19,8 +19,13 @@
 	<div id = "worshipArea">
 	<form id = "worshipForm">
 	<div>
+		<span>
 		Worship ID : <select id="selectWorshipId" name="selectWorshipId">
 		</select>
+		</span>
+		<span>
+		<input type = "button" value = "삭제" id = "deleteWorship">
+		</span>
 	</div>
 	<ul id="worshipInfo">
 		<li id = "ws0">
@@ -78,7 +83,12 @@
 <script type ="text/javascript">
 $(document).ready(function(){
 	
-/* 예배ID 리스트 비동기식으로 조회 */
+	updateWorshipInit();
+	init();
+});
+
+function updateWorshipInit(){
+	/* 예배ID 리스트 비동기식으로 조회 */
 	$.ajax({
 		url : "${pageContext.request.contextPath }/getWorshipIdList",
 		type : "post",
@@ -100,8 +110,7 @@ $(document).ready(function(){
 		}
 	});  
 
-	init();
-});
+}
 
 function getWorshipInfo(worshipId){
 	console.log("함수 시작");
@@ -191,6 +200,30 @@ $("#selectWorshipId").change(function() {
 	
 });
 
+$("#deleteWorship").on("click",function(){
+
+	$.ajax({
+		url : "${pageContext.request.contextPath }/deleteWorship",
+		type : "post",
+		contentType : "application/json",
+		dataType : "text",
+		data : $("#selectWorshipId").val(),
+		success : function(){
+			
+			$("#orderList").children().remove();
+			$("#adList").children().remove();
+			updateWorshipInit();
+			init();
+			alert("삭제되었습니다.");
+		},
+		
+		error : function(XHR, status, error) {
+			console.error(status + " : " + error);
+		}
+	});  
+	
+})
+
 /* 예배ID 변경시 순서 재호출 */
 $("#updateOrders").on("click",function() {
 	console.log("클릭");
@@ -214,6 +247,7 @@ $("#updateOrders").on("click",function() {
 		dataType : "text",
 		data : JSON.stringify(paramObject),
 		success : function(){
+			$("#selectWorshipId").children().remove();
 			$("#orderList").children().remove();
 			$("#adList").children().remove();
 			getWorshipInfo($("#selectWorshipId").val());

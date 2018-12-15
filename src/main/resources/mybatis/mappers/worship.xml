@@ -79,4 +79,9 @@
 			WHERE worship_id = #{worshipId}
 	]]>
 	</update>
+	<delete id="deleteWorship" parameterType = "string">
+		<![CDATA[
+			DELETE FROM ohjooyeo.WORSHIP WHERE worship_id = #{worshipId}
+		]]>
+	</delete>
 </mapper>

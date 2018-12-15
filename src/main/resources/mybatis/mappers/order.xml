@@ -60,4 +60,8 @@
 			AND order_id = #{id}
 		</foreach>
 	</delete>
+	<delete id="deleteAll" parameterType="string">
+		DELETE FROM ohjooyeo.ORDER
+		WHERE worship_id = #{worshipId} 
+	</delete>
 </mapper>
