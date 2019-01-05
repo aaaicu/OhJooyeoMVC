@@ -93,9 +93,15 @@ public class WorshipController {
 
 		return "redirect:worship";
 	}
+	
+	@RequestMapping(value = "/worship-add-temp", method = RequestMethod.GET)
+	public String worshipAddTemp() {
+		return "worship-add";
+	}
+	
 
 	@RequestMapping(value = "/worship-update-temp", method = RequestMethod.GET)
-	public String worshipOrderFormTemp() {
+	public String worshipUpdateTemp() {
 //		return "worship-order-form";
 		return "worship-update";
 	}
@@ -134,6 +140,11 @@ public class WorshipController {
 	    System.out.println(worshipParam);
 	    System.out.println(orderParam);
 	    System.out.println(adParam);
+	    
+	    //순서상에 변동이 있는지 확인필요
+	    
+	    
+	    
 	    List<String> worshipId = worshipParam.get("selectWorshipId");
 	    
 	    String version = versionService.getVersionById(worshipId.get(0));
@@ -235,14 +246,6 @@ public class WorshipController {
 	    
 	    /* 찬양 업데이트 */
 	    
-//	    /* add update delete 처리하는 method */
-//	    chk += orderService.delete(worshipId,(List<String>)inputMap.get("deleteList"));
-//	    
-//		if (chk > 0) {			
-//			/* 버전 관리 부분 (버전증가) */
-//			String version = versionService.getVersionById(worshipId);
-//			versionService.updateVersion(worshipId , versionService.versionUp(version,0));
-//		}
 		return "";
 	}
 	

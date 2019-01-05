@@ -58,7 +58,7 @@ console.log("함수",optionalObject);
 		}
 	}
 	
-	resultHtml += "<li id = '"+liId+"'>";
+	resultHtml += "<li draggable='true' id = '"+liId+"' class='row'>";
 	resultHtml += "<table>";
 	resultHtml += "<tr>";
 	/* 순서 템플릿 생성 */
@@ -102,7 +102,6 @@ console.log("함수",optionalObject);
 		resultHtml +="</td>";
 		
 		resultHtml += "<td><input type='text' class ='chkTarget' name='orderPresenter' value ='"+presenter+"'></td>";
-		resultHtml += "<td><input type = 'button' class ='addBeforeHtml chkTarget' name = 'order' value = '앞에추가'></td>";
 		
 	/* 광고 템플릿 생성 */	
 	}else if(templateType === "ad"){
@@ -114,7 +113,6 @@ console.log("함수",optionalObject);
 		resultHtml += "<input type='text' class ='chkTarget' name='adTitle' value ='"+title+"'></td>";
 		/* 처음 td 끝  */
 		resultHtml += "<td><textarea name='adContent' class ='chkTarget' style='margin: 0px; width: 330px; height: 90px; resize: none;'>"+detail+"</textarea></td>";
-		resultHtml += "<td><input type = 'button' class ='addBeforeHtml chkTarget' name = 'ad' value = '앞에추가'></td>";
 	}
 	resultHtml += "<td class = 'del'>x</td>";
 	resultHtml += "</tr>";
@@ -203,16 +201,12 @@ $(".addHtml").on("click",function(){
 	console.log(area);
 	console.log(html);
 	tempId -= 1;
+	
 	render(area,html,"append");
+	rowList = document.querySelectorAll('.row');
+	[].forEach.call(rowList,addHandlers)
+	console.log("rowList",rowList);
 })
-/* 앞에추가버튼 클릭 */
-$("#renderArea").on("click",".addBeforeHtml",function(){
-	console.log("앞에추가");	
-	var $this = $(this);
-	var html = templateFactory($this[0].name);
-	tempId -= 1;
-	render($this.closest("li"),html,"before");
-})	
 
 /* 업데이트 관리 */
 /* 포커스되는 순간을 변경의 시작으로 보고 변경전 값을 Map(:memory)에 추가 */

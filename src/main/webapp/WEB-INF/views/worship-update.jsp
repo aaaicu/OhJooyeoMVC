@@ -7,6 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <script type="text/javascript"
 	src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<link rel="stylesheet" href="<c:url value='/css/order-manage.css' />">
 
 
 <title>Update Worship</title>
@@ -75,10 +76,11 @@
 
 	<br/>
 	<br/> 
-	<input type="button" id = "updateOrders" value="확인">
+	<input type="button" id = "updateButton" value="확인">
 	<%-- <%@include file="footer.jsp" %> --%>
-</body>
 <script src="<c:url value="/js/insert-worship.js" />" ></script>
+<script src="<c:url value="/js/order-manage.js" />" ></script>
+</body>
 
 <script type ="text/javascript">
 $(document).ready(function(){
@@ -86,6 +88,7 @@ $(document).ready(function(){
 	updateWorshipInit();
 	init();
 });
+
 
 function updateWorshipInit(){
 	/* 예배ID 리스트 비동기식으로 조회 */
@@ -96,6 +99,7 @@ function updateWorshipInit(){
 		data : "admin",
 		dataType : "json",
 		success : function(worshipIdList){
+			$("#selectWorshipId").children().remove();
 			for(var i = 0; i <worshipIdList.length; i++){
 				$("#selectWorshipId").prepend("<option>"+worshipIdList[i]+"</option>")
 			}
@@ -115,20 +119,20 @@ function updateWorshipInit(){
 function getWorshipInfo(worshipId){
 	console.log("함수 시작");
 	console.log(worshipId);
-	$.ajax({
+	/* $.ajax({
 		url : "${pageContext.request.contextPath}/getWorshipInfo",
 		type : "post",
 		contentType : "application/json",
 		data : worshipId,
 		dataType : "json",
 		success : function (data) {
-			/* resolve(data); */
+			resolve(data);
 			console.log("성공");
 		},
 		error : function(err) {
 			console.log(err);
 		}
-	})
+	}) */
 	return new Promise(function(resolve, reject){
 		$.ajax({
 			url : "${pageContext.request.contextPath}/getWorshipInfo",
@@ -187,11 +191,15 @@ function getWorshipDetailList (value,listType) {
 				var html = templateFactory(listType,vo[j]);
 				render(area,html,"append")
 			}
+			var rowList = document.querySelectorAll('.row');
+			[].forEach.call(rowList,addHandlers)
+			console.log("rowList",rowList);
 		});
 }
 
 /* 예배ID 변경시 순서 재호출 */
 $("#selectWorshipId").change(function() {
+	console.log("변경발생");
 	$("#orderList").children().remove();
 	$("#adList").children().remove();
 	getWorshipInfo($(this).val());
@@ -225,7 +233,7 @@ $("#deleteWorship").on("click",function(){
 })
 
 /* 예배ID 변경시 순서 재호출 */
-$("#updateOrders").on("click",function() {
+$("#updateButton").on("click",function() {
 	console.log("클릭");
 	worshipForm = $("#worshipForm").serialize();
 	orderForm = $("#orderForm").serialize();
@@ -247,7 +255,9 @@ $("#updateOrders").on("click",function() {
 		dataType : "text",
 		data : JSON.stringify(paramObject),
 		success : function(){
-			$("#selectWorshipId").children().remove();
+
+			console.log("업데이트발생");
+			console.log($("#selectWorshipId"));
 			$("#orderList").children().remove();
 			$("#adList").children().remove();
 			getWorshipInfo($("#selectWorshipId").val());
