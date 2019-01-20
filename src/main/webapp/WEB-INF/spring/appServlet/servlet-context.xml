@@ -20,6 +20,7 @@
 	<resources mapping="/resources/**" location="/resources/" />
 	<resources mapping="/js/**" location="/js/" />
 	<resources mapping="/css/**" location="/css/" />
+	<resources mapping="/img/**" location="/img/" />
 	<!-- url매핑-->
 	<mvc:resources mapping="/img/**" location="file:/home/ubuntu/deploy/images/" />
 

@@ -1,0 +1,54 @@
+.circle {
+	width: 80px; height: 80px;
+	margin: 2px;
+	color : white;
+	float : left;
+	border-radius: 50% 50%;
+	line-height: 80px;
+	text-align: center;
+	font-weight: bold;
+	font-size : 50px;
+}
+.c0 {
+	 background : green;
+ }
+
+.c1 {
+	background : rgb(255,94,0);
+}
+.c2 {
+	background : red;
+}
+.c3 {
+	background : rgb(255,208,0);
+}
+
+
+.lotto{
+	width: 680px;
+	text-align : center;
+}
+.buttons{
+	width: 680px;
+	text-align : right;
+}
+.name-shadow{
+	text-shadow : 2px 2px 2px gray;
+	width: 680px;
+	height : 30px;
+	text-align: right;
+	font-size : 11px;
+}
+
+#container {
+	width : 680px;
+	height : 90px;
+	line-height: 90px;
+	position : relative;
+	overflow : hidden;
+	background-color: lightgray;
+}
+#header {
+	width : 680px;
+	height : 70px;
+}

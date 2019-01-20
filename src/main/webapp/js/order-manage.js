@@ -43,6 +43,7 @@
 	    console.log(e.dataTransfer.getData("text"));
 	    console.log("드래그 드랍 : ",e);
 	    console.log("this : ", this);
+	    console.log("this : ", this);
 	}
 	function handleDragEnd(e){
 	    console.log("드래그 엔드 : ",e);
