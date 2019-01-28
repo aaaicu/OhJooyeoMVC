@@ -19,7 +19,7 @@
 	<div class="buttons">
 
 		<input type=button id="start" value="시 작">
-		<input type=button id="stop"  value="정 지">
+		<input type=button  disabled = "disabled" id="stop"  value="정 지">
 	</div>
 	<br>
 	<div id="container"></div>

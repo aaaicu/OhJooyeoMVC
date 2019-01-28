@@ -1,7 +1,8 @@
 (()=>{
 	let numberBallNameList = [
-		1,2,3,4,5,6,7,8,9,10,11,12,13,14,15
+		1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20
 	];
+	let initSize = numberBallNameList.length;
 	numberBallNameList.remove = function(target){
 		let targetIndex = this.indexOf(target);
 		return this.splice(targetIndex,1);
@@ -50,7 +51,21 @@
 			let balls = document.getElementsByClassName('circle');
 			balls[balls.length-1].addEventListener("click", function(){
 				if(document.getElementById('container').childNodes.length==8){
-					this.innerHTML = prompt("변경할 숫자를 입력해주세요.");
+					let inputValue = prompt("변경할 숫자를 입력해주세요.");
+					
+					if(String(inputValue).trim()){
+//						if(inputValue&&/^[0-9]*$/.test(inputValue)){
+					
+						let changeCount = parseInt(this.parentElement.childNodes[1].innerHTML.split(':')[1]);
+						if(/^[0-9]*$/.test(inputValue) && inputValue == 0){
+							this.parentElement.childNodes[1].innerHTML = '쿠폰가:'+(changeCount-1);
+						}
+						else if(/^[0-9]*$/.test(inputValue) && inputValue <= initSize){
+							this.innerHTML = inputValue;
+							this.parentElement.childNodes[1].innerHTML = '쿠폰가:'+(changeCount+1);
+//						}
+						}
+					}
 				}
 			});
 	
@@ -94,10 +109,18 @@ function controlButton(elementId,disabledOption){
 }
 
 let appendContainer = function (ballNumber) {
+	let divGroup = document.createElement('div');
+	divGroup.classList.add('divGroup');
 	let div = document.createElement('div');
 	div.classList.add('circle');
 	div.classList.add('c'+ballNumber%4);
 	div.innerHTML=ballNumber;
-	document.getElementById('container').appendChild(div);
+	let divCount = document.createElement('div');
+	divCount.classList.add('changeCount');
+	divCount.innerHTML='쿠폰가:1';
+	divGroup.appendChild(div);
+	divGroup.appendChild(divCount);
+
+	document.getElementById('container').appendChild(divGroup);
 };
 

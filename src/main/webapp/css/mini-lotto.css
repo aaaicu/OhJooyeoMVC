@@ -22,8 +22,20 @@
 .c3 {
 	background : rgb(255,208,0);
 }
+.divGroup{
+	width: 80px;
+	height: 100px;
+	float : left;
+}
+.changeCount {
+	width: 80px;
+	height: 20px;
+	float : left;
+	color : black;
+	text-align: center;
+	line-height: 25px;
 
-
+}
 .lotto{
 	width: 680px;
 	text-align : center;
@@ -41,8 +53,8 @@
 }
 
 #container {
-	width : 680px;
-	height : 90px;
+	width : 645px;
+	height : 130px;
 	line-height: 90px;
 	position : relative;
 	overflow : hidden;
