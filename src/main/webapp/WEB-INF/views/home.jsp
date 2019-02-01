@@ -2,13 +2,21 @@
 <%@ page session="false" %>
 <html>
 <head>
-	<title>Home</title>
+	<title>Home(Test Bootstrap)</title>
+	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/bootstrap.css">
+	<link rel="stylesheet" href="<c:url value='/css/order-manage.css' />">
+	<script type="text/javascript"	src="https://code.jquery.com/jquery-1.12.4.js"></script>
 </head>
 <body>
-<h1>
-	Hello world!  
-</h1>
 
-<P>  The time on the server is ${serverTime}. </P>
+<c:import url="/WEB-INF/views/includes/nav.jsp"></c:import>
+<c:import url="/WEB-INF/views/includes/header.jsp"></c:import>
+<div class ="container">
+
+		<c:if test="${requestScope.pageName != null}">
+		<c:import url="/WEB-INF/views/${requestScope.pageName }.jsp"></c:import>
+		</c:if>
+</div>
+<c:import url="/WEB-INF/views/includes/footer.jsp"></c:import>
 </body>
 </html>
