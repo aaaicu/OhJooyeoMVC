@@ -90,18 +90,18 @@ console.log("함수",optionalObject);
 		resultHtml += "</td>";
 		/* 처음 td 끝  */
 		
-		resultHtml += "<td><input type='text' class ='chkTarget' name='orderTitle' value ='"+title+"'></td>";
+		resultHtml += "<td><input type='text' class ='chkTarget form-control form-control-sm' name='orderTitle' value ='"+title+"'></td>";
 
 		resultHtml +="<td>";
 		if (type == '1'){
-			resultHtml += "<input type='text' size = '15' class ='chkTarget' name='detail' readonly value ='"+detail+"'>";
+			resultHtml += "<input type='text' size = '15' class ='chkTarget form-control form-control-sm' name='detail' readonly value ='"+detail+"'>";
 			resultHtml += "<input type='button' class='searchBible' value = '찾기'>"
 		}else {
-			resultHtml += "<input type='text' class ='chkTarget' name='detail' value ='"+detail+"'>";
+			resultHtml += "<input type='text' class ='chkTarget form-control form-control-sm' name='detail' value ='"+detail+"'>";
 		}
 		resultHtml +="</td>";
 		
-		resultHtml += "<td><input type='text' class ='chkTarget' name='orderPresenter' value ='"+presenter+"'></td>";
+		resultHtml += "<td><input type='text' class ='chkTarget form-control form-control-sm' name='orderPresenter' value ='"+presenter+"'></td>";
 		
 	/* 광고 템플릿 생성 */	
 	}else if(templateType === "ad"){
@@ -112,7 +112,7 @@ console.log("함수",optionalObject);
 		resultHtml += "<input type='hidden' name='adId' value ='"+id+"'>"
 		resultHtml += "<input type='text' class ='chkTarget' name='adTitle' value ='"+title+"'></td>";
 		/* 처음 td 끝  */
-		resultHtml += "<td><textarea name='adContent' class ='chkTarget' style='margin: 0px; width: 330px; height: 90px; resize: none;'>"+detail+"</textarea></td>";
+		resultHtml += "<td><textarea name='adContent' class ='chkTarget form-control form-control-sm' style='margin: 0px; width: 330px; height: 90px; resize: none;'>"+detail+"</textarea></td>";
 	}
 	resultHtml += "<td class = 'del'>x</td>";
 	resultHtml += "</tr>";

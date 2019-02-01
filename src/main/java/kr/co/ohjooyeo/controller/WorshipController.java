@@ -265,4 +265,10 @@ public class WorshipController {
 		System.out.println("결과 : " + worshipService.getWorshipInfo(worshipId));
 		return worshipService.getWorshipInfo(worshipId);
 	}
+	
+	@RequestMapping(value = "/testCSS", method = RequestMethod.GET)
+	public String testCSS(Model model) {
+		model.addAttribute("pageName","worship-update");
+		return "home";
+	}
 }
