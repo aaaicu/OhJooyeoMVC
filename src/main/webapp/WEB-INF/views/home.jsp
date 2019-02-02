@@ -4,8 +4,9 @@
 <head>
 	<title>Home(Test Bootstrap)</title>
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/bootstrap.css">
-	<link rel="stylesheet" href="<c:url value='/css/order-manage.css' />">
+	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/order-manage.css">
 	<script type="text/javascript"	src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script type="text/javascript"	src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
 </head>
 <body>
 
