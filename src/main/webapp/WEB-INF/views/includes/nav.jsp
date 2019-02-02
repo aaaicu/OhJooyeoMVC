@@ -16,14 +16,15 @@
         <a class="nav-link" href="#">주보추가</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">악보관리</a>
+        <a class="nav-link" href="#">교회정보관리</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#">게시판(추후)</a>
       </li>
     </ul>
   </div>
-</nav>
+</nav> 
+
 
 <%-- <ul class="admin-menu">
 	<li><a href="${pageContext.request.contextPath}/${sessionScope.authUser.id}/admin/basic">기본설정</a></li>
