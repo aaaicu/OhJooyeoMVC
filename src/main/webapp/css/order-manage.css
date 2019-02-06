@@ -11,3 +11,27 @@ ul {
 	box-shadow: 0 0 0 2px gray;
 	
 }
+
+.orderElement{ 
+	overflow :hidden;
+	position: relative; 
+	padding : 0;
+	  display: flex;
+	  justify-content: space-between;
+}
+.unit {
+	float: left;
+	max-width: 25%;
+	padding: 5;
+	font-size : 17px;
+	align-self: center;
+}
+.unitDotted {
+	-webkit-box-flex: 1;
+	float: left;
+	max-width: 50%;
+	/*  display: inline-block; */
+	height : 30px;
+	padding : 0;
+	align-self: center;
+}
