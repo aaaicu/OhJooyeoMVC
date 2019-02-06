@@ -5450,7 +5450,7 @@ a.badge-dark:hover, a.badge-dark:focus {
 }
 
 .alert-dismissible {
-  padding-right: 4rem;
+  padding-right: 2.5rem;
 }
 
 .alert-dismissible .close {
