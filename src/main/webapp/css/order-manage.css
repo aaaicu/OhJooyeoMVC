@@ -12,6 +12,13 @@ ul {
 	
 }
 
+:focus {
+    outline: none;
+    outline-color: none;
+    outline-style: none;
+    outline-width: 0;
+}
+
 .order-element{ 
 	overflow :hidden;
 	position: relative; 
@@ -21,7 +28,7 @@ ul {
 }
 .unit {
 	float: left;
-	max-width: 25%;
+	max-width: 50%;
 	padding: 5;
 	font-size : 17px;
 	align-self: center;

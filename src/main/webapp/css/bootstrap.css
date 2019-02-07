@@ -239,9 +239,9 @@ button {
   border-radius: 0;
 }
 
-button:focus {
-  outline: 1px dotted;
-  outline: 5px auto -webkit-focus-ring-color;
+button:active {
+/*   outline: 1px dotted;
+  outline: 5px auto -webkit-focus-ring-color; */
 }
 
 input,
@@ -2589,11 +2589,16 @@ textarea.form-control {
   text-decoration: none;
 }
 
-.btn:focus, .btn.focus {
+.btn:active, .btn.focus {
   outline: 0;
   -webkit-box-shadow: 0 0 0 0.2rem rgba(235, 104, 100, 0.25);
           box-shadow: 0 0 0 0.2rem rgba(235, 104, 100, 0.25);
 }
+
+.btn:focus {
+  outline: 0;
+}
+
 
 .btn.disabled, .btn:disabled {
   opacity: 0.65;
