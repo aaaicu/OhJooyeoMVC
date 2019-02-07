@@ -12,7 +12,7 @@ ul {
 	
 }
 
-.orderElement{ 
+.order-element{ 
 	overflow :hidden;
 	position: relative; 
 	padding : 0;
@@ -26,12 +26,26 @@ ul {
 	font-size : 17px;
 	align-self: center;
 }
-.unitDotted {
+.unit-dotted {
 	-webkit-box-flex: 1;
 	float: left;
 	max-width: 50%;
 	/*  display: inline-block; */
 	height : 30px;
 	padding : 0;
+	align-self: center;
+}
+
+.ad-element{ 
+	overflow :hidden;
+	position: relative; 
+	padding : 0;
+	  display: flex;
+}
+.ad-content{
+	float: left;
+	width: 100%;
+	padding: 0;
+	font-size : 1rem;
 	align-self: center;
 }

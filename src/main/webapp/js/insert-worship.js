@@ -188,7 +188,7 @@ $("#renderArea").on("click", ".del", function() {
 });
 
 /* 추가버튼 클릭 */
-$(".addHtml").on("click",function(){
+$(".add-html").on("click",function(){
 	var $this = $(this);
 	var html = templateFactory($this[0].name,"");
 	var area = "";
