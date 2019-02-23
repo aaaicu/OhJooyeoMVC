@@ -3,6 +3,7 @@
 <html>
 <head>
 	<title>Home(Test Bootstrap)</title>
+	<!-- <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"> -->
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/bootstrap.css">
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/order-manage.css">
 	<script type="text/javascript"	src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -18,6 +19,7 @@
 		<c:import url="/WEB-INF/views/${requestScope.pageName }.jsp"></c:import>
 		</c:if>
 </div>
+
 <c:import url="/WEB-INF/views/includes/footer.jsp"></c:import>
 </body>
 </html>
