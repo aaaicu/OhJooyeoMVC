@@ -36,6 +36,22 @@ textareaModel.setAttribute('rows','4');
 textareaModel.style.width = "100%";
 textareaModel.classList.add('modify-form','form-control');
 
+let selectModel = document.createElement('select');
+selectModel.classList.add('modify-form','custom-select');
+
+let option0 = document.createElement("option");
+let option1 = document.createElement("option");
+
+option0.value = "0";
+option0.text = "일반순서";
+
+option1.value = "1";
+option1.text = "성경봉독";
+
+selectModel.add(option0,null);
+selectModel.add(option1,null);
+
+
 let saveResetDivModel = document.createElement('div');
 saveResetDivModel.style.textAlign = "right";
 saveResetDivModel.style.paddingTop = "10px";
@@ -60,7 +76,7 @@ function templateFactory(templateType, optionalObject) {
 	let resultHTML;
 	let liId = tempId;
 	let id = "-1";
-	let order = "-1";
+	let order = "-1";	
 	let type = "-1";
 	let title = "";
 	let detail = "";
@@ -118,19 +134,24 @@ function templateFactory(templateType, optionalObject) {
 	modifyButton.classList.add('btn', 'btn-default','modify-btn');
 	modifyButton.appendChild(imgHTML);
 
-	let typeHTML = document.createElement('strong');
-	typeHTML.setAttribute('name','type');
+	let typeDiv = document.createElement('div');
+	typeDiv.classList.add('tobe-select');
+
+	let typeStrong = document.createElement('strong');
+	typeStrong.setAttribute('name','type');
+	typeStrong.classList.add('text');
+	typeDiv.appendChild(typeStrong);
 
 	/* 서버에서 가져오는 방식으로 변경 필요 (임시 하드코딩) */
 	let typeName = "";
-	if (type == "0") {
+	if (type === "0") {
 		typeName = "일반순서";
-	} else if (type == "1") {
+	} else if (type === "1") {
 		typeName = "성경봉독";
 	}
-	typeHTML.textContent = typeName + " ";
+	typeStrong.textContent = typeName + " ";
 
-	headerHTML.appendChild(typeHTML);
+	headerHTML.appendChild(typeDiv);
 	headerHTML.appendChild(modifyButton);
 
 	/* 항목 카드 내용 */
@@ -158,7 +179,7 @@ function templateFactory(templateType, optionalObject) {
 		titleDiv.setAttribute('name', 'title');
 		titleDiv.classList.add('col-2', 'unit','tobe-input');
 		
-		titleTextDiv = document.createElement('div');
+		let titleTextDiv = document.createElement('div');
 		titleTextDiv.classList.add('text');
 		titleTextDiv.innerText = title;
 		titleDiv.appendChild(titleTextDiv);
@@ -168,7 +189,7 @@ function templateFactory(templateType, optionalObject) {
 		detailDiv.setAttribute('name', 'detail');
 		detailDiv.classList.add('unit','tobe-input');
 		
-		detailTextDiv = document.createElement('div');
+		let detailTextDiv = document.createElement('div');
 		detailTextDiv.classList.add('text');
 		detailTextDiv.innerText = detail;
 		detailDiv.appendChild(detailTextDiv);
@@ -178,7 +199,7 @@ function templateFactory(templateType, optionalObject) {
 		presenterDiv.setAttribute('name', 'presenter');
 		presenterDiv.classList.add('col-auto', 'unit','tobe-input');
 		
-		presenterTextDiv = document.createElement('div');
+		let presenterTextDiv = document.createElement('div');
 		presenterTextDiv.classList.add('text');
 		presenterTextDiv.innerText = presenter;
 		presenterDiv.appendChild(presenterTextDiv);
@@ -199,7 +220,7 @@ function templateFactory(templateType, optionalObject) {
 		titleDiv.setAttribute('name', 'title');
 		titleDiv.classList.add('col-4', 'unit','tobe-input');
 		
-		titleTextDiv = document.createElement('div');
+		let titleTextDiv = document.createElement('div');
 		titleTextDiv.classList.add('text');
 		titleTextDiv.innerText = title;
 		titleDiv.appendChild(titleTextDiv);
@@ -210,7 +231,7 @@ function templateFactory(templateType, optionalObject) {
 		contentDiv.setAttribute('name', 'content');
 		contentDiv.classList.add('ad-content', 'tobe-textarea');
 		
-		contentTextDiv = document.createElement('div');
+		let contentTextDiv = document.createElement('div');
 		contentTextDiv.classList.add('text');
 		
 		contentTextDiv.innerText = content;
@@ -239,6 +260,7 @@ function templateFactory(templateType, optionalObject) {
 function modifyCard(e){
 	let tobeInput = this.offsetParent.getElementsByClassName('tobe-input');
 	let tobeTextarea = this.offsetParent.getElementsByClassName('tobe-textarea');
+	let tobeSelect = this.offsetParent.getElementsByClassName('tobe-select');
 	let saveResetDiv = saveResetDivModel.cloneNode();
 	let textarea = textareaModel.cloneNode();
 	let resetBtn = resetBtnModel.cloneNode();
@@ -251,22 +273,32 @@ function modifyCard(e){
 	saveResetDiv.children[0].addEventListener('click',resetCard);
 	saveResetDiv.children[1].addEventListener('click',saveCard);
 
-	if(this.offsetParent.dataset['editYn']=="0"){
+	if(this.offsetParent.dataset['editYn']==="0"){
 		/* 입력모드로 전환 */
 		[].forEach.call(tobeInput,function(e){
 			let input =inputModel.cloneNode();
 			input.setAttribute('value',e.textContent);
 			e.getElementsByClassName('text')[0].style.display='none';
 			e.appendChild(input);
-			
 		});
-		
+
+		[].forEach.call(tobeSelect,function (e) {
+			let select = selectModel.cloneNode(true);
+			// selectModel.setAttribute('value',e.textContent);
+			console.dir(select);
+			e.getElementsByClassName('text')[0].style.display='none';
+			/* text의 값에 따라 기본값을 변경하는 부분  */
+
+			e.appendChild(select);
+			// e.getElementsByClassName('text')[0].style.display='none';
+		});
+
 		[].forEach.call(tobeTextarea,function(e){
-			
 			textarea.textContent = e.textContent;
 			e.getElementsByClassName('text')[0].style.display='none';
 			e.appendChild(textarea.cloneNode());
 		});
+
 		this.offsetParent.appendChild(saveResetDiv);
 		
 	}
@@ -280,9 +312,19 @@ function modifyCard(e){
 function saveCard(e){
 	let tobeInput = this.offsetParent.getElementsByClassName('tobe-input');
 	let tobeTextarea = this.offsetParent.getElementsByClassName('tobe-textarea');
+	let tobeSelect = this.offsetParent.getElementsByClassName('tobe-select');
 	/* 확인모드로 전환 */
 	[].forEach.call(tobeInput,function(e){
 		e.getElementsByClassName('text')[0].textContent = e.children[1].value;
+		e.getElementsByClassName('text')[0].style.display=null;
+
+		e.removeChild(e.getElementsByClassName('modify-form')[0]);
+		console.dir(e.getElementsByClassName('text')[0]);
+
+	});
+
+	[].forEach.call(tobeSelect,function(e){
+		e.getElementsByClassName('text')[0].textContent = e.children[1].selectedOptions[0].textContent;
 		e.getElementsByClassName('text')[0].style.display=null;
 
 		e.removeChild(e.getElementsByClassName('modify-form')[0]);
@@ -310,8 +352,14 @@ function saveCard(e){
 function resetCard(e){
 	let tobeInput = this.offsetParent.getElementsByClassName('tobe-input');
 	let tobeTextarea = this.offsetParent.getElementsByClassName('tobe-textarea');
+	let tobeSelect = this.offsetParent.getElementsByClassName('tobe-select');
 
 	[].forEach.call(tobeInput,function(e){
+		e.children[1].value = e.getElementsByClassName('text')[0].textContent;
+
+	});
+
+	[].forEach.call(tobeSelect,function(e){
 		e.children[1].value = e.getElementsByClassName('text')[0].textContent;
 
 	});
