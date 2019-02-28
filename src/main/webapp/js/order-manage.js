@@ -70,7 +70,7 @@
 	}
 
 function addHandlers(elem){
-	console.log(elem);
+	// console.log(elem);
 	elem.getElementsByClassName('modify-btn')[0].addEventListener('click', modifyCard);
 
     elem.addEventListener('dragstart',handleDragStart,false);

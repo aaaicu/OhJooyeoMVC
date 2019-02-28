@@ -39,18 +39,26 @@ textareaModel.classList.add('modify-form','form-control');
 let selectModel = document.createElement('select');
 selectModel.classList.add('modify-form','custom-select');
 
+/* 하드 코딩 */
 let option0 = document.createElement("option");
-let option1 = document.createElement("option");
-
 option0.value = "0";
 option0.text = "일반순서";
+selectModel.add(option0,null);
 
+let option1 = document.createElement("option");
 option1.value = "1";
 option1.text = "성경봉독";
-
-selectModel.add(option0,null);
 selectModel.add(option1,null);
 
+let searchImg = document.createElement('img');
+searchImg.setAttribute('src', getContextPath() + '/img/search.png');
+searchImg.setAttribute('height', '15');
+searchImg.setAttribute('width', '15');
+
+let searchBibleBtnModel = document.createElement('button');
+searchBibleBtnModel.classList.add('modify-form','btn','btn-default','search');
+searchBibleBtnModel.appendChild(searchImg);
+searchBibleBtnModel.append(" 성경찾기");
 
 let saveResetDivModel = document.createElement('div');
 saveResetDivModel.style.textAlign = "right";
@@ -68,7 +76,7 @@ saveBtnModel.setAttribute('type','button');
 saveBtnModel.setAttribute('value','저장');
 
 function templateFactory(templateType, optionalObject) {
-	console.log("함수", optionalObject);
+	// console.log("함수", optionalObject);
 	/*
 	 * order의 경우 기존의 값과 비교하여 변경된 li를 구분하기위한 변수이기 때문에 추가된 li의 경우 기본값 "-1"로 저장 (실제
 	 * 저장 값은 서버에서 할당) 광고 : ad + 숫자 예배순서 : od + 숫자 새롭게 추가된 li의 일련번호는 음수로함.
@@ -140,6 +148,7 @@ function templateFactory(templateType, optionalObject) {
 	let typeStrong = document.createElement('strong');
 	typeStrong.setAttribute('name','type');
 	typeStrong.classList.add('text');
+	typeStrong.style.float = "left";
 	typeDiv.appendChild(typeStrong);
 
 	/* 서버에서 가져오는 방식으로 변경 필요 (임시 하드코딩) */
@@ -150,6 +159,7 @@ function templateFactory(templateType, optionalObject) {
 		typeName = "성경봉독";
 	}
 	typeStrong.textContent = typeName + " ";
+	typeStrong.dataset['value'] = type;
 
 	headerHTML.appendChild(typeDiv);
 	headerHTML.appendChild(modifyButton);
@@ -254,8 +264,19 @@ function templateFactory(templateType, optionalObject) {
 	return resultHTML;
 };
 
+function selectListener(evnet) {
+	if(this.selectedIndex === 1){
+		console.dir(this.offsetParent);
+		/* 성경 고르기 버튼 추가 */
+		// evnet.appendChild(searchBibleBtnModel.cloneNode());
+		this.parentNode.appendChild(searchBibleBtnModel.cloneNode(true));
 
-
+	}else {
+		console.dir(this.parentNode);
+		this.parentNode.removeChild(this.parentNode.getElementsByClassName('search')[0]);
+		/* 성경 고르기 버튼 제거 */
+	}
+};
 
 function modifyCard(e){
 	let tobeInput = this.offsetParent.getElementsByClassName('tobe-input');
@@ -265,32 +286,44 @@ function modifyCard(e){
 	let textarea = textareaModel.cloneNode();
 	let resetBtn = resetBtnModel.cloneNode();
 	let saveBtn = saveBtnModel.cloneNode();
+	let searchBibleBtn = searchBibleBtnModel.cloneNode(true);
 	
 	saveResetDiv.appendChild(resetBtn);
 	saveResetDiv.appendChild(saveBtn);
-	
 	
 	saveResetDiv.children[0].addEventListener('click',resetCard);
 	saveResetDiv.children[1].addEventListener('click',saveCard);
 
 	if(this.offsetParent.dataset['editYn']==="0"){
 		/* 입력모드로 전환 */
+
+		[].forEach.call(tobeSelect,function (e) {
+			let select = selectModel.cloneNode(true);
+
+			/* 속성 변경시 리스너 추가 */
+			select.onchange= selectListener;
+
+			// selectModel.setAttribute('value',e.textContent);
+			// console.dir(select);
+			e.getElementsByClassName('text')[0].style.display='none';
+
+			/* text의 값에 따라 기본값을 변경하는 부분  */
+			select.selectedIndex = e.getElementsByClassName('text')[0].dataset['value'];
+
+			e.appendChild(select);
+			if(select.selectedIndex === 1){
+				e.appendChild(searchBibleBtn);
+			}
+
+
+			// e.getElementsByClassName('text')[0].style.display='none';
+		});
+
 		[].forEach.call(tobeInput,function(e){
 			let input =inputModel.cloneNode();
 			input.setAttribute('value',e.textContent);
 			e.getElementsByClassName('text')[0].style.display='none';
 			e.appendChild(input);
-		});
-
-		[].forEach.call(tobeSelect,function (e) {
-			let select = selectModel.cloneNode(true);
-			// selectModel.setAttribute('value',e.textContent);
-			console.dir(select);
-			e.getElementsByClassName('text')[0].style.display='none';
-			/* text의 값에 따라 기본값을 변경하는 부분  */
-
-			e.appendChild(select);
-			// e.getElementsByClassName('text')[0].style.display='none';
 		});
 
 		[].forEach.call(tobeTextarea,function(e){
@@ -319,16 +352,16 @@ function saveCard(e){
 		e.getElementsByClassName('text')[0].style.display=null;
 
 		e.removeChild(e.getElementsByClassName('modify-form')[0]);
-		console.dir(e.getElementsByClassName('text')[0]);
+		// console.dir(e.getElementsByClassName('text')[0]);
 
 	});
 
 	[].forEach.call(tobeSelect,function(e){
 		e.getElementsByClassName('text')[0].textContent = e.children[1].selectedOptions[0].textContent;
 		e.getElementsByClassName('text')[0].style.display=null;
+		e.getElementsByClassName('text')[0].dataset['value'] = e.getElementsByClassName('modify-form')[0].selectedIndex;
 
 		e.removeChild(e.getElementsByClassName('modify-form')[0]);
-		console.dir(e.getElementsByClassName('text')[0]);
 
 	});
 
@@ -340,7 +373,7 @@ function saveCard(e){
 		e.getElementsByClassName('text')[0].style.display=null;
 
 		e.removeChild(e.getElementsByClassName('modify-form')[0]);
-		console.dir(e.getElementsByClassName('text')[0]);
+		// console.dir(e.getElementsByClassName('text')[0]);
 	});
 
 	this.offsetParent.getElementsByClassName('modify-btn')[0].style.display = null;
@@ -361,7 +394,7 @@ function resetCard(e){
 
 	[].forEach.call(tobeSelect,function(e){
 		e.children[1].value = e.getElementsByClassName('text')[0].textContent;
-
+		e.getElementsByClassName('modify-form')[0];
 	});
 
 	[].forEach.call(tobeTextarea,function(e){
