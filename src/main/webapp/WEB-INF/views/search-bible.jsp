@@ -135,12 +135,6 @@
 </body>
 <script type="text/javascript">
 
-$(document).ready(function() {
-	//최초 부모창에서 데이터 가져와서 파싱하는 로직 추가 필요
-	
-	
-});
-
 chapterList = [];
 sectionList = [];
 
@@ -205,9 +199,10 @@ $("#saveBible").on("click",function(){
 		}
 		saveText +=findList[i].innerText;
 	}
-	$(opener.document).find("[id='"+targetId+"']").find("[name='detail']").val(saveText);
-	$(opener.document).find("[id='"+targetId+"']").find("[name='updateYN']").val("1");
-	window.close(); 
+	<%--$(opener.document).find("[id='"+targetId+"']").find("[name='detail']").val(saveText);--%>
+	<%--$(opener.document).find("[id='"+targetId+"']").find("[name='updateYN']").val("1");--%>
+	opener.document.getElementById(targetId).getElementsByClassName('order-element')[0].children[2].children[1].value = saveText;
+	window.close();
 });
 
 $("#select-book").change(function(){

@@ -43,6 +43,7 @@ selectModel.classList.add('modify-form','custom-select');
 let option0 = document.createElement("option");
 option0.value = "0";
 option0.text = "일반순서";
+option0.selected = true;
 selectModel.add(option0,null);
 
 let option1 = document.createElement("option");
@@ -68,7 +69,7 @@ saveResetDivModel.classList.add('saveResetDiv');
 let resetBtnModel = document.createElement('input');
 resetBtnModel.classList.add('btn','btn-primary','btn-sm');
 resetBtnModel.setAttribute('type','button');
-resetBtnModel.setAttribute('value','리셋');
+resetBtnModel.setAttribute('value','취소');
 
 let saveBtnModel = document.createElement('input');
 saveBtnModel.classList.add('btn','btn-info','btn-sm');
@@ -264,17 +265,71 @@ function templateFactory(templateType, optionalObject) {
 	return resultHTML;
 };
 
+function windowOpen(e) {
+	let element = this.offsetParent;
+	let contextPath = getContextPath();
+	let openWin = window.open(contextPath + "/search-bible", "search-bible",
+			"width=500, height=400, toolbar=no, menubar=no, scrollbars=no, resizable=no");
+
+	openWin.onload = function() {
+		/*
+         * 자식창 저장 시 부모엘리먼트를 찾아서 value를 넣어주기 위해
+         * 자식창에 id 저장
+         */
+		openWin.document.getElementById("targetId").value = element.id;
+
+		let initValue = null;
+		let detailValue = element.getElementsByClassName('order-element')[0].children[2].children[1];
+
+		if (detailValue.value !== null && detailValue.value !== "") {
+
+			/* 부모창의 입력되어 있던 값 파싱 */
+			initValue = detailValue.value.split("/");
+
+			for (let i = 0; i < initValue.length; i++) {
+				let trElement = openWin.document.createElement('tr');
+				let tdElement0 = openWin.document.createElement('td');
+				tdElement0.classList.add('range');
+				tdElement0.textContent = initValue[i];
+
+				let inputElement = openWin.document.createElement('input');
+				inputElement.setAttribute('type','button');
+				inputElement.setAttribute('del','del-button');
+				inputElement.setAttribute('value','삭제');
+
+				let tdElement1 = openWin.document.createElement('td');
+				tdElement1.classList.add('del');
+				tdElement1.appendChild(inputElement);
+
+				trElement.appendChild(tdElement0);
+				trElement.appendChild(tdElement1);
+
+				openWin.document.getElementById("addArea").appendChild(trElement);
+			}
+		}
+	}
+
+}
+
 function selectListener(evnet) {
 	if(this.selectedIndex === 1){
 		console.dir(this.offsetParent);
 		/* 성경 고르기 버튼 추가 */
-		// evnet.appendChild(searchBibleBtnModel.cloneNode());
-		this.parentNode.appendChild(searchBibleBtnModel.cloneNode(true));
+		let searchBibleBtn = searchBibleBtnModel.cloneNode(true);
+
+		/* 성경찾기 클릭 이벤트 추가( 새창으로 열기 콜백 )*/
+		searchBibleBtn.onclick = windowOpen;
+		this.parentNode.appendChild(searchBibleBtn);
+
+		/* 디테일 인풋박스 내용 지우기 및 비활성화 */
+		this.offsetParent.getElementsByClassName('order-element')[0].children[2].children[1].value = "";
+		this.offsetParent.getElementsByClassName('order-element')[0].children[2].children[1].setAttribute("readonly","readonly");
 
 	}else {
-		console.dir(this.parentNode);
-		this.parentNode.removeChild(this.parentNode.getElementsByClassName('search')[0]);
 		/* 성경 고르기 버튼 제거 */
+		this.parentNode.removeChild(this.parentNode.getElementsByClassName('search')[0]);
+		/* 디테일 인풋박스 내용 활성화 */
+		this.offsetParent.getElementsByClassName('order-element')[0].children[2].children[1].removeAttribute("readonly");
 	}
 };
 
@@ -287,6 +342,15 @@ function modifyCard(e){
 	let resetBtn = resetBtnModel.cloneNode();
 	let saveBtn = saveBtnModel.cloneNode();
 	let searchBibleBtn = searchBibleBtnModel.cloneNode(true);
+	let area = null;
+
+	for( let pathIndex in e.path){
+		if(document.getElementById('order-area') === e.path[pathIndex]){
+			area = "order-area";
+		}else if(document.getElementById('ad-area') === e.path[pathIndex]){
+			area = "ad-area";
+		}
+	}
 	
 	saveResetDiv.appendChild(resetBtn);
 	saveResetDiv.appendChild(saveBtn);
@@ -297,33 +361,42 @@ function modifyCard(e){
 	if(this.offsetParent.dataset['editYn']==="0"){
 		/* 입력모드로 전환 */
 
-		[].forEach.call(tobeSelect,function (e) {
-			let select = selectModel.cloneNode(true);
-
-			/* 속성 변경시 리스너 추가 */
-			select.onchange= selectListener;
-
-			// selectModel.setAttribute('value',e.textContent);
-			// console.dir(select);
-			e.getElementsByClassName('text')[0].style.display='none';
-
-			/* text의 값에 따라 기본값을 변경하는 부분  */
-			select.selectedIndex = e.getElementsByClassName('text')[0].dataset['value'];
-
-			e.appendChild(select);
-			if(select.selectedIndex === 1){
-				e.appendChild(searchBibleBtn);
-			}
-
-
-			// e.getElementsByClassName('text')[0].style.display='none';
-		});
-
 		[].forEach.call(tobeInput,function(e){
 			let input =inputModel.cloneNode();
 			input.setAttribute('value',e.textContent);
 			e.getElementsByClassName('text')[0].style.display='none';
 			e.appendChild(input);
+		});
+
+		[].forEach.call(tobeSelect,function (e) {
+			if(area === "order-area"){
+
+				let select = selectModel.cloneNode(true);
+
+				/* 속성 변경시 리스너 추가 */
+				select.onchange= selectListener;
+
+				// selectModel.setAttribute('value',e.textContent);
+				// console.dir(select);
+				e.getElementsByClassName('text')[0].style.display='none';
+
+				/* text의 값에 따라 기본값을 변경하는 부분  */
+				/* 추가된 항목(-1)이 아니라면 가져온 데이터를 기본값으로 지정 */
+				if(e.getElementsByClassName('text')[0].dataset['value'] !== "-1"){
+					select.selectedIndex = e.getElementsByClassName('text')[0].dataset['value'];
+				}
+
+				e.appendChild(select);
+				if(select.selectedIndex === 1){
+					select.offsetParent.getElementsByClassName('order-element')[0].children[2].children[1].setAttribute("readonly","readonly");
+					searchBibleBtn.onclick = windowOpen;
+					e.appendChild(searchBibleBtn);
+
+				}
+
+			}
+
+			// e.getElementsByClassName('text')[0].style.display='none';
 		});
 
 		[].forEach.call(tobeTextarea,function(e){
@@ -346,35 +419,47 @@ function saveCard(e){
 	let tobeInput = this.offsetParent.getElementsByClassName('tobe-input');
 	let tobeTextarea = this.offsetParent.getElementsByClassName('tobe-textarea');
 	let tobeSelect = this.offsetParent.getElementsByClassName('tobe-select');
+	let area = null;
+
+	for( let pathIndex in e.path){
+		if(document.getElementById('order-area') === e.path[pathIndex]){
+			area = "order-area";
+		}else if(document.getElementById('ad-area') === e.path[pathIndex]){
+			area = "ad-area";
+		}
+	}
+
 	/* 확인모드로 전환 */
+
+	[].forEach.call(tobeSelect,function(e){
+		if(area === "order-area") {
+			e.getElementsByClassName('text')[0].textContent = e.children[1].selectedOptions[0].textContent;
+			e.getElementsByClassName('text')[0].style.display = null;
+			e.getElementsByClassName('text')[0].dataset['value'] = e.getElementsByClassName('modify-form')[0].selectedIndex;
+
+			e.removeChild(e.getElementsByClassName('modify-form')[0]);
+		}
+	});
+
 	[].forEach.call(tobeInput,function(e){
 		e.getElementsByClassName('text')[0].textContent = e.children[1].value;
 		e.getElementsByClassName('text')[0].style.display=null;
-
-		e.removeChild(e.getElementsByClassName('modify-form')[0]);
-		// console.dir(e.getElementsByClassName('text')[0]);
-
-	});
-
-	[].forEach.call(tobeSelect,function(e){
-		e.getElementsByClassName('text')[0].textContent = e.children[1].selectedOptions[0].textContent;
-		e.getElementsByClassName('text')[0].style.display=null;
-		e.getElementsByClassName('text')[0].dataset['value'] = e.getElementsByClassName('modify-form')[0].selectedIndex;
 
 		e.removeChild(e.getElementsByClassName('modify-form')[0]);
 
 	});
 
 	[].forEach.call(tobeTextarea,function(e){
-//		e.textContent = e.children[0].value;
-
-
 		e.getElementsByClassName('text')[0].textContent = e.children[1].value;
 		e.getElementsByClassName('text')[0].style.display=null;
 
 		e.removeChild(e.getElementsByClassName('modify-form')[0]);
-		// console.dir(e.getElementsByClassName('text')[0]);
 	});
+
+	let searchBtn = this.offsetParent.getElementsByClassName('search');
+	if(searchBtn.length !== 0 ){
+		searchBtn[0].parentNode.removeChild(searchBtn[0]);
+	}
 
 	this.offsetParent.getElementsByClassName('modify-btn')[0].style.display = null;
 	this.offsetParent.dataset['editYn']  = "0" ;
@@ -387,20 +472,45 @@ function resetCard(e){
 	let tobeTextarea = this.offsetParent.getElementsByClassName('tobe-textarea');
 	let tobeSelect = this.offsetParent.getElementsByClassName('tobe-select');
 
-	[].forEach.call(tobeInput,function(e){
-		e.children[1].value = e.getElementsByClassName('text')[0].textContent;
+	let area = null;
+
+	for( let pathIndex in e.path){
+		if(document.getElementById('order-area') === e.path[pathIndex]){
+			area = "order-area";
+		}else if(document.getElementById('ad-area') === e.path[pathIndex]){
+			area = "ad-area";
+		}
+	}
+
+	/* 확인모드로 전환 */
+	[].forEach.call(tobeSelect,function(e){
+		if(area === "order-area"){
+
+			e.getElementsByClassName('text')[0].style.display=null;
+			e.removeChild(e.getElementsByClassName('modify-form')[0]);
+		}
 
 	});
 
-	[].forEach.call(tobeSelect,function(e){
-		e.children[1].value = e.getElementsByClassName('text')[0].textContent;
-		e.getElementsByClassName('modify-form')[0];
+	[].forEach.call(tobeInput,function(e){
+		e.getElementsByClassName('text')[0].style.display=null;
+
+		e.removeChild(e.getElementsByClassName('modify-form')[0]);
 	});
 
 	[].forEach.call(tobeTextarea,function(e){
-		e.children[1].value = e.getElementsByClassName('text')[0].textContent;
+		e.getElementsByClassName('text')[0].style.display=null;
+		e.removeChild(e.getElementsByClassName('modify-form')[0]);
 	});
 
+	let searchBtn = this.offsetParent.getElementsByClassName('search');
+	if(searchBtn.length !== 0 ){
+		searchBtn[0].parentNode.removeChild(searchBtn[0]);
+	}
+
+	this.offsetParent.getElementsByClassName('modify-btn')[0].style.display = null;
+	this.offsetParent.dataset['editYn']  = "0" ;
+	this.offsetParent.removeChild(this.offsetParent.getElementsByClassName('saveResetDiv')[0]);
 }
 
 
@@ -409,76 +519,6 @@ function resetCard(e){
 function render(area, html, method) {
 	$(area)[method](html);
 };
-/*
- * type 변경시 "1"일 경우 detail input box 비활성화 다른 타입으로 변경시 readonly 풀림
- */
-$("ul")
-		.on(
-				"change",
-				".selectType",
-				function() {
-					var $this = $(this);
-					var detailTag = $($this.closest("li")).find(
-							"[name='detail']");
-					if ($this.val() == "1") {
-						detailTag.val("");
-						detailTag.attr("readonly", "readonly");
-						detailTag.attr("size", "15");
-						detailTag
-								.after("<input type='button' class='searchBible' value = '찾기'>");
-					} else {
-						detailTag.removeAttr("readonly");
-						if (detailTag.siblings("[class='searchBible']").length == 1) {
-							detailTag.siblings("[class='searchBible']")
-									.remove();
-							detailTag.removeAttr("size");
-						}
-					}
-				})
-
-/* 찾기 버튼 구현 */
-$("ul")
-		.on(
-				"click",
-				".searchBible",
-				function() {
-					var pathname = window.location.pathname;
-					var rootName = /.*[\/$]/.exec(pathname);
-					var initValue = "";
-					var $this = $(this);
-
-					openWin = window
-							.open(rootName + "search-bible", "search-bible",
-									"width=500, height=400, toolbar=no, menubar=no, scrollbars=no, resizable=no");
-					$(openWin)
-							.on(
-									"load",
-									function() {
-										/*
-										 * 자식창 저장 시 부모엘리먼트를 찾아서 value를 넣어주기 위해
-										 * 자식창에 id 저장
-										 */
-										openWin.document
-												.getElementById("targetId").value = $this
-												.closest("li")[0].id;
-
-										if ($this.siblings()[0].value != null
-												&& $this.siblings()[0].value != "") {
-
-											/* 부모창의 입력되어 있던 값 파싱 */
-											initValue = $this.siblings()[0].value
-													.split("/");
-											for (var i = 0; i < initValue.length; i++) {
-												tag = "<tr><td class = 'range'>"
-														+ initValue[i]
-														+ "</td><td class = 'del'><input type = 'button' del = 'del-button' value = '삭제'></td></tr>";
-												$(openWin.document).find(
-														"#addArea").append(
-														$(tag));
-											}
-										}
-									});
-				});
 
 /* 삭제버튼 클릭 */
 $("#renderArea").on("click", ".del", function() {
