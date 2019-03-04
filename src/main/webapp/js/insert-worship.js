@@ -92,6 +92,9 @@ function templateFactory(templateType, optionalObject) {
 	let presenter = "";
 	let content = "";
 
+
+
+
 	if (templateType === "order") {
 		if (optionalObject instanceof Object) {
 			id = optionalObject.orderId;
@@ -111,6 +114,19 @@ function templateFactory(templateType, optionalObject) {
 		}
 	}
 
+	let closeFunction = function (e) {
+		if (parseInt(id) >= 0) {
+
+			if (templateType === "order") {
+				removeOrderList.push(id);
+			} else if (templateType === "ad") {
+				removeAdList.push(id);
+			}
+		}
+		console.log(removeOrderList);
+		console.log(removeAdList);
+	}
+
 	resultHTML = document.createElement('div');
 	resultHTML.setAttribute('id', id);
 	resultHTML.setAttribute('draggable', 'true');
@@ -128,6 +144,7 @@ function templateFactory(templateType, optionalObject) {
 	deleteButton.textContent = '×';
 	deleteButton.setAttribute('type', 'button');
 	deleteButton.setAttribute('data-dismiss', 'alert');
+	deleteButton.addEventListener('click', closeFunction);
 	resultHTML.appendChild(deleteButton);
 
 	/* 항목 카드 헤더 */
@@ -311,6 +328,8 @@ function windowOpen(e) {
 
 }
 
+
+
 function selectListener(evnet) {
 	if(this.selectedIndex === 1){
 		console.dir(this.offsetParent);
@@ -328,7 +347,8 @@ function selectListener(evnet) {
 	}else {
 		/* 성경 고르기 버튼 제거 */
 		this.parentNode.removeChild(this.parentNode.getElementsByClassName('search')[0]);
-		/* 디테일 인풋박스 내용 활성화 */
+		/* 디테일 인풋박스 내용 지우기 및 활성화 */
+		this.offsetParent.getElementsByClassName('order-element')[0].children[2].children[1].value = "";
 		this.offsetParent.getElementsByClassName('order-element')[0].children[2].children[1].removeAttribute("readonly");
 	}
 };
