@@ -1,14 +1,18 @@
 
 var updateOrderList;
-var removeOrderList;
 
 var updateAdList;
-var removeAdList;
 
-var tempId;
 var memory;
 
 
+
+
+let removeOrderList;
+let removeAdList;
+
+/* 추가될 div 의 Id (속성에 따른 리턴을 수용할 수 있기 때문에 음수로 채번하여 고유값 유지 */
+let tempId;
 
 function init() {
 	memory = new Map();
@@ -83,16 +87,13 @@ function templateFactory(templateType, optionalObject) {
 	 * 저장 값은 서버에서 할당) 광고 : ad + 숫자 예배순서 : od + 숫자 새롭게 추가된 li의 일련번호는 음수로함.
 	 */
 	let resultHTML;
-	let liId = tempId;
-	let id = "-1";
+	let id = tempId;
 	let order = "-1";	
 	let type = "-1";
 	let title = "";
 	let detail = "";
 	let presenter = "";
 	let content = "";
-
-
 
 
 	if (templateType === "order") {
@@ -539,24 +540,24 @@ function resetCard(e){
 function render(area, html, method) {
 	$(area)[method](html);
 };
-
-/* 삭제버튼 클릭 */
-$("#renderArea").on("click", ".del", function() {
-	var $this = $(this);
-	var thisId = $($this.closest("li")[0]).attr("id");
-	var thisNo = thisId.substr(2);
-	var thisType = thisId.substr(0, 2);
-	console.log(thisType == "od");
-	// 새롭게 추가되는 li는 삭제명단에서 관리할 필요가 없기때문에 음수는 배제
-	if (parseInt(thisNo) >= 0) {
-		if (thisType === "od") {
-			removeOrderList.push(thisNo)
-		} else if (thisType === "ad") {
-			removeAdList.push(thisNo);
-		}
-	}
-	$this.closest("li").remove();
-});
+//
+// /* 삭제버튼 클릭 */
+// $("#renderArea").on("click", ".del", function() {
+// 	var $this = $(this);
+// 	var thisId = $($this.closest("li")[0]).attr("id");
+// 	var thisNo = thisId.substr(2);
+// 	var thisType = thisId.substr(0, 2);
+// 	console.log(thisType == "od");
+// 	// 새롭게 추가되는 li는 삭제명단에서 관리할 필요가 없기때문에 음수는 배제
+// 	if (parseInt(thisNo) >= 0) {
+// 		if (thisType === "od") {
+// 			removeOrderList.push(thisNo)
+// 		} else if (thisType === "ad") {
+// 			removeAdList.push(thisNo);
+// 		}
+// 	}
+// 	$this.closest("li").remove();
+// });
 
 /* 추가버튼 클릭 */
 $(".add-html").on("click", function() {
