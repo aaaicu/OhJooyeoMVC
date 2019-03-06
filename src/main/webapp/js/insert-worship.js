@@ -11,7 +11,7 @@ var memory;
 let removeOrderList;
 let removeAdList;
 
-/* 추가될 div 의 Id (속성에 따른 리턴을 수용할 수 있기 때문에 음수로 채번하여 고유값 유지 */
+/* 추가될 div 의 Id (속성에 따른 리턴을 수용할 수 있기 때문에 음수로 채번하여 고유값 유지) */
 let tempId;
 
 function init() {
