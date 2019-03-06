@@ -1,4 +1,90 @@
 
+console.log();
+document.getElementById('updateButton').addEventListener('click',function (e) {
+	console.log("클릭");
+	let paramObject;
+
+	let worshipObject = {};
+	let orderList = [];
+	let adList = [];
+	[].forEach.call(document.getElementById('worshipForm').querySelectorAll('input'),function (e) {
+		worshipObject[e.name] = e.value;
+	});
+
+	[].forEach.call(document.querySelectorAll('#order-area > div'),function (e) {
+		let orderObject ;
+		let [type, title, detail, presenter] = e.querySelectorAll('.text');
+		orderObject = {
+			'id' : e.id,
+			'order' : e.dataset.order,
+			'type' : type.textContent.trim(),
+			'title' : title.textContent.trim(),
+			'detail' : detail.textContent.trim(),
+			'presenter' : presenter.textContent.trim()
+		};
+		orderList.push(orderObject);
+	});
+
+	[].forEach.call(document.querySelectorAll('#ad-area > div'), function(e) {
+		let adObject ;
+		let [title, content] = e.querySelectorAll('.text');
+		adObject = {
+			'id' : e.id,
+			'order' : e.dataset.order,
+			'title' : title.textContent.trim(),
+			'content' : content.textContent.trim(),
+		};
+		adList.push(adObject);
+	});
+
+	paramObject = {worshipObject,orderList,adList};
+	console.log(JSON.stringify(paramObject));
+});
+
+//
+// $("#updateButton").on("click", function() {
+// 	console.log("클릭");
+// 	worshipForm = $("#worshipForm").serialize();
+// 	orderForm = $("#orderForm").serialize();
+// 	adForm = $("#adForm").serialize();
+//
+// 	paramObject = {
+// 		removeOrderList : removeOrderList,
+// 		removeAdList : removeAdList,
+// 		worship : worshipForm,
+// 		order : orderForm,
+// 		ad : adForm
+// 	}
+//
+// 	console.log(paramObject);
+//
+// 	$.ajax({
+// 		url : getContextPath()+"/updateWorship",
+// 		type : "post",
+// 		contentType : "application/json",
+// 		dataType : "text",
+// 		data : JSON.stringify(paramObject),
+// 		success : function() {
+//
+// 			console.log("업데이트발생");
+// 			console.log($("#selectWorshipId"));
+// 			$("#orderList").children().remove();
+// 			$("#adList").children().remove();
+// 			getWorshipInfo($("#selectWorshipId").val());
+// 			getWorshipDetailList($("#selectWorshipId").val(), "order");
+// 			getWorshipDetailList($("#selectWorshipId").val(), "ad");
+// 			alert("수정되었습니다.")
+// 		},
+//
+// 		error : function(XHR, status, error) {
+// 			console.error(status + " : " + error);
+// 		}
+// 	});
+//
+// });
+//
+//
+
 function updateWorshipInit() {
 	/* 예배ID 리스트 비동기식으로 조회 */
 	$.ajax({
@@ -130,43 +216,43 @@ $("#deleteWorship").on("click", function() {
 })
 
 /* 예배ID 변경시 순서 재호출 */
-$("#updateButton").on("click", function() {
-	console.log("클릭");
-	worshipForm = $("#worshipForm").serialize();
-	orderForm = $("#orderForm").serialize();
-	adForm = $("#adForm").serialize();
-
-	paramObject = {
-		removeOrderList : removeOrderList,
-		removeAdList : removeAdList,
-		worship : worshipForm,
-		order : orderForm,
-		ad : adForm
-	}
-
-	console.log(paramObject);
-
-	$.ajax({
-		url : getContextPath()+"/updateWorship",
-		type : "post",
-		contentType : "application/json",
-		dataType : "text",
-		data : JSON.stringify(paramObject),
-		success : function() {
-
-			console.log("업데이트발생");
-			console.log($("#selectWorshipId"));
-			$("#orderList").children().remove();
-			$("#adList").children().remove();
-			getWorshipInfo($("#selectWorshipId").val());
-			getWorshipDetailList($("#selectWorshipId").val(), "order");
-			getWorshipDetailList($("#selectWorshipId").val(), "ad");
-			alert("수정되었습니다.")
-		},
-
-		error : function(XHR, status, error) {
-			console.error(status + " : " + error);
-		}
-	});
-
-});
+// $("#updateButton").on("click", function() {
+// 	console.log("클릭");
+// 	worshipForm = $("#worshipForm").serialize();
+// 	orderForm = $("#orderForm").serialize();
+// 	adForm = $("#adForm").serialize();
+//
+// 	paramObject = {
+// 		removeOrderList : removeOrderList,
+// 		removeAdList : removeAdList,
+// 		worship : worshipForm,
+// 		order : orderForm,
+// 		ad : adForm
+// 	}
+//
+// 	console.log(paramObject);
+//
+// 	$.ajax({
+// 		url : getContextPath()+"/updateWorship",
+// 		type : "post",
+// 		contentType : "application/json",
+// 		dataType : "text",
+// 		data : JSON.stringify(paramObject),
+// 		success : function() {
+//
+// 			console.log("업데이트발생");
+// 			console.log($("#selectWorshipId"));
+// 			$("#orderList").children().remove();
+// 			$("#adList").children().remove();
+// 			getWorshipInfo($("#selectWorshipId").val());
+// 			getWorshipDetailList($("#selectWorshipId").val(), "order");
+// 			getWorshipDetailList($("#selectWorshipId").val(), "ad");
+// 			alert("수정되었습니다.")
+// 		},
+//
+// 		error : function(XHR, status, error) {
+// 			console.error(status + " : " + error);
+// 		}
+// 	});
+//
+// });
