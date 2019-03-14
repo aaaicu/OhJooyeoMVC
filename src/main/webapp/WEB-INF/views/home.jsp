@@ -8,6 +8,7 @@
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/order-manage.css">
 	<script type="text/javascript"	src="https://code.jquery.com/jquery-1.12.4.js"></script>
 	<script type="text/javascript"	src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
+	
 </head>
 <body>
 
@@ -21,5 +22,21 @@
 </div>
 
 <c:import url="/WEB-INF/views/includes/footer.jsp"></c:import>
+<script src="${pageContext.request.contextPath}/js/insert-worship.js"></script>
+<script src="${pageContext.request.contextPath}/js/update-worship.js"></script>
+<script src="${pageContext.request.contextPath}/js/order-manage.js"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+
+		updateWorshipInit();
+		
+		init();
+	});
+
+	
+	function showModal(){
+		$(".modal").modal();
+	}
+</script>
 </body>
 </html>

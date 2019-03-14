@@ -1,11 +1,8 @@
-
 var updateOrderList;
 
 var updateAdList;
 
 var memory;
-
-
 
 
 let removeOrderList;
@@ -390,9 +387,10 @@ function modifyCard(e){
 		});
 
 		[].forEach.call(tobeSelect,function (e) {
+			e.appendChild(inputModel.cloneNode());
 			if(area === "order-area"){
 
-				let select = selectModel.cloneNode(true);
+				let select = selectModel.cloneNode();
 
 				/* 속성 변경시 리스너 추가 */
 				select.onchange= selectListener;
@@ -412,6 +410,8 @@ function modifyCard(e){
 					select.offsetParent.getElementsByClassName('order-element')[0].children[2].children[1].setAttribute("readonly","readonly");
 					searchBibleBtn.onclick = windowOpen;
 					e.appendChild(searchBibleBtn);
+					
+					
 
 				}
 
@@ -644,3 +644,16 @@ $("ul").on(
 				}
 			}
 		});
+
+
+$(document).ready(function() {
+
+	updateWorshipInit();
+	
+	init();
+});
+
+
+function showModal(){
+	$(".modal").modal();
+}
