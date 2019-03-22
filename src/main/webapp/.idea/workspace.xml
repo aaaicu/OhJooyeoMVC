@@ -37,17 +37,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/insert-worship.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="388" column="48" lean-forward="true" selection-start-line="388" selection-start-column="48" selection-end-line="388" selection-end-column="48" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/update-worship.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1358">
-              <caret line="87" column="30" lean-forward="true" selection-start-line="87" selection-start-column="30" selection-end-line="87" selection-end-column="30" />
+            <state relative-caret-position="205">
+              <caret line="369" lean-forward="true" selection-start-line="369" selection-end-line="369" />
             </state>
           </provider>
         </entry>
@@ -89,7 +80,6 @@
       <find>'modify-form'</find>
       <find>selectMo</find>
       <find>saveResetDivModel</find>
-      <find>selectModel</find>
       <find>reset</find>
       <find>리셋</find>
       <find>.dataset['value']</find>
@@ -100,10 +90,11 @@
       <find>text</find>
       <find>$</find>
       <find>edit</find>
-      <find>modifyCard</find>
       <find>opener</find>
-      <find>add-html</find>
       <find>updateButton</find>
+      <find>modifyCard</find>
+      <find>add-html</find>
+      <find>selectModel</find>
     </findStrings>
     <replaceStrings>
       <replace>let</replace>
@@ -230,11 +221,10 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="118190000" />
+    <option name="totallyTimeSpent" value="123502000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1" y="32" width="1440" height="829" extended-state="1" />
-    <editor active="true" />
+    <frame x="1" y="32" width="1440" height="829" extended-state="0" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.14587738" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -349,6 +339,13 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/js/update-worship.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2760">
+          <caret line="184" column="24" lean-forward="true" selection-start-line="184" selection-start-column="24" selection-end-line="184" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/WEB-INF/views/worship-update.jsp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="392">
@@ -359,17 +356,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/update-worship.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1358">
-          <caret line="87" column="30" lean-forward="true" selection-start-line="87" selection-start-column="30" selection-end-line="87" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/insert-worship.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="388" column="48" lean-forward="true" selection-start-line="388" selection-start-column="48" selection-end-line="388" selection-end-column="48" />
+        <state relative-caret-position="205">
+          <caret line="369" lean-forward="true" selection-start-line="369" selection-end-line="369" />
         </state>
       </provider>
     </entry>

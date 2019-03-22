@@ -91,10 +91,12 @@ function templateFactory(templateType, optionalObject) {
 	let detail = "";
 	let presenter = "";
 	let content = "";
+	let area = undefined;
 
 
 	if (templateType === "order") {
 		if (optionalObject instanceof Object) {
+			area = "order";
 			id = optionalObject.orderId;
 			order = optionalObject.order;
 			type = optionalObject.type;
@@ -105,6 +107,7 @@ function templateFactory(templateType, optionalObject) {
 
 	} else if (templateType === "ad") {
 		if (optionalObject instanceof Object) {
+			area = "ad";
 			id = optionalObject.adId;
 			order = optionalObject.order;
 			title = optionalObject.title;
@@ -130,6 +133,7 @@ function templateFactory(templateType, optionalObject) {
 	resultHTML.setAttribute('draggable', 'true');
 	resultHTML.classList.add('alert', 'alert-dismissible', 'alert-secondary');
 	resultHTML.style.overflow = 'auto';
+	resultHTML.dataset['area'] = area;
 
 	/* hidden data를 dataset으로 관리 (data- ~~) */
 	resultHTML.dataset.order = order;
@@ -362,14 +366,8 @@ function modifyCard(e){
 	let searchBibleBtn = searchBibleBtnModel.cloneNode(true);
 	let area = null;
 
-	for( let pathIndex in e.path){
-		if(document.getElementById('order-area') === e.path[pathIndex]){
-			area = "order-area";
-		}else if(document.getElementById('ad-area') === e.path[pathIndex]){
-			area = "ad-area";
-		}
-	}
-	
+	area = this.offsetParent.dataset['area'];
+
 	saveResetDiv.appendChild(resetBtn);
 	saveResetDiv.appendChild(saveBtn);
 	
@@ -387,16 +385,16 @@ function modifyCard(e){
 		});
 
 		[].forEach.call(tobeSelect,function (e) {
-			e.appendChild(inputModel.cloneNode());
-			if(area === "order-area"){
-
-				let select = selectModel.cloneNode();
+			
+			console.log(area);
+			if(area === "order"){
+				let select = selectModel.cloneNode(true);
 
 				/* 속성 변경시 리스너 추가 */
 				select.onchange= selectListener;
 
 				// selectModel.setAttribute('value',e.textContent);
-				// console.dir(select);
+				console.dir(select);
 				e.getElementsByClassName('text')[0].style.display='none';
 
 				/* text의 값에 따라 기본값을 변경하는 부분  */
@@ -442,18 +440,12 @@ function saveCard(e){
 	let tobeSelect = this.offsetParent.getElementsByClassName('tobe-select');
 	let area = null;
 
-	for( let pathIndex in e.path){
-		if(document.getElementById('order-area') === e.path[pathIndex]){
-			area = "order-area";
-		}else if(document.getElementById('ad-area') === e.path[pathIndex]){
-			area = "ad-area";
-		}
-	}
+	area = this.offsetParent.dataset['area'];
 
 	/* 확인모드로 전환 */
 
 	[].forEach.call(tobeSelect,function(e){
-		if(area === "order-area") {
+		if(area === "order") {
 			e.getElementsByClassName('text')[0].textContent = e.children[1].selectedOptions[0].textContent;
 			e.getElementsByClassName('text')[0].style.display = null;
 			e.getElementsByClassName('text')[0].dataset['value'] = e.getElementsByClassName('modify-form')[0].selectedIndex;
@@ -495,13 +487,7 @@ function resetCard(e){
 
 	let area = null;
 
-	for( let pathIndex in e.path){
-		if(document.getElementById('order-area') === e.path[pathIndex]){
-			area = "order-area";
-		}else if(document.getElementById('ad-area') === e.path[pathIndex]){
-			area = "ad-area";
-		}
-	}
+	area = this.offsetParent.dataset['area'];
 
 	/* 확인모드로 전환 */
 	[].forEach.call(tobeSelect,function(e){
