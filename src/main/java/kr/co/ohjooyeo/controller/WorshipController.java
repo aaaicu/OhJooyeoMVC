@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,9 +28,13 @@ import kr.co.ohjooyeo.vo.WorshipAdVO;
 import kr.co.ohjooyeo.vo.WorshipOrderVO;
 import kr.co.ohjooyeo.vo.WorshipVO;
 
+
 @Controller
 
 public class WorshipController {
+	
+	private static final Logger logger = LoggerFactory.getLogger(WorshipController.class);
+	
 	@Autowired
 	WorshipService worshipService;
 
@@ -43,8 +49,8 @@ public class WorshipController {
 	
 	@RequestMapping(value = "/getWorshipIdList", method = RequestMethod.POST)
 	public @ResponseBody List<String> getWorshipIdList(@RequestBody String userId) {
-
 		List<String> result = worshipService.getWorshipIdList(userId);
+		logger.debug("result : " +result);
 		return result;
 	}
 
@@ -55,7 +61,7 @@ public class WorshipController {
 
 	@RequestMapping(value = "/deleteWorship", method = RequestMethod.POST)
 	public @ResponseBody String deleteWorship(@RequestBody String worshipId) {
-		System.out.println("test" + worshipId);
+		logger.trace("test : " +worshipId);
 		
 		orderService.deleteAll(worshipId);
 		adService.deleteAll(worshipId);
@@ -76,15 +82,15 @@ public class WorshipController {
 		vo.setUserId("admin");
 
 		// 확인
-		System.out.println(vo);
+		logger.debug(vo.toString());
 		for(String a : adOrders) {			
-			System.out.println(a);
+			logger.trace(a);
 		}
 		for(String a : adTitles) {			
-			System.out.println(a);
+			logger.trace(a);
 		}
 		for(String a : adContents) {			
-			System.out.println(a);
+			logger.trace(a);
 		}
 		worshipService.addWorship(vo);
 		// 순서 추가
@@ -116,7 +122,8 @@ public class WorshipController {
 	public @ResponseBody String updateWorship(
 			@RequestBody Map<String,Object> inputMap
 			) throws UnsupportedEncodingException {
-		System.out.println("inputMap : "+ inputMap);
+
+		logger.debug("inputMap : "+ inputMap);
 		
 		/* 파라미터 처리 로직 */
 		String worship = (String)inputMap.get("worship");
@@ -137,9 +144,9 @@ public class WorshipController {
 	    Map<String, List<String>> adParam = new HashMap<>();
 	    adParam.putAll(UriComponentsBuilder.fromUriString(ad).build().getQueryParams());
 	    
-	    System.out.println(worshipParam);
-	    System.out.println(orderParam);
-	    System.out.println(adParam);
+	    logger.trace(worshipParam.toString());
+	    logger.trace(orderParam.toString());
+	    logger.trace(adParam.toString());
 	    
 	    //순서상에 변동이 있는지 확인필요
 	    
@@ -153,7 +160,7 @@ public class WorshipController {
 	    
 	    /* 예배정보 업데이트 */
 	    if(worshipParam.get("worshipUpdateYN").contains("1")) {
-	    	System.out.println("예배정보 업데이트메서드 추가");
+	    	logger.trace("예배정보 업데이트메서드 추가");
 	    	
 	    	worshipVersionUp = true;
 	    	
@@ -173,13 +180,13 @@ public class WorshipController {
 	    /* 변경이 되었거나 새롭게 추가된 순서가 있다면 업데이트 실행 */
 	    if(!orderParam.isEmpty()&&(orderParam.get("orderUpdateYN").contains("1") || orderParam.get("orderOrder").contains("-1"))) {
 	    	
-	    	System.out.println("예배순서 업데이트메서드 추가");
+	    	logger.trace("예배순서 업데이트메서드 추가");
 
 	    	worshipVersionUp = true;
 	    	
 		    orderParam.put("worshipId", worshipId);
 	    	Map<String, List<Object>> updateWorshipOrderVOList = worshipService.analyzeValues(orderParam,"order");
-	    	System.out.println("분석결과 : "+updateWorshipOrderVOList);
+	    	logger.debug("분석결과 : "+updateWorshipOrderVOList);
 	    	
 	    	List<Object> addList = updateWorshipOrderVOList.get("addList");
 	    	List<WorshipOrderVO> convertAddList = new ArrayList<>(addList.size());
@@ -202,7 +209,7 @@ public class WorshipController {
 	    
 	    /* 예배순서 삭제 */
 	    if (!removeOrderList.isEmpty()) {	    	
-	    	System.out.println(removeOrderList);
+	    	logger.debug(removeOrderList.toString());
 	    	orderService.delete(worshipId.get(0),removeOrderList);
 	    }
 	    
@@ -214,7 +221,7 @@ public class WorshipController {
 	    
 	    /* 광고 업데이트 */
 	    if(!adParam.isEmpty()&&(adParam.get("adUpdateYN").contains("1") || adParam.get("adOrder").contains("-1"))) {
-	    	System.out.println("광고 업데이트메서드 추가");
+	    	logger.trace("광고 업데이트메서드 추가");
 	    	versionService.updateVersion(worshipId.get(0) , versionService.versionUp(version,1));
 
 		    adParam.put("worshipId", worshipId);
@@ -240,7 +247,7 @@ public class WorshipController {
 	    
 	    /* 광고 삭제 */
 	    if (!removeAdList.isEmpty()) {	    	
-	    	System.out.println(removeAdList);
+	    	logger.debug(removeAdList.toString());
 	    	adService.delete(worshipId.get(0),removeAdList);
 	    }
 	    
@@ -256,13 +263,13 @@ public class WorshipController {
 	
 	@RequestMapping(value = "/getWorshipAdList", method = RequestMethod.POST)
 	public @ResponseBody List<WorshipAdVO> getWorshipAdList(@RequestBody String worshipId) {
-		System.out.println(adService.getWorshipAdList(worshipId));
+		logger.debug(adService.getWorshipAdList(worshipId).toString());
 		return adService.getWorshipAdList(worshipId);
 	}
 	@RequestMapping(value = "/getWorshipInfo", method = RequestMethod.POST)
 	public @ResponseBody Map<String,String> getWorshipInfo(@RequestBody String worshipId) {
 		
-		System.out.println("결과 : " + worshipService.getWorshipInfo(worshipId));
+		logger.debug("결과 : " + worshipService.getWorshipInfo(worshipId));
 		return worshipService.getWorshipInfo(worshipId);
 	}
 	

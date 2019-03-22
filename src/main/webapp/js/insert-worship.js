@@ -632,14 +632,14 @@ $("ul").on(
 		});
 
 
-$(document).ready(function() {
+//$(document).ready(function() {
+//
+//	updateWorshipInit();
+//	
+//	init();
+//});
 
-	updateWorshipInit();
-	
-	init();
-});
-
-
-function showModal(){
-	$(".modal").modal();
-}
+//
+//function showModal(){
+//	$(".modal").modal();
+//}

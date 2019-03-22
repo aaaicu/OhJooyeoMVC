@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,8 @@ import kr.co.ohjooyeo.vo.WorshipVO;
 
 @Service
 public class WorshipService {
+	private static final Logger logger = LoggerFactory.getLogger(WorshipService.class);
+	
 	@Autowired
 	WorshipDAO worshipDAO;
 	
@@ -39,7 +43,7 @@ public class WorshipService {
 	}
 
 	public Map<String, String> getWorshipInfo(String worshipId) {
-		System.out.println("요청 : " + worshipId);
+		logger.debug("요청 : " + worshipId);
 		return worshipDAO.getWorshipInfo(worshipId);
 	}
 	
