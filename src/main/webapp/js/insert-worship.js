@@ -1,9 +1,6 @@
 var updateOrderList;
-
 var updateAdList;
-
 var memory;
-
 
 let removeOrderList;
 let removeAdList;
@@ -26,7 +23,6 @@ function getContextPath() {
 }
 
 /* 태그 프로토타입 */
-
 let inputModel = document.createElement('input');
 inputModel.setAttribute('type','text');
 inputModel.classList.add('modify-form','form-control-plaintext');
@@ -92,7 +88,6 @@ function templateFactory(templateType, optionalObject) {
 	let presenter = "";
 	let content = "";
 	let area = undefined;
-
 
 	if (templateType === "order") {
 		if (optionalObject instanceof Object) {
@@ -234,7 +229,6 @@ function templateFactory(templateType, optionalObject) {
 		presenterTextDiv.innerText = presenter;
 		presenterDiv.appendChild(presenterTextDiv);
 
-
 		bodyHTML.appendChild(titleDiv);
 		bodyHTML.appendChild(hrDiv.cloneNode(true));
 		bodyHTML.appendChild(detailDiv);
@@ -254,8 +248,7 @@ function templateFactory(templateType, optionalObject) {
 		titleTextDiv.classList.add('text');
 		titleTextDiv.innerText = title;
 		titleDiv.appendChild(titleTextDiv);
-		
-		
+
 		let contentDiv;
 		contentDiv = document.createElement('div');
 		contentDiv.setAttribute('name', 'content');
@@ -266,8 +259,7 @@ function templateFactory(templateType, optionalObject) {
 		
 		contentTextDiv.innerText = content;
 		contentDiv.appendChild(contentTextDiv);
-		
-		
+
 		bodyHTML.appendChild(titleDiv);
 		bodyHTML.appendChild(contentDiv);
 		
@@ -330,8 +322,6 @@ function windowOpen(e) {
 
 }
 
-
-
 function selectListener(evnet) {
 	if(this.selectedIndex === 1){
 		console.dir(this.offsetParent);
@@ -374,7 +364,6 @@ function modifyCard(e){
 	saveResetDiv.children[0].addEventListener('click',resetCard);
 	saveResetDiv.children[1].addEventListener('click',saveCard);
 
-	if(this.offsetParent.dataset['editYn']==="0"){
 		/* 입력모드로 전환 */
 
 		[].forEach.call(tobeInput,function(e){
@@ -408,9 +397,6 @@ function modifyCard(e){
 					select.offsetParent.getElementsByClassName('order-element')[0].children[2].children[1].setAttribute("readonly","readonly");
 					searchBibleBtn.onclick = windowOpen;
 					e.appendChild(searchBibleBtn);
-					
-					
-
 				}
 
 			}
@@ -426,11 +412,8 @@ function modifyCard(e){
 
 		this.offsetParent.appendChild(saveResetDiv);
 		
-	}
-	
 	/* 토근 변경 */
 	this.offsetParent.dataset['editYn']  = "1" ;
-	
 	this.parentNode.children[1].style.display = "none";
 }
 
@@ -475,7 +458,10 @@ function saveCard(e){
 	}
 
 	this.offsetParent.getElementsByClassName('modify-btn')[0].style.display = null;
+
+	/* 토근 변경 */
 	this.offsetParent.dataset['editYn']  = "0" ;
+	this.offsetParent.dataset['updateYn']  = "1" ;
 	this.offsetParent.removeChild(this.offsetParent.getElementsByClassName('saveResetDiv')[0]);
 
 }
@@ -491,7 +477,7 @@ function resetCard(e){
 
 	/* 확인모드로 전환 */
 	[].forEach.call(tobeSelect,function(e){
-		if(area === "order-area"){
+		if(area === "order"){
 
 			e.getElementsByClassName('text')[0].style.display=null;
 			e.removeChild(e.getElementsByClassName('modify-form')[0]);
@@ -515,8 +501,8 @@ function resetCard(e){
 		searchBtn[0].parentNode.removeChild(searchBtn[0]);
 	}
 
-	this.offsetParent.getElementsByClassName('modify-btn')[0].style.display = null;
 	this.offsetParent.dataset['editYn']  = "0" ;
+	this.offsetParent.getElementsByClassName('modify-btn')[0].style.display = null;
 	this.offsetParent.removeChild(this.offsetParent.getElementsByClassName('saveResetDiv')[0]);
 }
 
