@@ -33,6 +33,8 @@
 	<context:component-scan base-package="kr.co.ohjooyeo" />
 	<context:component-scan base-package="kr.co.ohjooyeo.controller" />
 
+	<aop:aspectj-autoproxy/>
+
 <!-- 	사용해야하는 이유확인 후 주석 풀기  -->
 <!-- 	<beans:bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView" /> -->
 	

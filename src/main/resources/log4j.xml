@@ -19,12 +19,12 @@
 	
 	<!-- Application Loggers -->
  	<logger name="kr.co.ohjooyeo.controller" additivity = "false">
-		<level value="error" />
+		<level value="debug" />
 		<appender-ref ref="console-method" />
 	</logger>
 
  	<logger name="kr.co.ohjooyeo.service" additivity = "false">
-		<level value="error" />
+		<level value="debug" />
 		<appender-ref ref="console-method" />
 	</logger>
 	
