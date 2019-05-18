@@ -1,0 +1,162 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,700');
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+h1, h2, h3, p, span, a {
+  font-family: 'Open Sans', sans-serif;
+}
+p {
+  font-weight: 300;
+}
+a {
+  cursor: pointer;
+  font-weight: 400;
+  text-decoration: none;
+  color: #72a3d4;
+}
+a:hover {
+  color: #618bb4;
+}
+input[type="button"], input[type="checkbox"] {
+  cursor: pointer;
+}
+body {
+  background: linear-gradient(30deg, #f78fad, #fdeb82);
+  width: 100%;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+.container {
+  width: 100%;
+  max-width: 850px;
+  height: 550px;
+  margin: 80px auto 0;
+  display: flex;
+  justify-content: space-between;
+  background: white;
+  box-shadow: 1px 2px 10px 2px rgba(1, 1, 1, .4);
+}
+.container div[class^="register"] .card {
+  padding: 4em 3em 3em 3em;
+  height: 100%;
+}
+.container .register-left {
+  background: url('http://images6.fanpop.com/image/photos/37500000/Cherry-Blossom-japanese-cherry-tree-sakura-37503993-1366-768.jpg');
+  background-size: cover;
+  background-position: 40%;
+  width: 100%;
+}
+.container .register-left .card {
+  color: #f3f2f4;
+  display: flex;
+  flex-direction: column;
+}
+.container .register-left .card h1 {
+  margin-top: 0;
+  padding-top: 0;
+  font-size: 3em;
+  flex: 2;
+}
+.container .register-left .card p {
+  font-size: 1.2em;
+}
+.container .register-right {
+  width: 100%;
+}
+.container .register-right p {
+  color: #606060;
+}
+.container .register-right .card {
+  display: flex;
+  flex-direction: column;
+}
+.container .register-right .card div[class^="card--"] {
+  margin: 1rem 0;
+}
+.container .register-right .card--desc h2 {
+  color: #212121;
+  padding-bottom: 1rem;
+}
+.container .register-right .card--register {
+  flex: 1;
+}
+.container .register-right .card--register form {
+  display: flex;
+  flex-direction: column;
+}
+.container .register-right .card--register form input {
+  border: none;
+  margin: 2px 0;
+}
+.container .register-right .card--register form input:not([type="button"]) {
+  position: relative;
+  height: 45px;
+  padding-left: 15px;
+  border-bottom: 2px solid rgba(96, 96, 96, .2);
+  border-radius: 8px;
+  transition: 0.5s all ease;
+}
+.container .register-right .card--register form input:not([type="button"]):focus {
+  outline: none;
+  border-bottom: 2px solid #c32aa3;
+}
+.container .register-right .card--register form .agree {
+  display: flex;
+  align-items: center;
+}
+.container .register-right .card--register form .agree label {
+  margin-left: 15px;
+  font-size: 0.9rem;
+}
+.container .register-right .card--register form input[type="button"] {
+  background: #f78fad;
+  color: white;
+  font-size: 0.8rem;
+  width: 100px;
+  height: 30px;
+  border-radius: 25px;
+  align-self: flex-end;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+.container .register-right .card--register form input[type="button"]:hover {
+  background: #ef5a5c;
+}
+.container .register-right .card--socialmedia p {
+  margin-bottom: 1.2rem;
+}
+.container .register-right .card--socialmedia .party {
+  display: flex;
+  justify-content: space-between;
+}
+.container .register-right .card--socialmedia .party .media {
+  padding: 5px 10px;
+  border-radius: 25px;
+  color: white;
+  font-size: 0.9rem;
+}
+.container .register-right .card--socialmedia .party .facebook {
+  background: #3b5998;
+}
+.container .register-right .card--socialmedia .party .facebook:hover {
+  background: #2d4677;
+}
+.container .register-right .card--socialmedia .party .twitter {
+  background: #1dcaff;
+}
+.container .register-right .card--socialmedia .party .twitter:hover {
+  background: #15baed;
+}
+.container .register-right .card--socialmedia .party .instagram {
+  background: #c32aa3;
+}
+.container .register-right .card--socialmedia .party .instagram:hover {
+  background: #ad2690;
+}
+.policy-container {
+	align-items: right;
+}

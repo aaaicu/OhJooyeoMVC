@@ -2,11 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a77ddd8d-ef1b-42d8-853e-fb4cdc3491fc" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../../../pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../java/kr/co/ohjooyeo/controller/BibleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../java/kr/co/ohjooyeo/controller/BibleController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../java/kr/co/ohjooyeo/controller/MainApiController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../java/kr/co/ohjooyeo/controller/ManageController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../java/kr/co/ohjooyeo/controller/ManageControllerImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../java/kr/co/ohjooyeo/controller/OrderDetailApiController.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../java/kr/co/ohjooyeo/controller/WorshipController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../java/kr/co/ohjooyeo/controller/WorshipController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../resources/log4j.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/log4j.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../java/kr/co/ohjooyeo/dao/OrderDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../java/kr/co/ohjooyeo/dao/OrderDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../java/kr/co/ohjooyeo/service/OrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../java/kr/co/ohjooyeo/service/OrderService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/mybatis/mappers/order.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/mybatis/mappers/order.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WEB-INF/spring/appServlet/servlet-context.xml" beforeDir="false" afterPath="$PROJECT_DIR$/WEB-INF/spring/appServlet/servlet-context.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/update-worship.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/update-worship.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -23,7 +28,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/css/bootstrap.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="44025">
+            <state relative-caret-position="660">
               <caret line="2935" column="1" selection-start-line="2935" selection-start-column="1" selection-end-line="2935" selection-end-column="1" />
             </state>
           </provider>
@@ -32,17 +37,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/WEB-INF/views/worship-update.jsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1230">
-              <caret line="82" column="27" selection-start-line="82" selection-start-column="27" selection-end-line="82" selection-end-column="27" />
+            <state relative-caret-position="225">
+              <caret line="69" column="13" lean-forward="true" selection-start-line="69" selection-start-column="13" selection-end-line="69" selection-end-column="13" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/insert-worship.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2295">
-              <caret line="451" lean-forward="true" selection-start-line="451" selection-end-line="451" />
+            <state relative-caret-position="9000">
+              <caret line="600" column="40" lean-forward="true" selection-start-line="600" selection-start-column="40" selection-end-line="600" selection-end-column="40" />
             </state>
           </provider>
         </entry>
@@ -50,7 +55,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/WEB-INF/views/search-bible.jsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3255">
+            <state relative-caret-position="660">
               <caret line="217" column="12" selection-start-line="217" selection-start-column="12" selection-end-line="217" selection-end-column="12" />
             </state>
           </provider>
@@ -65,7 +70,41 @@
           </provider>
         </entry>
       </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/WEB-INF/views/login.jsp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="255">
+              <caret line="17" column="18" lean-forward="true" selection-start-line="17" selection-start-column="18" selection-end-line="17" selection-end-column="18" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/WEB-INF/views/miniLotto.jsp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="120">
+              <caret line="8" column="68" lean-forward="true" selection-start-line="8" selection-start-column="68" selection-end-line="9" selection-end-column="70" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/WEB-INF/views/home.jsp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret column="64" lean-forward="true" selection-start-column="64" selection-end-column="64" />
+            </state>
+          </provider>
+        </entry>
+      </file>
     </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="CSS File" />
+      </list>
+    </option>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
@@ -124,6 +163,8 @@
         <option value="$PROJECT_DIR$/js/order-manage.js" />
         <option value="$PROJECT_DIR$/WEB-INF/views/worship-update.jsp" />
         <option value="$PROJECT_DIR$/js/insert-worship.js" />
+        <option value="$PROJECT_DIR$/WEB-INF/views/login.jsp" />
+        <option value="$PROJECT_DIR$/css/login.css" />
       </list>
     </option>
   </component>
@@ -133,10 +174,10 @@
     <other-services-enabled>true</other-services-enabled>
     <auto-save>true</auto-save>
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="y" value="29" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="y" value="28" />
     <option name="width" value="1440" />
-    <option name="height" value="829" />
+    <option name="height" value="833" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -155,12 +196,23 @@
             <path>
               <item name="webapp" type="b2602c69:ProjectViewProjectNode" />
               <item name="webapp" type="462c0819:PsiDirectoryNode" />
+              <item name="css" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="webapp" type="b2602c69:ProjectViewProjectNode" />
+              <item name="webapp" type="462c0819:PsiDirectoryNode" />
               <item name="js" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="webapp" type="b2602c69:ProjectViewProjectNode" />
               <item name="webapp" type="462c0819:PsiDirectoryNode" />
               <item name="WEB-INF" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="webapp" type="b2602c69:ProjectViewProjectNode" />
+              <item name="webapp" type="462c0819:PsiDirectoryNode" />
+              <item name="WEB-INF" type="462c0819:PsiDirectoryNode" />
+              <item name="spring" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="webapp" type="b2602c69:ProjectViewProjectNode" />
@@ -177,14 +229,15 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="settings.editor.selected.configurable" value="vcs.Git" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/js" />
       <recent name="$PROJECT_DIR$/css" />
+      <recent name="$PROJECT_DIR$/js" />
       <recent name="$PROJECT_DIR$/WEB-INF/views" />
       <recent name="$PROJECT_DIR$/img" />
     </key>
@@ -221,15 +274,17 @@
       <workItem from="1550674141782" duration="20840000" />
       <workItem from="1551413832750" duration="22610000" />
       <workItem from="1554559160854" duration="1355000" />
-      <workItem from="1554719469264" duration="327000" />
+      <workItem from="1554719469264" duration="794000" />
+      <workItem from="1558159176845" duration="8000" />
+      <workItem from="1558160650786" duration="2368000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="125184000" />
+    <option name="totallyTimeSpent" value="128027000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="29" width="1440" height="829" extended-state="0" />
+    <frame x="0" y="23" width="1440" height="877" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.14587738" />
@@ -255,13 +310,6 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/WEB-INF/views/home.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" column="31" selection-start-line="11" selection-start-column="31" selection-end-line="11" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/css/miniLotto.css" />
     <entry file="file://$USER_HOME$/Downloads/DonamdongMiniLotto/jquery-1.10.2.js">
       <provider selected="true" editor-type-id="text-editor">
@@ -269,13 +317,6 @@
           <folding>
             <element signature="n#!!doc" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/WEB-INF/views/miniLotto.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="16" column="10" selection-start-line="16" selection-start-column="10" selection-end-line="16" selection-end-column="10" />
         </state>
       </provider>
     </entry>
@@ -333,21 +374,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/css/bootstrap.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="44025">
+        <state relative-caret-position="660">
           <caret line="2935" column="1" selection-start-line="2935" selection-start-column="1" selection-end-line="2935" selection-end-column="1" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/WEB-INF/views/worship-update.jsp">
+    <entry file="file://$PROJECT_DIR$/js/insert-worship.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1230">
-          <caret line="82" column="27" selection-start-line="82" selection-start-column="27" selection-end-line="82" selection-end-column="27" />
+        <state relative-caret-position="9000">
+          <caret line="600" column="40" lean-forward="true" selection-start-line="600" selection-start-column="40" selection-end-line="600" selection-end-column="40" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/WEB-INF/views/search-bible.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3255">
+        <state relative-caret-position="660">
           <caret line="217" column="12" selection-start-line="217" selection-start-column="12" selection-end-line="217" selection-end-column="12" />
         </state>
       </provider>
@@ -359,10 +400,38 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/insert-worship.js">
+    <entry file="file://$PROJECT_DIR$/WEB-INF/views/worship-update.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2295">
-          <caret line="451" lean-forward="true" selection-start-line="451" selection-end-line="451" />
+        <state relative-caret-position="225">
+          <caret line="69" column="13" lean-forward="true" selection-start-line="69" selection-start-column="13" selection-end-line="69" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WEB-INF/views/home.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="64" lean-forward="true" selection-start-column="64" selection-end-column="64" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WEB-INF/views/miniLotto.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" column="68" lean-forward="true" selection-start-line="8" selection-start-column="68" selection-end-line="9" selection-end-column="70" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/css/login.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret lean-forward="true" selection-end-line="4" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WEB-INF/views/login.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="17" column="18" lean-forward="true" selection-start-line="17" selection-start-column="18" selection-end-line="17" selection-end-column="18" />
         </state>
       </provider>
     </entry>
