@@ -8,6 +8,7 @@
 		<mapper resource="mybatis/mappers/worship.xml" />
 		<mapper resource="mybatis/mappers/advertisement.xml" />
 		<mapper resource="mybatis/mappers/music.xml" />
+		<mapper resource="mybatis/mappers/user.xml" />
 	</mappers>
 	
 </configuration>
