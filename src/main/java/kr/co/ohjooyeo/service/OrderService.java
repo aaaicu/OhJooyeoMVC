@@ -73,7 +73,7 @@ public class OrderService {
 	}
 
 	/* 순서수정 */
-	public void update(List<WorshipOrderVO> list) {
+	public void update(List<Map<String,Object>> list) {
 		if(list.size() > 0 ) {
 			orderDAO.updateVOList(list);
 		}

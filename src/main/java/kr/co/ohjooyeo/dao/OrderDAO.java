@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -12,6 +14,7 @@ import kr.co.ohjooyeo.vo.WorshipOrderVO;
 
 @Repository
 public class OrderDAO {
+	private static final Logger logger = LoggerFactory.getLogger(OrderDAO.class);
 	@Autowired
 	SqlSession sqlSession;
 	
@@ -41,7 +44,8 @@ public class OrderDAO {
 		sqlSession.insert("order.insertVOList", list);
 	}
 
-	public void updateVOList(List<WorshipOrderVO> list) {
+	public void updateVOList(List<Map<String,Object>> list) {
+		logger.debug(list.toString());
 		sqlSession.update("order.updateVOList", list);
 	}
 
