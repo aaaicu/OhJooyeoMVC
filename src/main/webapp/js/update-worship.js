@@ -16,12 +16,13 @@ document.getElementById('updateButton').addEventListener('click',function (e) {
 			let orderObject ;
 			let [type, title, detail, presenter] = e.querySelectorAll('.text');
 			orderObject = {
+				'worshipId' : document.getElementById('selectWorshipId').value ,
 				'id' : e.id,
-				'order' : e.dataset.order,
-				'type' : type.textContent.trim(),
+				'order' : index,
+				'type' : type.dataset['value'],
 				'title' : title.textContent.trim(),
 				'detail' : detail.textContent.trim(),
-				'presenter' : presenter.textContent.trim()
+				'presenter' : presenter.textContent.trim() 
 			};
 			orderList.push(orderObject);
 			
@@ -42,11 +43,11 @@ document.getElementById('updateButton').addEventListener('click',function (e) {
 		}
 	});
 
-	paramObject = {worshipObject,orderList,adList};
+	paramObject = {worshipId: document.getElementById('selectWorshipId').value, worshipObject,orderList,removeOrderList,adList,removeAdList};
 	console.log(JSON.stringify(paramObject));
 	
  	$.ajax({
-		url : getContextPath()+"/updateWorship",
+		url : getContextPath()+"/update-worship",
 		type : "post",
 		contentType : "application/json",
 		dataType : "text",
