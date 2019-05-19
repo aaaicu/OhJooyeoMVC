@@ -31,7 +31,7 @@
         </p><br>
       </div>
       <div class="card--register">
-        <form id = "login-form" action="${pageContext.request.contextPath}/loginCheck" method = "post" target = "/login">
+        <form id = "login-form" action="${pageContext.request.contextPath}/loginCheck" method = "post">
           <input type="text" name="id" placeholder="id" />
           <input type="password" name="pw" placeholder="password" />
           <input type="button" value="login" onClick = "document.getElementById('login-form').submit();"/>

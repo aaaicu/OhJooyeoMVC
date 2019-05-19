@@ -18,7 +18,7 @@
 		<!--데이터 소스 설정 필요  -->
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource" >
 		<property name="driverClassName" value="com.mysql.cj.jdbc.Driver" ></property>
-		<property name="url" value="jdbc:mysql://ec2-52-79-233-2.ap-northeast-2.compute.amazonaws.com:3306/ohjooyeo?&amp;serverTimezone=Asia/Seoul&amp;allowMultiQueries=true&amp;useSSL=false" ></property>
+		<property name="url" value="jdbc:mysql://ec2-52-79-233-2.ap-northeast-2.compute.amazonaws.com:3306/ohjooyeo?&amp;serverTimezone=Asia/Seoul&amp;allowMultiQueries=true" ></property>
 
 		<property name="username" value="dev" ></property>
 		<property name="password" value="ohjooyeo1!" ></property>

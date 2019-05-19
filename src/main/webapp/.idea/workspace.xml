@@ -2,17 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a77ddd8d-ef1b-42d8-853e-fb4cdc3491fc" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../java/kr/co/ohjooyeo/controller/BibleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../java/kr/co/ohjooyeo/controller/BibleController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../java/kr/co/ohjooyeo/controller/MainApiController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../java/kr/co/ohjooyeo/controller/ManageController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../java/kr/co/ohjooyeo/controller/ManageControllerImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../java/kr/co/ohjooyeo/controller/OrderDetailApiController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../java/kr/co/ohjooyeo/controller/WorshipController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../java/kr/co/ohjooyeo/controller/WorshipController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../java/kr/co/ohjooyeo/dao/OrderDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../java/kr/co/ohjooyeo/dao/OrderDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../java/kr/co/ohjooyeo/service/OrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../java/kr/co/ohjooyeo/service/OrderService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../resources/mybatis/mappers/order.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/mybatis/mappers/order.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/update-worship.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/update-worship.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../java/kr/co/ohjooyeo/controller/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../java/kr/co/ohjooyeo/controller/MainController.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -73,8 +63,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/WEB-INF/views/login.jsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="17" column="18" lean-forward="true" selection-start-line="17" selection-start-column="18" selection-end-line="17" selection-end-column="18" />
+            <state relative-caret-position="300">
+              <caret line="20" column="18" lean-forward="true" selection-start-line="20" selection-start-column="18" selection-end-line="20" selection-end-column="18" />
             </state>
           </provider>
         </entry>
@@ -174,10 +164,10 @@
     <other-services-enabled>true</other-services-enabled>
     <auto-save>true</auto-save>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="y" value="28" />
+  <component name="ProjectFrameBounds" extendedState="1">
+    <option name="y" value="23" />
     <option name="width" value="1440" />
-    <option name="height" value="833" />
+    <option name="height" value="877" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -276,15 +266,15 @@
       <workItem from="1554559160854" duration="1355000" />
       <workItem from="1554719469264" duration="794000" />
       <workItem from="1558159176845" duration="8000" />
-      <workItem from="1558160650786" duration="2368000" />
+      <workItem from="1558160650786" duration="2813000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="128027000" />
+    <option name="totallyTimeSpent" value="128472000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1440" height="877" extended-state="6" />
+    <frame x="0" y="23" width="1440" height="877" extended-state="1" />
     <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.14587738" />
@@ -430,8 +420,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/WEB-INF/views/login.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="17" column="18" lean-forward="true" selection-start-line="17" selection-start-column="18" selection-end-line="17" selection-end-column="18" />
+        <state relative-caret-position="300">
+          <caret line="20" column="18" lean-forward="true" selection-start-line="20" selection-start-column="18" selection-end-line="20" selection-end-column="18" />
         </state>
       </provider>
     </entry>

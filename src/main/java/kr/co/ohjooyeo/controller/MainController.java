@@ -45,12 +45,14 @@ public class MainController {
 		
 		if(userService.loginCheck(loginMap)) {
 			logger.debug("페이지 이동");
-			return "redirect:testCSS";
+			return "redirect:/testCSS";
 		} else {
 			logger.debug("로그인 실패");
-			return "redirect:login?fail=true";
+			return "redirect:/login?fail=true";
 		}
 	}
+	
+	//어플리케이션용 login API
 	@RequestMapping(value = "/signin", method =RequestMethod.POST)
 	public @ResponseBody boolean loginCheck(
 			@RequestBody Map<String,String> loginMap ) {
