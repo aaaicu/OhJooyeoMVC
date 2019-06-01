@@ -14,9 +14,15 @@ public class UserDAO {
 	@Autowired
 	SqlSession sqlSession;
 	
-	public boolean loginCheck(Map<String,String> map) {
+	//사용하지않음
+//	public boolean loginCheck(Map<String,String> map) {
+//		logger.debug(map.toString());
+//		return sqlSession.selectOne("user.loginCheck", map);
+//	}
+
+	public String getSecurityPass(Map<String, String> map) {
 		logger.debug(map.toString());
-		return sqlSession.selectOne("user.loginCheck", map);
+		return sqlSession.selectOne("user.getSecurityPass", map);
 	}
 
 }

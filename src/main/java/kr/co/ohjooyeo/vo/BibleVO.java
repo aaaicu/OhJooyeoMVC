@@ -8,7 +8,6 @@ public class BibleVO {
 	
 	public BibleVO() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public BibleVO(String book, int chapter, int section, String contents) {

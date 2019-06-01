@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +26,7 @@ public class MainController {
 	
 	@Autowired
 	UserService userService;
+
 	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login() {
@@ -38,17 +40,19 @@ public class MainController {
 			@RequestParam String pw,
 			HttpSession session) {
 		logger.debug("로그인페이지 확인");
+
+		
 		Map<String,String> loginMap = new HashMap<>();
 		loginMap.put("id", id);
 		loginMap.put("pw", pw);
 		
-		
+	
 		if(userService.loginCheck(loginMap)) {
 			logger.debug("페이지 이동");
 			return "redirect:/testCSS";
 		} else {
 			logger.debug("로그인 실패");
-			return "redirect:/login?fail=true";
+			return "redirect:/login?result=fail";
 		}
 	}
 	
