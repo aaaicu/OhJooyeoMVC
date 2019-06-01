@@ -7,11 +7,9 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.MultiValueMap;
 
 import kr.co.ohjooyeo.dao.BibleDAO;
 import kr.co.ohjooyeo.dao.OrderDAO;
-import kr.co.ohjooyeo.dao.WorshipDAO;
 import kr.co.ohjooyeo.vo.WorshipOrderVO;
 
 @Service
@@ -27,14 +25,13 @@ public class OrderService {
 	
 	@Autowired
 	BibleService bibleService;
-	
-	public void setWorshipOrder(String worshipId,String [] types,String [] titles,String [] details,String [] presenters) {
-		List<WorshipOrderVO> orderList = new ArrayList<>();
-		for(int i = 0 ; i < titles.length ; i ++) {
-			orderList.add(new WorshipOrderVO(worshipId,i,i,types[i], titles[i],details[i], presenters[i] ));
-		}
-		orderDAO.insertVOList(orderList);
-	}
+//	public void setWorshipOrder(String worshipId,String [] types,String [] titles,String [] details,String [] presenters) {
+//		List<WorshipOrderVO> orderList = new ArrayList<>();
+//		for(int i = 0 ; i < titles.length ; i ++) {
+//			orderList.add(new WorshipOrderVO(worshipId,i,i,types[i], titles[i],details[i], presenters[i] ));
+//		}
+//		orderDAO.insertVOList(orderList);
+//	}
 
 	public Map<String, Object> getOrderByWorshipId(String id) {
 		String worshipId = id;
@@ -66,8 +63,9 @@ public class OrderService {
 	}
 	
 	/* 순서추가 */
-	public void add(List<WorshipOrderVO> list) {
+	public void add(List<Map<String,Object>> list) {
 		if(list.size() > 0 ) {
+			
 			orderDAO.insertVOList(list);
 		}
 	}

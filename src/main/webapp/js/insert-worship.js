@@ -90,8 +90,10 @@ function templateFactory(templateType, optionalObject) {
 	let area = undefined;
 
 	if (templateType === "order") {
+		// 일반순서를 디폴트 타입으로 지정
+		type = "0";
+		area = "order";
 		if (optionalObject instanceof Object) {
-			area = "order";
 			id = optionalObject.orderId;
 			order = optionalObject.order;
 			type = optionalObject.type;
@@ -101,8 +103,8 @@ function templateFactory(templateType, optionalObject) {
 		}
 
 	} else if (templateType === "ad") {
+		area = "ad";
 		if (optionalObject instanceof Object) {
-			area = "ad";
 			id = optionalObject.adId;
 			order = optionalObject.order;
 			title = optionalObject.title;

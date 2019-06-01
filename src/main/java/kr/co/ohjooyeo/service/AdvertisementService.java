@@ -32,12 +32,12 @@ public class AdvertisementService {
 		return advertisementDAO.getWorshipAdList(worshipId);
 	}
 	
-	public void add(List<WorshipAdVO> list ) {
+	public void add(List<Map<String,Object>>  list ) {
 		if(list.size() > 0 ) {
 			advertisementDAO.insertVOList(list);
 		}
 	}
-	public void update(List<WorshipAdVO> list ) {
+	public void update(List<Map<String,Object>>  list ) {
 		if(list.size() > 0 ) {
 			advertisementDAO.updateVOList(list);
 		}

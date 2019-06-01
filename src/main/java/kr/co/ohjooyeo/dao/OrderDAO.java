@@ -40,7 +40,7 @@ public class OrderDAO {
 		return sqlSession.selectOne("order.getLaunchPhrase", inputMap);
 	}
 
-	public void insertVOList(List<WorshipOrderVO> list) {
+	public void insertVOList(List<Map<String,Object>> list) {
 		sqlSession.insert("order.insertVOList", list);
 	}
 

@@ -11,8 +11,11 @@
 		]]>		
 	</select>
 	<insert id="insertVOList" parameterType = "kr.co.ohjooyeo.vo.WorshipAdVO">
-		<foreach collection="list" item = "vo" separator = ";">
-			INSERT INTO ohjooyeo.ADVERTISEMENT VALUES (#{vo.worshipId}, #{vo.adId}, #{vo.order}, #{vo.title}, #{vo.content})
+		<selectKey resultType="string" keyProperty="advertisement_id" order="BEFORE">
+        SELECT MAX(advertisement_id) + 1 FROM ohjooyeo.ADVERTISEMENT        
+  		</selectKey>    
+		<foreach collection="list" item = "vo" index= "index" separator = ";">
+			INSERT INTO ohjooyeo.ADVERTISEMENT VALUES (#{vo.worshipId}, #{advertisement_id}+#{index}, #{vo.order}, #{vo.title}, #{vo.content})
 		</foreach>
 	</insert>
 	
@@ -22,7 +25,7 @@
 			UPDATE ohjooyeo.ADVERTISEMENT 
 			SET ohjooyeo.ADVERTISEMENT.order = #{vo.order}, title = #{vo.title},content = #{vo.content}
 			WHERE worship_id = #{vo.worshipId} 
-			AND advertisement_id = #{vo.adId}
+			AND advertisement_id = #{vo.id}
 		</foreach> 
 	</update>
 	

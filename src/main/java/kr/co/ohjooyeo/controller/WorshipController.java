@@ -93,7 +93,7 @@ public class WorshipController {
 		
 		worshipService.addWorship(vo);
 		// 순서 추가
-		orderService.setWorshipOrder(vo.getWorshipId(),types, titles, details, presenters);
+//		orderService.setWorshipOrder(vo.getWorshipId(),types, titles, details, presenters);
 //		adService.setWorshipAd(vo.getWorshipId(), adTitles, adContents);
 
 		return "redirect:worship";
@@ -127,11 +127,17 @@ public class WorshipController {
 
 		logger.debug("worshipObject : "+ inputMap.get("worshipObject"));
 		logger.debug("orderList : "+ inputMap.get("orderList"));
+		logger.debug("addOrderList : "+ inputMap.get("addOrderList"));
 		logger.debug("adList : "+ inputMap.get("adList"));
+		logger.debug("addAdList : "+ inputMap.get("addAdList"));
 		logger.debug("worshipId : "+ inputMap.get("worshipId"));
-		
+		orderService.add((List<Map<String, Object>>) inputMap.get("addOrderList"));
 		orderService.update((List<Map<String, Object>>) inputMap.get("orderList"));
 		orderService.delete((String)inputMap.get("worshipId"), (List<String>)inputMap.get("removeOrderList"));
+		
+		adService.add((List<Map<String, Object>>) inputMap.get("addAdList"));
+		adService.update((List<Map<String, Object>>) inputMap.get("adList"));
+		adService.delete((String)inputMap.get("worshipId"), (List<String>)inputMap.get("removeAdList"));
 		
 		return "";
 	}

@@ -6,7 +6,10 @@ document.getElementById('updateButton').addEventListener('click',function (e) {
 
 	let worshipObject = {};
 	let orderList = [];
+	let addOrderList = [];
 	let adList = [];
+	let addAdList = [];
+	
 	[].forEach.call(document.getElementById('worshipForm').querySelectorAll('input'),function (e) {
 		worshipObject[e.name] = e.value;
 	});
@@ -22,28 +25,39 @@ document.getElementById('updateButton').addEventListener('click',function (e) {
 				'type' : type.dataset['value'],
 				'title' : title.textContent.trim(),
 				'detail' : detail.textContent.trim(),
-				'presenter' : presenter.textContent.trim() 
+				'presenter' : presenter.textContent.trim()
 			};
-			orderList.push(orderObject);
-			
+			console.log(orderObject);
+			orderObject['id'] < 0 ? addOrderList.push(orderObject) : orderList.push(orderObject);
+		
 		}
 	});
 
 	[].forEach.call(document.querySelectorAll('#ad-area > div'), function(e,index) {
 		if(e.dataset['updateYn']==="1" || index !== parseInt(e.dataset['order'])){
 			let adObject ;
-			let [title, content] = e.querySelectorAll('.text');
+			console.log(e.querySelectorAll('.text'));
+			let title = e.querySelectorAll('.text')[1];
+			let content = e.querySelectorAll('.text')[2];
 			adObject = {
+				'worshipId' : document.getElementById('selectWorshipId').value ,
 				'id' : e.id,
-				'order' : e.dataset.order,
+				'order' : index,
 				'title' : title.textContent.trim(),
 				'content' : content.textContent.trim(),
 			};
-			adList.push(adObject);
+			adObject['id'] < 0 ? addAdList.push(adObject) : adList.push(adObject);
 		}
 	});
 
-	paramObject = {worshipId: document.getElementById('selectWorshipId').value, worshipObject,orderList,removeOrderList,adList,removeAdList};
+	paramObject = {worshipId: document.getElementById('selectWorshipId').value, 
+			worshipObject,
+			orderList,
+			addOrderList,
+			removeOrderList,
+			adList,
+			addAdList,
+			removeAdList};
 	console.log(JSON.stringify(paramObject));
 	
  	$.ajax({
@@ -55,13 +69,12 @@ document.getElementById('updateButton').addEventListener('click',function (e) {
 		success : function() {
 
 			console.log("업데이트발생");
-//			console.log($("#selectWorshipId"));
-//			$("#orderList").children().remove();
-//			$("#adList").children().remove();
-//			getWorshipInfo($("#selectWorshipId").val());
-//			getWorshipDetailList($("#selectWorshipId").val(), "order");
-//			getWorshipDetailList($("#selectWorshipId").val(), "ad");
-//			alert("수정되었습니다.")
+			$("#order-area").children().remove();
+			$("#ad-area").children().remove();
+			getWorshipInfo($("#selectWorshipId").val());
+			getWorshipDetailList($("#selectWorshipId").val(), "order");
+			getWorshipDetailList($("#selectWorshipId").val(), "ad");
+			alert("수정되었습니다.")
 		},
 
 		error : function(XHR, status, error) {

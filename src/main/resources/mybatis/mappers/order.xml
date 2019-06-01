@@ -36,10 +36,15 @@
 		]]>
 	</select>
 	
-	<insert id="insertVOList" parameterType="kr.co.ohjooyeo.vo.WorshipOrderVO">
-		<foreach collection="list" item = "vo" separator = ";">		
+	
+	<insert id="insertVOList" parameterType="map">
+	<selectKey resultType="string" keyProperty="order_id" order="BEFORE">
+        SELECT MAX(order_id)+1 FROM ohjooyeo.ORDER        
+    </selectKey>    
+	
+		<foreach collection="list" index = "index" item = "vo" separator = ";">		
 			INSERT INTO ohjooyeo.ORDER VALUES
-			(#{vo.worshipId}, #{vo.orderId},#{vo.order},#{vo.type},#{vo.title},#{vo.detail}, #{vo.presenter})
+			(#{vo.worshipId}, #{order_id}+#{index},#{vo.order},#{vo.type},#{vo.title},#{vo.detail}, #{vo.presenter})
 		</foreach> 
 	</insert>
 	
@@ -51,6 +56,7 @@
 			WHERE worship_id = #{vo.worshipId} 
 			AND order_id = #{vo.id}
 		</foreach> 
+		
 	</update>
 	
 	<delete id="deleteVOList" parameterType="map">
