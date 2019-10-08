@@ -22,18 +22,11 @@ public class UserService {
 	@Autowired
 	BCryptPasswordEncoder passEncoder;
 	
-	//사용하지 않음
-//	public boolean loginCheck(Map<String, String> loginMap) {
-//		boolean result = userDao.loginCheck(loginMap);
-//		logger.debug(result+"");
-//		
-//		return result;
-//	}
-	
 	public boolean loginCheck(Map<String, String> loginMap) {
 		String securityPass = userDao.getSecurityPass(loginMap);
 		boolean result = passEncoder.matches(loginMap.get("pw"), securityPass);
 		logger.debug(result+"");
+		
 		
 		return result;
 	}

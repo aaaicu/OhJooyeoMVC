@@ -7,12 +7,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.co.ohjooyeo.service.AdvertisementService;
@@ -42,22 +39,9 @@ public class WorshipController {
 
 	@Autowired
 	AdvertisementService adService;
-	
-	@RequestMapping(value = "/getWorshipIdList", method = RequestMethod.POST)
-	public @ResponseBody List<String> getWorshipIdList(@RequestBody String churchId) {
-		List<String> result = worshipService.getWorshipIdList(churchId);
-		logger.debug("result : " +result);
-		return result;
-	}
-	
-	@RequestMapping(value = "/worship", method = RequestMethod.GET)
-	public String worshipForm() {
-		return "worship-form";
-	}
 
 	@RequestMapping(value = "/deleteWorship", method = RequestMethod.POST)
 	public @ResponseBody String deleteWorship(@RequestBody String worshipId) {
-		logger.trace("test : " +worshipId);
 		
 		orderService.deleteAll(worshipId);
 		adService.deleteAll(worshipId);
@@ -65,8 +49,7 @@ public class WorshipController {
 		
 		return "";
 	}
-	
-	@SuppressWarnings("unchecked")
+
 	@RequestMapping(value = "/add/worship", method = RequestMethod.POST)
 	public @ResponseBody String addWorship(@RequestBody  Map<String,Object> worshipData) {
 		logger.debug(worshipData.toString());
@@ -94,25 +77,6 @@ public class WorshipController {
 		
 		return "";
 	}
-	
-//	@Override
-//	@RequestMapping(value = "/worship-add-temp", method = RequestMethod.GET)
-//	public String worshipAddTemp() {
-//		return "worship-add";
-//	}
-//	
-//	@Override
-//	@RequestMapping(value = "/worship-update-temp", method = RequestMethod.GET)
-//	public String worshipUpdateTemp() {
-////		return "worship-order-form";
-//		return "worship-update";
-//	}
-//	
-//	@Override
-//	@RequestMapping(value = "/worship-update", method = RequestMethod.GET)
-//	public String worshipOrderForm() {
-//		return "worship-order-form";
-//	}
 	
 	/* 업데이트 내용을 받는 컨트롤러 */
 	@SuppressWarnings("unchecked")
@@ -167,6 +131,13 @@ public class WorshipController {
 		return "";
 	}
 	
+	/* 예배 정보 관련 API*/
+	
+	@RequestMapping(value = "/getWorshipInfo", method = RequestMethod.POST)
+	public @ResponseBody Map<String,String> getWorshipInfo(@RequestBody String worshipId) {
+		return worshipService.getWorshipInfo(worshipId);
+	}
+	
 	@RequestMapping(value = "/getWorshipOrderList", method = RequestMethod.POST)
 	public @ResponseBody List<WorshipOrderVO> getWorshipOrderList(@RequestBody String worshipId) {
 		return orderService.getWorshipOrderList(worshipId);
@@ -174,49 +145,36 @@ public class WorshipController {
 	
 	@RequestMapping(value = "/getWorshipAdList", method = RequestMethod.POST)
 	public @ResponseBody List<WorshipAdVO> getWorshipAdList(@RequestBody String worshipId) {
-		logger.debug(adService.getWorshipAdList(worshipId).toString());
 		return adService.getWorshipAdList(worshipId);
 	}
 	
-	@RequestMapping(value = "/getWorshipInfo", method = RequestMethod.POST)
-	public @ResponseBody Map<String,String> getWorshipInfo(@RequestBody String worshipId) {
-		
-		logger.debug("결과 : " + worshipService.getWorshipInfo(worshipId));
-		return worshipService.getWorshipInfo(worshipId);
-	}
-	
-	@RequestMapping(value = "/form/update", method = RequestMethod.GET)
-	public String formUpdate(Model model) {
-		model.addAttribute("pageName","worship-update");
-		return "home";
-	}
-	
-	@RequestMapping(value = "/form/add", method = RequestMethod.GET)
-	public String formAdd(Model model) {
-		model.addAttribute("pageName","worship-add");
-		return "home";
-	}
-	
-	@RequestMapping(value = "/win/list/worship", method = RequestMethod.GET)
-	public String winListWorship(Model model) {
-		return "win/worship-list";
-	}
-	
-	@RequestMapping(value = "/worship-list", method = RequestMethod.GET)
-	public @ResponseBody List<Map<String, String>> worshipList(){
-		logger.debug(worshipService.getWorshipList().toString());
-		return worshipService.getWorshipList();
-	}
 
-	@RequestMapping(value = "/order", method = RequestMethod.POST)
-	public @ResponseBody Map<String,Object> getOrder(@RequestParam String id) {
-		return orderService.getOrderByWorshipId(id);
-	}	
-	
-	@RequestMapping(value = "/worship-id/{id}", method = RequestMethod.POST)
-	public @ResponseBody Map<String,Object> getAllData(
-			@PathVariable String id
-			) {
-		return versionService.getAllData(id);
-	}
+//	
+//	@RequestMapping(value = "/form/update", method = RequestMethod.GET)
+//	public String formUpdate(Model model) {
+//		model.addAttribute("pageName","worship-update");
+//		return "home";
+//	}
+//	
+//	@RequestMapping(value = "/form/add", method = RequestMethod.GET)
+//	public String formAdd(Model model) {
+//		model.addAttribute("pageName","worship-add");
+//		return "home";
+//	}
+//	
+//	@RequestMapping(value = "/win/list/worship", method = RequestMethod.GET)
+//	public String winListWorship(Model model) {
+//		return "win/worship-list";
+//	}
+//	
+//	@RequestMapping(value = "/worship-list", method = RequestMethod.GET)
+//	public @ResponseBody List<Map<String, String>> worshipList(){
+//		logger.debug(worshipService.getWorshipList().toString());
+//		return worshipService.getWorshipList();
+//	}
+//
+//	@RequestMapping(value = "/order", method = RequestMethod.POST)
+//	public @ResponseBody Map<String,Object> getOrder(@RequestParam String id) {
+//		return orderService.getOrderByWorshipId(id);
+//	}	
 }
