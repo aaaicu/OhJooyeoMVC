@@ -32,18 +32,24 @@ public class AdvertisementService {
 		return advertisementDAO.getWorshipAdList(worshipId);
 	}
 	
-	public void add(List<Map<String,Object>>  list ) {
+	public boolean add(List<Map<String,Object>>  list ) {
 		if(list.size() > 0 ) {
 			advertisementDAO.insertVOList(list);
+			return true;
+		} else {
+			return false;
 		}
 	}
-	public void update(List<Map<String,Object>>  list ) {
+	public boolean update(List<Map<String,Object>>  list ) {
 		if(list.size() > 0 ) {
 			advertisementDAO.updateVOList(list);
+			return true;
+		} else {
+			return false;
 		}
 	}
 
-	public void delete(String worshipId, List<String> list) {
+	public boolean delete(String worshipId, List<String> list) {
 		if(list.size() > 0 ) {
 			Map<String,Object> deleteMap = new HashMap<>();
 			deleteMap.put("worshipId", worshipId );
@@ -51,6 +57,9 @@ public class AdvertisementService {
 			
 			System.out.println(deleteMap);
 			advertisementDAO.deleteVOList(deleteMap);
+			return true;
+		} else {
+			return false;
 		}
 	}
 

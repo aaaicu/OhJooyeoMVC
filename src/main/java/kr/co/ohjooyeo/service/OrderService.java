@@ -1,6 +1,5 @@
 package kr.co.ohjooyeo.service;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,22 +62,28 @@ public class OrderService {
 	}
 	
 	/* 순서추가 */
-	public void add(List<Map<String,Object>> list) {
+	public boolean add(List<Map<String,Object>> list) {
 		if(list.size() > 0 ) {
 			
 			orderDAO.insertVOList(list);
+			return true;
+		} else {
+			return false;
 		}
 	}
 
 	/* 순서수정 */
-	public void update(List<Map<String,Object>> list) {
+	public boolean update(List<Map<String,Object>> list) {
 		if(list.size() > 0 ) {
 			orderDAO.updateVOList(list);
+			return true;
+		}else {
+			return false;
 		}
 	}
 
 	/* 순서삭제 */
-	public void delete(String worshipId , List<String> list) {
+	public boolean delete(String worshipId , List<String> list) {
 		if(list.size() > 0 ) {
 			Map<String,Object> deleteMap = new HashMap<>();
 			deleteMap.put("worshipId", worshipId );
@@ -86,6 +91,9 @@ public class OrderService {
 			
 			System.out.println(deleteMap);
 			orderDAO.deleteVOList(deleteMap);
+			return true;
+		}else {
+			return false;
 		}
 	}
 

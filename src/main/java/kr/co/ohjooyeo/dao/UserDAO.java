@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import kr.co.ohjooyeo.vo.UserVO;
+
 @Repository
 public class UserDAO {
 	private static final Logger logger = LoggerFactory.getLogger(OrderDAO.class);
@@ -23,6 +25,10 @@ public class UserDAO {
 	public String getSecurityPass(Map<String, String> map) {
 		logger.debug(map.toString());
 		return sqlSession.selectOne("user.getSecurityPass", map);
+	}
+
+	public int setLoginInfo(UserVO regLoginMap) {
+		return sqlSession.insert("user.setLoginInfo", regLoginMap);
 	}
 
 }

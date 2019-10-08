@@ -2,15 +2,24 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a77ddd8d-ef1b-42d8-853e-fb4cdc3491fc" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../../../pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../java/kr/co/ohjooyeo/controller/ChurchController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../java/kr/co/ohjooyeo/controller/ChurchController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../java/kr/co/ohjooyeo/controller/BibleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../java/kr/co/ohjooyeo/controller/BibleController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../java/kr/co/ohjooyeo/controller/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../java/kr/co/ohjooyeo/controller/MainController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../java/kr/co/ohjooyeo/dao/UserDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../java/kr/co/ohjooyeo/dao/UserDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../java/kr/co/ohjooyeo/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../java/kr/co/ohjooyeo/service/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../java/kr/co/ohjooyeo/vo/BibleVO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../java/kr/co/ohjooyeo/vo/BibleVO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../resources/mybatis/mappers/user.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/mybatis/mappers/user.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WEB-INF/web.xml" beforeDir="false" afterPath="$PROJECT_DIR$/WEB-INF/web.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../java/kr/co/ohjooyeo/controller/WorshipController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../java/kr/co/ohjooyeo/controller/WorshipController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../java/kr/co/ohjooyeo/dao/WorshipDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../java/kr/co/ohjooyeo/dao/WorshipDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../java/kr/co/ohjooyeo/service/AdvertisementService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../java/kr/co/ohjooyeo/service/AdvertisementService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../java/kr/co/ohjooyeo/service/OrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../java/kr/co/ohjooyeo/service/OrderService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../java/kr/co/ohjooyeo/service/VersionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../java/kr/co/ohjooyeo/service/VersionService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../java/kr/co/ohjooyeo/service/WorshipService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../java/kr/co/ohjooyeo/service/WorshipService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/bible/insertBible.py" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/bible/insertBible.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/mybatis/mappers/worship.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/mybatis/mappers/worship.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/ohjooyeo.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/ohjooyeo.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WEB-INF/views/home.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/WEB-INF/views/home.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WEB-INF/views/includes/nav.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/WEB-INF/views/includes/nav.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WEB-INF/views/search-bible.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/WEB-INF/views/worship-add.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/WEB-INF/views/worship-add.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WEB-INF/views/worship-update.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/WEB-INF/views/worship-update.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/insert-worship.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/update-worship.js" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -35,26 +44,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/WEB-INF/views/worship-update.jsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1035">
-              <caret line="69" column="13" selection-start-line="69" selection-start-column="13" selection-end-line="69" selection-end-column="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/insert-worship.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="9000">
-              <caret line="600" column="40" selection-start-line="600" selection-start-column="40" selection-end-line="600" selection-end-column="40" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/WEB-INF/views/search-bible.jsp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3255">
-              <caret line="217" column="12" selection-start-line="217" selection-start-column="12" selection-end-line="217" selection-end-column="12" />
+            <state relative-caret-position="900">
+              <caret line="60" column="13" selection-start-line="60" selection-start-column="13" selection-end-line="60" selection-end-column="13" />
             </state>
           </provider>
         </entry>
@@ -183,7 +174,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -222,6 +212,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -276,14 +267,16 @@
       <workItem from="1558159176845" duration="8000" />
       <workItem from="1558160650786" duration="2813000" />
       <workItem from="1559238747791" duration="369000" />
+      <workItem from="1564504471660" duration="341000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="128841000" />
+    <option name="totallyTimeSpent" value="129182000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="877" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.14587738" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -386,8 +379,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/WEB-INF/views/worship-update.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1035">
-          <caret line="69" column="13" selection-start-line="69" selection-start-column="13" selection-end-line="69" selection-end-column="13" />
+        <state relative-caret-position="900">
+          <caret line="60" column="13" selection-start-line="60" selection-start-column="13" selection-end-line="60" selection-end-column="13" />
         </state>
       </provider>
     </entry>

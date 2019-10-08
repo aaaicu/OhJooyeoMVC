@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="church">
+	<insert id="setChurchInfo" parameterType="kr.co.ohjooyeo.vo.ChurchVO">
+		<selectKey resultType="int" keyProperty="churchId" order="BEFORE">
+	        SELECT IFNULL(MAX(church_id)+1,1) FROM ohjooyeo.CHURCH      
+	    </selectKey>    
+		<![CDATA[
+			insert into ohjooyeo.CHURCH(church_id,address,latitude,longitude,name,description) 
+			values (#{churchId},#{address},#{latitude},#{longitude},#{name},#{description})
+		]]>
+	</insert>
+</mapper>

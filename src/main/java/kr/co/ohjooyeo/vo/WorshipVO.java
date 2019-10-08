@@ -8,10 +8,10 @@ public class WorshipVO {
 	private String nextPrayer;
 	private String nextOffer;
 	private String version;
-	private String userId;
+	private String churchId;
 	
 	public WorshipVO(String worshipId, String worshipDate, String mainPresenter, String nextPresenter,
-			String nextPrayer, String nextOffer, String version, String userId) {
+			String nextPrayer, String nextOffer, String version, String churchId) {
 		super();
 		this.worshipId = worshipId;
 		this.worshipDate = worshipDate;
@@ -20,7 +20,7 @@ public class WorshipVO {
 		this.nextPrayer = nextPrayer;
 		this.nextOffer = nextOffer;
 		this.version = version;
-		this.userId = userId;
+		this.churchId = churchId;
 	}
 	
 
@@ -85,19 +85,19 @@ public class WorshipVO {
 		this.version = version;
 	}
 
-	public String getUserId() {
-		return userId;
+	public String getChurchId() {
+		return churchId;
 	}
 
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setChurchId(String churchId) {
+		this.churchId = churchId;
 	}
 
 	@Override
 	public String toString() {
 		return "WorshipVO [worshipId=" + worshipId + ", worshipDate=" + worshipDate + ", mainPresenter=" + mainPresenter
 				+ ", nextPresenter=" + nextPresenter + ", nextPrayer=" + nextPrayer + ", nextOffer=" + nextOffer
-				+ ", version=" + version + ", userId=" + userId + "]";
+				+ ", version=" + version + ", churchId=" + churchId + "]";
 	}
 	
 	

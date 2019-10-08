@@ -10,10 +10,10 @@
   <div class="collapse navbar-collapse" id="navbarColor02">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="${pageContext.request.contextPath}/testCSS">주보수정</a>
+        <a class="nav-link" href="${pageContext.request.contextPath}/form/update">주보수정</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">주보추가</a>
+        <a class="nav-link" href="${pageContext.request.contextPath}/form/add">주보추가</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#">교회정보관리</a>

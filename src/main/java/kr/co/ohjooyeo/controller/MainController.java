@@ -8,7 +8,6 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,8 +38,10 @@ public class MainController {
 			@RequestParam String id,
 			@RequestParam String pw,
 			HttpSession session) {
+		
+		//Todo
 		logger.debug("로그인페이지 확인");
-
+		
 		
 		Map<String,String> loginMap = new HashMap<>();
 		loginMap.put("id", id);
@@ -58,8 +59,14 @@ public class MainController {
 	
 	//어플리케이션용 login API
 	@RequestMapping(value = "/signin", method =RequestMethod.POST)
-	public @ResponseBody boolean loginCheck(
-			@RequestBody Map<String,String> loginMap ) {
+	public @ResponseBody boolean signin(
+			@RequestBody Map<String,String> loginMap ) {	
 		return userService.loginCheck(loginMap);
+	}
+	
+	@RequestMapping(value = "/loginInfo",method =RequestMethod.POST)
+	public @ResponseBody boolean loginInfo(@RequestBody Map<String,String> regLoginMap) {
+		logger.debug(regLoginMap.toString());
+		return userService.regLoginInfo(regLoginMap);
 	}
 }

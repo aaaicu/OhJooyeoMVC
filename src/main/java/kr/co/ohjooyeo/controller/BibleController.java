@@ -6,8 +6,6 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,7 +40,7 @@ public class BibleController {
 	
 	@RequestMapping(value = "/search-bible", method = RequestMethod.GET)
 	public String searchBible(){
-		return "search-bible";
+		return "win/search-bible";
 	}
 
 	/*  "성경 a:b(~성경 c:d)(/성경 a:b(~성경 c:d))" [String] */

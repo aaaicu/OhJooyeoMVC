@@ -11,6 +11,7 @@
 <title>돈암동 미니로또</title>
 </head>
 <body>
+<div align="center">
 	<div id="header"></div>
 	<div class="lotto">
 		<img id="image" width=300px height=300px src="img/minilotto.png" />
@@ -29,5 +30,7 @@
 	<div class="name-shadow">Created By Kyome</div>
 	
 	<script src="<c:url value="/js/miniLotto.js" />"></script>
+</div>
 </body>
+
 </html>

@@ -9,6 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import kr.co.ohjooyeo.dao.UserDAO;
+import kr.co.ohjooyeo.vo.UserVO;
 
 @Service
 public class UserService {
@@ -35,6 +36,21 @@ public class UserService {
 		logger.debug(result+"");
 		
 		return result;
+	}
+	
+	public boolean regLoginInfo(Map<String, String> regLoginMap) {
+		UserVO regUser = new UserVO();
+		regUser.setUserId(regLoginMap.get("id"));
+		regUser.setPassword(passEncoder.encode(regLoginMap.get("pw")));
+		regUser.setChurchId(regLoginMap.get("churchId"));
+		regUser.setUserCd(regLoginMap.get("userCd"));
+		int result = userDao.setLoginInfo(regUser);
+		logger.debug(Integer.toString(result));
+		if (result > 0) {
+			return true;
+		}else {
+			return false;
+		}
 	}
 
 }

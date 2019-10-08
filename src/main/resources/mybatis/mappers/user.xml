@@ -22,4 +22,9 @@
 			 WHERE user_id = #{id}
 		]]>		
 	</select>
+	<insert id="setLoginInfo" parameterType="kr.co.ohjooyeo.vo.UserVO">
+		<![CDATA[
+			insert into ohjooyeo.USER(user_id,password,church_id,user_cd) values (#{userId},#{password},#{churchId},#{userCd})
+		]]>
+	</insert>
 </mapper>

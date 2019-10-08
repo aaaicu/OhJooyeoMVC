@@ -26,16 +26,35 @@ public class WorshipService {
 		return worshipDAO.getWorshipList();
 	}
 
-	public void addWorship(WorshipVO worshipVO) {
-		worshipDAO.insertWorship(worshipVO);
+	public boolean addWorship(WorshipVO worshipVO) {
+		if (worshipDAO.insertWorship(worshipVO) == 1) {
+			return true;
+		}else {
+			return false;
+		}
 	}
 
-	public List<String> getWorshipIdList(String userId) {
-		return worshipDAO.getWorshipIdList(userId);
+	public List<String> getWorshipIdList(String churchId) {
+		return worshipDAO.getWorshipIdList(churchId);
 	}
 	
-	public void update(WorshipVO worshipVO) {
-		worshipDAO.updateWorship(worshipVO);
+	public String getLastWorshipId(String churchId) {
+		return worshipDAO.getLastWorshipId(churchId);
+	}
+	
+	
+	public boolean update(Map<String,String> worshipMap) {
+		if(worshipMap.size()>2) {
+			
+//			updateWorship -> {worshipId=36-12, userId=admin}
+//			logger.debug(worshipMap.toString());
+			
+			worshipDAO.updateWorship(worshipMap);	
+			return true;
+		} else {
+			return false;
+		}
+		
 	}
 	
 	public void delete(String worshipId) {

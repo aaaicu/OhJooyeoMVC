@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +19,7 @@ import kr.co.ohjooyeo.service.AdvertisementService;
 import kr.co.ohjooyeo.service.OrderService;
 import kr.co.ohjooyeo.service.VersionService;
 import kr.co.ohjooyeo.service.WorshipService;
+import kr.co.ohjooyeo.util.WorshipIdGenerator;
 import kr.co.ohjooyeo.vo.WorshipAdVO;
 import kr.co.ohjooyeo.vo.WorshipOrderVO;
 import kr.co.ohjooyeo.vo.WorshipVO;
@@ -44,8 +44,8 @@ public class WorshipController {
 	AdvertisementService adService;
 	
 	@RequestMapping(value = "/getWorshipIdList", method = RequestMethod.POST)
-	public @ResponseBody List<String> getWorshipIdList(@RequestBody String userId) {
-		List<String> result = worshipService.getWorshipIdList(userId);
+	public @ResponseBody List<String> getWorshipIdList(@RequestBody String churchId) {
+		List<String> result = worshipService.getWorshipIdList(churchId);
 		logger.debug("result : " +result);
 		return result;
 	}
@@ -66,39 +66,35 @@ public class WorshipController {
 		return "";
 	}
 	
-	@RequestMapping(value = "/add-worship", method = RequestMethod.POST)
-	public String addWorship(@ModelAttribute WorshipVO vo,@RequestParam("type") String[] types, @RequestParam("title") String[] titles,
-			@RequestParam("detail") String[] details, @RequestParam("presenter") String[] presenters,
-			@RequestParam("adOrder") String[] adOrders, @RequestParam("adTitle") String[] adTitles,
-			@RequestParam("adContent") String[] adContents) {
-		// 디폴트 버전
-		vo.setVersion("aaa");
-		// 하드코딩 (유저생성시 변경)
-		vo.setUserId("admin");
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/add/worship", method = RequestMethod.POST)
+	public @ResponseBody String addWorship(@RequestBody  Map<String,Object> worshipData) {
+		logger.debug(worshipData.toString());
+		String lastWorshipId = worshipService.getLastWorshipId((String)worshipData.get("churchId"));
+		String newWorshipId = "";
+		if("".equals(lastWorshipId.trim())) {
+			newWorshipId = WorshipIdGenerator.newWorshipId();
 
-		// 확인
-		logger.debug(vo.toString());
-		
-		if( logger.isTraceEnabled()) {
-			for(String a : adOrders) {			
-				logger.trace(a);
-			}
-			for(String a : adTitles) {			
-				logger.trace(a);
-			}
-			for(String a : adContents) {			
-				logger.trace(a);
-			}
+		}else {
+			newWorshipId = lastWorshipId;
 		}
-		
-		worshipService.addWorship(vo);
-		// 순서 추가
-//		orderService.setWorshipOrder(vo.getWorshipId(),types, titles, details, presenters);
-//		adService.setWorshipAd(vo.getWorshipId(), adTitles, adContents);
+		WorshipVO worshipVO = new WorshipVO();
+		logger.debug("worshipDate : "+worshipData.get("worshipDate").toString());
 
-		return "redirect:worship";
+		worshipVO.setWorshipId(newWorshipId);
+		worshipVO.setWorshipDate((String)worshipData.get("worshipDate"));
+		worshipVO.setMainPresenter((String)worshipData.get("mainPresenter"));
+		worshipVO.setNextPresenter((String)worshipData.get("nextPresenter"));
+		worshipVO.setNextPrayer((String)worshipData.get("nextPrayer"));
+		worshipVO.setNextOffer((String)worshipData.get("nextOffer"));
+		worshipVO.setVersion("aaa");
+		worshipVO.setChurchId((String)worshipData.get("churchId"));
+		logger.debug("worshipVO : "+worshipVO.toString());
+		worshipService.addWorship(worshipVO);
+		
+		return "";
 	}
-//	
+	
 //	@Override
 //	@RequestMapping(value = "/worship-add-temp", method = RequestMethod.GET)
 //	public String worshipAddTemp() {
@@ -120,7 +116,7 @@ public class WorshipController {
 	
 	/* 업데이트 내용을 받는 컨트롤러 */
 	@SuppressWarnings("unchecked")
-	@RequestMapping(value = "/update-worship", method = RequestMethod.POST)
+	@RequestMapping(value = "/process/update", method = RequestMethod.POST)
 	public @ResponseBody String updateWorship(
 			@RequestBody Map<String,Object> inputMap
 			){
@@ -131,13 +127,42 @@ public class WorshipController {
 		logger.debug("adList : "+ inputMap.get("adList"));
 		logger.debug("addAdList : "+ inputMap.get("addAdList"));
 		logger.debug("worshipId : "+ inputMap.get("worshipId"));
-		orderService.add((List<Map<String, Object>>) inputMap.get("addOrderList"));
-		orderService.update((List<Map<String, Object>>) inputMap.get("orderList"));
-		orderService.delete((String)inputMap.get("worshipId"), (List<String>)inputMap.get("removeOrderList"));
 		
-		adService.add((List<Map<String, Object>>) inputMap.get("addAdList"));
-		adService.update((List<Map<String, Object>>) inputMap.get("adList"));
-		adService.delete((String)inputMap.get("worshipId"), (List<String>)inputMap.get("removeAdList"));
+		String version = versionService.getVersionById((String)inputMap.get("worshipId"));
+		
+		
+		boolean worshipInfoUpdateYN = false;
+		boolean orderUpdateYN = false;
+		boolean adUpdateYN = false;
+		Map<String,String> worshipMap = (Map<String,String>)inputMap.get("worshipObject");
+		worshipMap.put("worshipId", (String)inputMap.get("worshipId"));
+		worshipMap.put("userId", "admin");
+		
+		worshipInfoUpdateYN = worshipInfoUpdateYN || worshipService.update(worshipMap);
+		if (worshipInfoUpdateYN) { 
+			version = versionService.versionUp(version , 2) ;
+		}
+		
+		orderUpdateYN = orderUpdateYN || orderService.add((List<Map<String, Object>>) inputMap.get("addOrderList"));
+		orderUpdateYN = orderUpdateYN || orderService.update((List<Map<String, Object>>) inputMap.get("orderList"));
+		orderUpdateYN = orderUpdateYN || orderService.delete((String)inputMap.get("worshipId"), (List<String>)inputMap.get("removeOrderList"));
+		
+		logger.debug("order version update YN : "+ orderUpdateYN);
+		if (orderUpdateYN) { 
+			version = versionService.versionUp(version , 0) ;
+		}
+		
+		adUpdateYN = adUpdateYN || adService.add((List<Map<String, Object>>) inputMap.get("addAdList"));
+		adUpdateYN = adUpdateYN || adService.update((List<Map<String, Object>>) inputMap.get("adList"));
+		adUpdateYN = adUpdateYN || adService.delete((String)inputMap.get("worshipId"), (List<String>)inputMap.get("removeAdList"));
+		
+		logger.debug("advertisement version update YN : "+ adUpdateYN);
+		if (adUpdateYN) { 
+			version = versionService.versionUp(version , 1) ;
+		}
+		
+		logger.debug(version);
+		versionService.updateVersion((String)inputMap.get("worshipId"),version);
 		
 		return "";
 	}
@@ -160,10 +185,21 @@ public class WorshipController {
 		return worshipService.getWorshipInfo(worshipId);
 	}
 	
-	@RequestMapping(value = "/testCSS", method = RequestMethod.GET)
-	public String testCSS(Model model) {
+	@RequestMapping(value = "/form/update", method = RequestMethod.GET)
+	public String formUpdate(Model model) {
 		model.addAttribute("pageName","worship-update");
 		return "home";
+	}
+	
+	@RequestMapping(value = "/form/add", method = RequestMethod.GET)
+	public String formAdd(Model model) {
+		model.addAttribute("pageName","worship-add");
+		return "home";
+	}
+	
+	@RequestMapping(value = "/win/list/worship", method = RequestMethod.GET)
+	public String winListWorship(Model model) {
+		return "win/worship-list";
 	}
 	
 	@RequestMapping(value = "/worship-list", method = RequestMethod.GET)

@@ -47,7 +47,7 @@ public class VersionService {
 	}
 	
 	/* a-z(97-122) A-Z() */
-	/* index = 0 : orderVersion / 1 : advertiseVersion / 2 : musicVersrion  */
+	/* index = 0 : orderVersion / 1 : advertiseVersion / 2 : worshipInfoVersrion  */
 	public String versionUp(String currentVersion, int index) {
 		String result = null;
 		if ( currentVersion.length() != 3) {
@@ -65,11 +65,11 @@ public class VersionService {
 			
 			result = currentVersion.substring(0, index)+tempChar+currentVersion.substring(index+1);
 		}
-		
 		return result;
 	}
 
 	public void updateVersion(String worshipId, String version) {
 		worshipDAO.getVersionById(worshipId,version);
 	}
+	
 }

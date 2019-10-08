@@ -1,7 +1,13 @@
 
 console.log();
+
+[].forEach.call(document.querySelectorAll('#worship-info-area input.change-check'),function (e){
+	e.addEventListener('change',function (element) {
+		document.querySelector('#worship-info-area').dataset['updateYn']="1";
+	});
+});
+
 document.getElementById('updateButton').addEventListener('click',function (e) {
-	console.log("클릭");
 	let paramObject;
 
 	let worshipObject = {};
@@ -10,9 +16,11 @@ document.getElementById('updateButton').addEventListener('click',function (e) {
 	let adList = [];
 	let addAdList = [];
 	
-	[].forEach.call(document.getElementById('worshipForm').querySelectorAll('input'),function (e) {
-		worshipObject[e.name] = e.value;
-	});
+	if(document.querySelector('#worship-info-area').dataset['updateYn']==="1"){
+		[].forEach.call(document.querySelectorAll('#worship-info-area input.change-check'),function (e){
+			worshipObject[e.name] = e.value;
+		});
+	}
 
 	[].forEach.call(document.querySelectorAll('#order-area > div'),function (e,index) {
 		if(e.dataset['updateYn']==="1" || index !== parseInt(e.dataset['order'])){
@@ -29,7 +37,6 @@ document.getElementById('updateButton').addEventListener('click',function (e) {
 			};
 			console.log(orderObject);
 			orderObject['id'] < 0 ? addOrderList.push(orderObject) : orderList.push(orderObject);
-		
 		}
 	});
 
@@ -61,13 +68,13 @@ document.getElementById('updateButton').addEventListener('click',function (e) {
 	console.log(JSON.stringify(paramObject));
 	
  	$.ajax({
-		url : getContextPath()+"/update-worship",
+		url : getContextPath()+"/process/update",
 		type : "post",
 		contentType : "application/json",
 		dataType : "text",
 		data : JSON.stringify(paramObject),
 		success : function() {
-
+			
 			console.log("업데이트발생");
 			$("#order-area").children().remove();
 			$("#ad-area").children().remove();
@@ -144,6 +151,7 @@ function updateWorshipInit() {
 			}
 			if (worshipIdList.length > 0) {
 				getWorshipInfo(worshipIdList[0]);
+				$("#selectWorshipId option:eq("+(worshipIdList.length-1)+")").attr('selected','selected');
 				getWorshipDetailList(worshipIdList[0], "order");
 				getWorshipDetailList(worshipIdList[0], "ad");
 			}
@@ -174,7 +182,6 @@ function getWorshipInfo(worshipId) {
 			}
 		})
 	}).then(function(vo) {
-		$("[name=worshipUpdateYN]").val("0");
 		$("[name=worshipDate]").val(vo.worshipDate);
 		$("[name=mainPresenter]").val(vo.mainPresenter);
 		$("[name=nextPresenter]").val(vo.nextPresenter);
@@ -257,6 +264,13 @@ $("#deleteWorship").on("click", function() {
 	});
 
 })
+
+	$(document).ready(function() {
+
+		updateWorshipInit();
+		
+		init();
+	});
 
 /* 예배ID 변경시 순서 재호출 */
 // $("#updateButton").on("click", function() {

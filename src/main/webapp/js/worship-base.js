@@ -6,7 +6,7 @@ let removeOrderList;
 let removeAdList;
 
 /* 추가될 div 의 Id (속성에 따른 리턴을 수용할 수 있기 때문에 음수로 채번하여 고유값 유지) */
-let tempId;
+let tempId=-1;
 
 function init() {
 	memory = new Map();
@@ -321,7 +321,6 @@ function windowOpen(e) {
 			}
 		}
 	}
-
 }
 
 function selectListener(evnet) {
@@ -514,24 +513,6 @@ function resetCard(e){
 function render(area, html, method) {
 	$(area)[method](html);
 };
-//
-// /* 삭제버튼 클릭 */
-// $("#renderArea").on("click", ".del", function() {
-// 	var $this = $(this);
-// 	var thisId = $($this.closest("li")[0]).attr("id");
-// 	var thisNo = thisId.substr(2);
-// 	var thisType = thisId.substr(0, 2);
-// 	console.log(thisType == "od");
-// 	// 새롭게 추가되는 li는 삭제명단에서 관리할 필요가 없기때문에 음수는 배제
-// 	if (parseInt(thisNo) >= 0) {
-// 		if (thisType === "od") {
-// 			removeOrderList.push(thisNo)
-// 		} else if (thisType === "ad") {
-// 			removeAdList.push(thisNo);
-// 		}
-// 	}
-// 	$this.closest("li").remove();
-// });
 
 /* 추가버튼 클릭 */
 $(".add-html").on("click", function() {
@@ -556,78 +537,62 @@ $(".add-html").on("click", function() {
 
 /* 업데이트 관리 */
 /* 포커스되는 순간을 변경의 시작으로 보고 변경전 값을 Map(:memory)에 추가 */
-$("ul").on("focus", ".chkTarget", function() {
-	var $this = $(this);
-
-	var thisId = $this.closest("li")[0].id
-	var thisNo = thisId.substr(2);
-	var name = $this.attr("name")
-	var contents = $this.val();
-
-	if (thisNo >= 0) {
-		/* 처음 포커스되는 태그의 경우 처리 로직 */
-		if (memory.get(thisId) == undefined) {
-			memory.set(thisId, {});
-		}
-		if (!memory.get(thisId).hasOwnProperty(name)) {
-			memory.get(thisId)[name] = contents;
-		}
-	}
-	console.log(memory);
-});
+//$("ul").on("focus", ".chkTarget", function() {
+//	var $this = $(this);
+//
+//	var thisId = $this.closest("li")[0].id
+//	var thisNo = thisId.substr(2);
+//	var name = $this.attr("name")
+//	var contents = $this.val();
+//
+//	if (thisNo >= 0) {
+//		/* 처음 포커스되는 태그의 경우 처리 로직 */
+//		if (memory.get(thisId) == undefined) {
+//			memory.set(thisId, {});
+//		}
+//		if (!memory.get(thisId).hasOwnProperty(name)) {
+//			memory.get(thisId)[name] = contents;
+//		}
+//	}
+//	console.log(memory);
+//});
 
 /* 변경이 일어난 경우 처음 값에서 바뀌었는지 비교 후 바뀌었다면 chkInputBox의 값을 "1"로 변경 */
 /*
  * 한번 업데이트 대상으로 지정되면 (chkInputBox에서 "1"로 처리되면) 원래값으로 변경했다 하더라도 "0" 로 돌아가지는 않음
  * (10/4 협의)
  */
-$("ul").on(
-		"change",
-		".chkTarget",
-		function() {
-			var $this = $(this);
+$("ul").on(	"change",".chkTarget",function() {
+	var $this = $(this);
 
-			var thisId = $this.closest("li")[0].id;
-			var thisNo = thisId.substr(2);
-			var thisType = thisId.substr(0, 2);
-			var name = $this.attr("name")
-			var updateTargetStr;
-			var contents = $this.val();
+	var thisId = $this.closest("li")[0].id;
+	var thisNo = thisId.substr(2);
+	var thisType = thisId.substr(0, 2);
+	var name = $this.attr("name")
+	var updateTargetStr;
+	var contents = $this.val();
 
-			/*
-			 * thisNo가 양수인 경우는 디비에서 내용을 갖고와서 수정이 가능한 대상임 음수인 경우는 새롭게 추가한 li이기
-			 * 때문에 update관리를 할 필요없이 일괄 등록하면 됨
-			 */
-			if (thisNo >= 0) {
+	/*
+	 * thisNo가 양수인 경우는 디비에서 내용을 갖고와서 수정이 가능한 대상임 음수인 경우는 새롭게 추가한 li이기
+	 * 때문에 update관리를 할 필요없이 일괄 등록하면 됨
+	 */
+	if (thisNo >= 0) {
 
-				if (thisType === "od") {
-					updateTargetStr = "orderUpdateYN";
-				} else if (thisType === "ad") {
-					updateTargetStr = "adUpdateYN";
-				} else if (thisType === "ws") {
-					updateTargetStr = "worshipUpdateYN";
-				}
+		if (thisType === "od") {
+			updateTargetStr = "orderUpdateYN";
+		} else if (thisType === "ad") {
+			updateTargetStr = "adUpdateYN";
+		} else if (thisType === "ws") {
+			updateTargetStr = "worshipUpdateYN";
+		}
 
-				var chkInputBox = $($this.closest("li")[0]).find(
-						"[name='" + updateTargetStr + "']");
-				console.log(chkInputBox);
-				if (memory.get(thisId)[name] != contents
-						&& chkInputBox.val() == "0") {
-					chkInputBox.val("1");
-					// 업데이트 리스트 input value 변경 
-				}
-			}
-		});
-
-
-//$(document).ready(function() {
-//
-//	updateWorshipInit();
-//	
-//	init();
-//});
-
-//
-//function showModal(){
-//	$(".modal").modal();
-//}
+		var chkInputBox = $($this.closest("li")[0]).find(
+				"[name='" + updateTargetStr + "']");
+		console.log(chkInputBox);
+		if (memory.get(thisId)[name] != contents
+				&& chkInputBox.val() == "0") {
+			chkInputBox.val("1");
+			// 업데이트 리스트 input value 변경 
+		}
+	}
+});

@@ -74,21 +74,18 @@ ALTER TABLE `ohjooyeo`.`ADVERTISEMENT`
 
 -- BIBLE
 CREATE TABLE `ohjooyeo`.`BIBLE` (
-	`book`    VARCHAR(7)   NOT NULL COMMENT 'book', -- book
+	`book`    VARCHAR(20)   NOT NULL COMMENT 'book', -- book
 	`chapter` NUMERIC(3)   NOT NULL COMMENT 'chapter', -- chapter
 	`section` NUMERIC(3)   NOT NULL COMMENT 'section', -- section
-	`contents`  VARCHAR(300) NOT NULL COMMENT 'contents' -- contents
+	`contents`  VARCHAR(300) NOT NULL COMMENT 'contents', -- contents
+	`testament`  VARCHAR(3) DEFAULT 'old' NOT NULL COMMENT 'testament', -- testament
+	`version` VARCHAR(15) DEFAULT '개정개역'  NOT NULL COMMENT 'version', -- version
+	`order`  NUMERIC(3) NOT NULL COMMENT 'order' -- order
 ) DEFAULT CHARSET=utf8,
 COMMENT 'BIBLE';
 
 -- BIBLE
-ALTER TABLE `ohjooyeo`.`BIBLE`
-	ADD CONSTRAINT `PK_BIBLE` -- BIBLE 기본키
-		PRIMARY KEY (
-			`book`,    -- book
-			`chapter`, -- chapter
-			`section`  -- section
-		);
+ALTER TABLE `ohjooyeo`.`BIBLE` ADD CONSTRAINT `PK_BIBLE` PRIMARY KEY (`book`, `chapter`,`section` );
 
 
 -- SCORE

@@ -1,118 +1,87 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<script type="text/javascript"
-	src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<link rel="stylesheet" href="<c:url value='/css/order-manage.css' />">
-<title>Add Worship</title>
-</head>
-<body>
-	<%-- <%@include file="nav.jsp" %> --%>
-	<%-- <p><c:url value="/js/insert-worship.js" /> </p> --%>
-	<%-- <%@include file="nav.jsp" %> --%>
 
-	<div id = "worshipArea">
-	<form id = "worshipForm">
-	<div>
-		<span>
-		Worship ID : <select id="selectWorshipId" name="selectWorshipId">
-		</select>
-		</span>
-		<span>
-		<input type = "button" value = "삭제" id = "deleteWorship">
+<div id="worship-info-area" data-update-yn = "0">
+	<div style="width: 270px;">
+		<span style = "text-align:right;">
+		<input type="button" class="btn btn-success btn-sm" id="openWorshipListButton" value="불러오기">
 		</span>
 	</div>
-	<ul id="worshipInfo">
-		<li id = "ws0">
+	<br />
+	<div class="card border-dark mb-1" style="max-width: 40rem;">
+		<div class="card-header">
+			<h4 class="card-title">예배정보</h4>
+		</div>
+		<div class="card-body">
 			<table>
 				<tr>
 					<td>
-					<input type='hidden' name='worshipUpdateYN' value ='0'>
-					Worship Date
+						<h5 class="text-muted">예배 일자</h5></td>
+					<td><input type="date" class='change-check form-control form-control-sm' name="worshipDate"></td>
+				</tr>
+				<tr>
+					<td>
+						<h5 class="text-muted">사회자</h5>
 					</td>
-					<td><input type="text" class ='chkTarget' name="worshipDate"></td>
+					<td><input type="text" class='change-check form-control form-control-sm' name="mainPresenter"></td>
 				</tr>
 				<tr>
-					<td>Main Presenter</td>
-					<td><input type="text" class ='chkTarget' name="mainPresenter"></td>
+					<td><h5 class="text-muted">다음 사회자</h5></td>
+					<td><input type="text" class='change-check form-control form-control-sm' name="nextPresenter"></td>
 				</tr>
 				<tr>
-					<td>Next Presenter</td>
-					<td><input type="text" class ='chkTarget' name="nextPresenter"></td>
+					<td><h5 class="text-muted">다음 기도자</h5></td>
+					<td><input type="text" class='change-check form-control form-control-sm' name="nextPrayer"></td>
 				</tr>
 				<tr>
-					<td>Next Prayer</td>
-					<td><input type="text" class ='chkTarget' name="nextPrayer"></td>
-				</tr>
-				<tr>
-					<td>Next Offer</td>
-					<td><input type="text" class ='chkTarget' name="nextOffer"></td>
+					<td><h5 class="text-muted">다음 봉헌</h5></td>
+					<td><input type="text" class='change-check form-control form-control-sm' name="nextOffer"></td>
 				</tr>
 			</table>
-		</li>
-	</ul>
-	</form>
-	</div>
-	<div id = "renderArea">
-		<div id = "orderArea">	
-			<form id = "orderForm">
-			예배순서 <span><input type = "button" name = "order" class = "addHtml" value = "순서추가"></span><br/>
-			<ul id="orderList"></ul>
-			</form>
-		</div>
-		<div id = "adArea">	
-			<form id = "adForm">
-			광고 <span><input type = "button" name = "ad" class = "addHtml" value = "광고추가"></span><br/>
-			<ul id="adList"></ul>
-			</form>
 		</div>
 	</div>
 
-	<br/>
-	<br/> 
-	<input type="button" id = "updateOrders" value="확인">
-	<%-- <%@include file="footer.jsp" %> --%>
-</body>
-<script src="<c:url value="/js/insert-worship.js" />" ></script>
-<script src="<c:url value="/js/order-manage.js" />" ></script>
+</div>
+<br />
 
-<script type ="text/javascript">
-$(document).ready(function(){
-	
-	updateWorshipInit();
-	init();
-});
+  <!-- 예배순서  -->
 
-function updateWorshipInit(){
-	/* 예배ID 리스트 비동기식으로 조회 */
-	$.ajax({
-		url : "${pageContext.request.contextPath }/getWorshipIdList",
-		type : "post",
-		contentType : "application/json",
-		data : "admin",
-		dataType : "json",
-		success : function(worshipIdList){
-			$("#selectWorshipId").children().remove();
-			for(var i = 0; i <worshipIdList.length; i++){
-				$("#selectWorshipId").prepend("<option>"+worshipIdList[i]+"</option>")
-			}
-			if(worshipIdList.length > 0 ) {
-				getWorshipInfo(worshipIdList[0]);
-				getWorshipDetailList(worshipIdList[0],"order");
-				getWorshipDetailList(worshipIdList[0],"ad");
-			}
-		},
-		error : function(XHR, status, error) {
-			console.error(status + " : " + error);
-		}
-	});  
+<div class="card border-dark mb-3" style="max-width: 40rem;">
+	<div class="card-header"><h4 class="card-title">순서</h4></div>
+	<div class="card-body">
+		<div id ="order-area">
+		
+		
+		</div>
+		<div>
+			<button name="order" class="add-html btn btn-default" style="width: 100%;">
+				<img src="${pageContext.request.contextPath }/img/add.png" height="20" width="20"></img>
+			</button>
+		</div>
+	</div>
+</div>
 
-}
 
-</script>
+  <!-- 광고  -->
 
-</html>
+<div class="card border-dark mb-3" style="max-width: 40rem;">
+	<div class="card-header"><h4 class="card-title">광고</h4></div>
+	<div class="card-body">
+		<div id ="ad-area">
+		</div>
+		<div>
+			<button name="ad" class="add-html btn btn-default" style="width: 100%;">
+				<img src="${pageContext.request.contextPath }/img/add.png" height="20" width="20"></img>
+			</button>
+		</div>
+	</div>
+</div>
+
+<div style="width: 270px;">
+	<span style = "text-align:right;">
+	<input type="button" class="btn btn-success btn-sm" id="addButton" value="저장">
+	</span>
+</div>
+<br />
+
+<script src="${pageContext.request.contextPath}/js/worship-add.js"></script>

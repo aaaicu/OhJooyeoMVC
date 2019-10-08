@@ -22,16 +22,11 @@
 </div>
 
 <c:import url="/WEB-INF/views/includes/footer.jsp"></c:import>
-<script src="${pageContext.request.contextPath}/js/insert-worship.js"></script>
-<script src="${pageContext.request.contextPath}/js/update-worship.js"></script>
+<script src="${pageContext.request.contextPath}/js/worship-base.js"></script>
+<%-- <script src="${pageContext.request.contextPath}/js/update-worship.js"></script> --%>
 <script src="${pageContext.request.contextPath}/js/order-manage.js"></script>
 <script type="text/javascript">
-	$(document).ready(function() {
 
-		updateWorshipInit();
-		
-		init();
-	});
 
 	
 	function showModal(){

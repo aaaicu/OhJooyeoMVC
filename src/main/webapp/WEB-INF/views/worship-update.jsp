@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
-<div id="worshipArea">
+<div id="worship-info-area" data-update-yn = "0">
 	<div style="width: 270px;">
 		<span> <select id="selectWorshipId" class="custom-select" name="selectWorshipId">
 		</select>
@@ -18,40 +18,31 @@
 			<h4 class="card-title">예배정보</h4>
 		</div>
 		<div class="card-body">
-
-			<form id="worshipForm">
-
-				<ul id="worshipInfo">
-					<li id="ws0">
-						<table>
-							<tr>
-								<td><input type='hidden' name='worshipUpdateYN' value='0'>
-									<h5 class="text-muted">예배 일자</h5></td>
-								<td><input type="date" class='chkTarget form-control form-control-sm' name="worshipDate"></td>
-							</tr>
-							<tr>
-								<td>
-									<h5 class="text-muted">사회자</h5>
-								</td>
-								<td><input type="text" class='chkTarget form-control form-control-sm' name="mainPresenter"></td>
-							</tr>
-							<tr>
-								<td><h5 class="text-muted">다음 사회자</h5></td>
-								<td><input type="text" class='chkTarget form-control form-control-sm' name="nextPresenter"></td>
-							</tr>
-							<tr>
-								<td><h5 class="text-muted">다음 기도자</h5></td>
-								<td><input type="text" class='chkTarget form-control form-control-sm' name="nextPrayer"></td>
-							</tr>
-							<tr>
-								<td><h5 class="text-muted">다음 봉헌</h5></td>
-								<td><input type="text" class='chkTarget form-control form-control-sm' name="nextOffer"></td>
-							</tr>
-						</table>
-					</li>
-				</ul>
-			</form>
-
+			<table>
+				<tr>
+					<td>
+						<h5 class="text-muted">예배 일자</h5></td>
+					<td><input type="date" class='change-check form-control form-control-sm' name="worshipDate"></td>
+				</tr>
+				<tr>
+					<td>
+						<h5 class="text-muted">사회자</h5>
+					</td>
+					<td><input type="text" class='change-check form-control form-control-sm' name="mainPresenter"></td>
+				</tr>
+				<tr>
+					<td><h5 class="text-muted">다음 사회자</h5></td>
+					<td><input type="text" class='change-check form-control form-control-sm' name="nextPresenter"></td>
+				</tr>
+				<tr>
+					<td><h5 class="text-muted">다음 기도자</h5></td>
+					<td><input type="text" class='change-check form-control form-control-sm' name="nextPrayer"></td>
+				</tr>
+				<tr>
+					<td><h5 class="text-muted">다음 봉헌</h5></td>
+					<td><input type="text" class='change-check form-control form-control-sm' name="nextOffer"></td>
+				</tr>
+			</table>
 		</div>
 	</div>
 
@@ -91,4 +82,4 @@
 	</div>
 </div>
 
-<%-- <%@include file="footer.jsp" %> --%>
+<script src="${pageContext.request.contextPath}/js/worship-update.js"></script>

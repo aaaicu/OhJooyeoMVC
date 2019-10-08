@@ -1,17 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="worship">
+
+<!-- 실사용 쿼리 -->
+	<select id ="getWorshipIdList" parameterType = "string" resultType="string">
+		<![CDATA[
+			SELECT worship_id
+			FROM WORSHIP
+			WHERE church_id = #{churchId}	
+			ORDER BY worship_id desc
+		]]>	
+	</select>
+
+	<select id="getLastWorshipId" parameterType = "string" resultType="string">
+		<![CDATA[
+			SELECT IFNULL(max(worship_id),' ')
+			FROM WORSHIP
+			WHERE church_id = #{id}
+		]]>		
+	</select>
+	
+	
+
+<!-- 사용확인 중 -->
 	<select id="getWorshipId" parameterType = "string" resultType="string">
 		<![CDATA[
 			SELECT worship_id
 			FROM WORSHIP
-			WHERE worship_date = #{date}
+			WHERE church_id = #{date}
 		]]>		
 	</select>
+
+	
 	<select id="getWorshipMap" parameterType = "string" resultType="map">
 		<![CDATA[
 			SELECT worship_id worshipId, DATE_FORMAT(worship_date, '%Y-%m-%d') AS worshipDate, main_presenter mainPresenter, next_presenter nextPresenter, next_prayer nextPrayer, next_offer nextOffer
-			FROM WORSHIP
+			FROM ohjooyeo.WORSHIP
 			WHERE worship_id = #{worshipId}
 		]]>		
 	</select>
@@ -37,14 +61,7 @@
 			WHERE worship_id = #{id}
 		]]>		
 	</select>
-	<select id ="getWorshipIdList" parameterType = "string" resultType="string">
-		<![CDATA[
-			SELECT worship_id
-			FROM WORSHIP
-			WHERE user_id = #{userId}	
-			ORDER BY worship_id desc
-		]]>	
-	</select>
+
 	
 	<insert id ="insertWorship" parameterType = "kr.co.ohjooyeo.vo.WorshipVO">
 		<![CDATA[
@@ -56,7 +73,7 @@
 			#{nextPrayer},
 			#{nextOffer},
 			#{version},
-			#{userId}			
+			#{churchId}			
 		)
 		]]>
 	</insert>
@@ -67,17 +84,15 @@
 		]]>
 	</update>
 	
-	<update id = "updateWorship" parameterType = "kr.co.ohjooyeo.vo.WorshipVO">
-	<![CDATA[
+	<update id = "updateWorship" parameterType = "map">
 			UPDATE ohjooyeo.WORSHIP SET 
 				worship_date = #{worshipDate},
 				main_presenter = #{mainPresenter},
 				next_presenter = #{nextPresenter},
 				next_prayer = #{nextPrayer},
-				next_offer = #{nextOffer},
-				user_id = #{userId}	
-			WHERE worship_id = #{worshipId}
-	]]>
+				next_offer = #{nextOffer}
+				
+			WHERE worship_id = #{worshipId} AND user_id = #{userId}	
 	</update>
 	<delete id="deleteWorship" parameterType = "string">
 		<![CDATA[
