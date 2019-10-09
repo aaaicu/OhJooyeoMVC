@@ -9,11 +9,12 @@
 			AND title like #{findOrder}
 		]]>	
 	</select>
-	<select id="getAllOrder" parameterType="string" resultType="map">
+	<select id="getWorshipOrder" parameterType="map" resultType="map">
 		<![CDATA[
-			SELECT ORDER.presenter, ORDER.detail, ORDER.title, ORDER.order, ORDER.order_id orderId
+			SELECT ORDER.presenter, ORDER.detail, ORDER.title, ORDER.order, ORDER.order_id orderId,ORDER.church_id churchId
 			FROM ohjooyeo.ORDER
 			WHERE worship_id like #{worshipId}
+			AND church_id like #{churchId}
 			ORDER BY ORDER.order
 		]]>
 	</select>

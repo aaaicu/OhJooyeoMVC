@@ -25,7 +25,7 @@ http://aaaicu.synology.me:8088/OhJooYeoMVC
 
 
 `[Enabled]`
-### [1] _POST_ /worship-list
+### [1] _POST_ /worship/list
 
 1) Description
 
@@ -59,8 +59,8 @@ Content-Type: application/json
 ----
 
 
-`[Disabled]`
-### [2] _POST_ /order
+`[Enabled]`
+### [2] _POST_ /worship/info
 
 
 1) Description
@@ -91,20 +91,18 @@ Content-Type: application/json
 
 ```
 {
-    "worship": {
-        "mainPresenter": "인도자 이름" [String],
-        "worshipOrder": [{
-            "title": "순서1 - 순서 1에 해당하는 제목" [String],
-            "detail": "순서1 - 순서 1에 해당하는 상세 항목" [String],
-            "presenter": "순서1 - 순서 1에 해당하는 대표자" [String],
-            "order": 예배 순서 [Int],
-            "orderId": 각 순서에 대한 식별값ID 정보 [Int]
-        }],
-        "nextPresenter": {
-            "mainPresenter":"다음주 인도자 이름" [String],
-            "prayer":"다음주 기도자 이름" [String],
-            "offer":"다음주 헌금위원 이름 [String]"
-        }
+    "mainPresenter": "인도자 이름" [String],
+    "worshipOrder": [{
+        "title": "순서1 - 순서 1에 해당하는 제목" [String],
+        "detail": "순서1 - 순서 1에 해당하는 상세 항목" [String],
+        "presenter": "순서1 - 순서 1에 해당하는 대표자" [String],
+        "order": 예배 순서 [Int],
+        "orderId": 각 순서에 대한 식별값ID 정보 [Int]
+    }],
+    "nextPresenter": {
+        "mainPresenter":"다음주 인도자 이름" [String],
+        "prayer":"다음주 기도자 이름" [String],
+        "offer":"다음주 헌금위원 이름 [String]"
     },
     "version": 예배 순서 정보의 버전 [Int]
 }
@@ -124,61 +122,59 @@ Content-Type: application/json
 
 ```
 {
-    "worship": {
-        "nextPresenter": {
-            "offer": "서동주",
-            "prayer": "박요한",
-            "mainPresenter": "김한나"
-        },
-        "mainPresenter": "박요한",
-        "worshipOrder": [{
-            "presenter": "회중",
-            "title": "경배와찬양",
-            "order": 1
-        },
-        {
-            "presenter": "정애림",
-            "title": "기도",
-            "order": 2
-        },
-        {
-            "presenter": "인도자",
-            "detail": "욘 2:7-2:10/고전 2:1-3:1",
-            "title": "성경봉독",
-            "order": 3
-        },
-        {
-            "presenter": "김희선전도사님",
-            "detail": "감사의 노래",
-            "title": "설교",
-            "order": 4
-        },
-        {
-            "presenter": "표준범",
-            "title": "헌금",
-            "order": 5
-        },
-        {
-            "presenter": "설교자",
-            "title": "헌금기도",
-            "order": 6
-        },
-        {
-            "presenter": "인도자",
-            "title": "성도의교제",
-            "order": 7
-        },
-        {
-            "presenter": "회중",
-            "title": "파송찬양",
-            "order": 8
-        },
-        {
-            "presenter": "회중",
-            "title": "주기도문",
-            "order": 9
-        }]
+    "nextPresenter": {
+        "offer": "서동주",
+        "prayer": "박요한",
+        "mainPresenter": "김한나"
     },
+    "mainPresenter": "박요한",
+    "worshipOrder": [{
+	        "presenter": "회중",
+	        "title": "경배와찬양",
+	        "order": 1
+	    },
+	    {
+	        "presenter": "정애림",
+	        "title": "기도",
+	        "order": 2
+	    },
+	    {
+	        "presenter": "인도자",
+	        "detail": "욘 2:7-2:10/고전 2:1-3:1",
+	        "title": "성경봉독",
+	        "order": 3
+	    },
+	    {
+	        "presenter": "김희선전도사님",
+	        "detail": "감사의 노래",
+	        "title": "설교",
+	        "order": 4
+	    },
+	    {
+	        "presenter": "표준범",
+	        "title": "헌금",
+	        "order": 5
+	    },
+	    {
+	        "presenter": "설교자",
+	        "title": "헌금기도",
+	        "order": 6
+	    },
+	    {
+	        "presenter": "인도자",
+	        "title": "성도의교제",
+	        "order": 7
+	    },
+	    {
+	        "presenter": "회중",
+	        "title": "파송찬양",
+	        "order": 8
+	    },
+	    {
+	        "presenter": "회중",
+	        "title": "주기도문",
+	        "order": 9
+	    }],
     "version": 1
 }
 ```
@@ -186,7 +182,7 @@ Content-Type: application/json
 - Response Description
 
 ```
-worship, phrase, advertisement, praise가 null이라면 최신버전인 것이다.
+{}이 반환되었다면 현재 값이 최신버전인 것이다.
 ```
 
 ----
@@ -315,7 +311,7 @@ Content-Type: application/json
 
 
 
-### [6] _POST_ /notice-list
+### [6] _POST_ /notice/list
 
 1) Description
 

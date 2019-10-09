@@ -25,8 +25,11 @@ public class OrderDAO {
 		return sqlSession.selectOne("order.getOrder", inputMap);
 	}
 
-	public List<Map<String, String>> getAllOrder(String worshipId) {
-		return sqlSession.selectList("order.getAllOrder", worshipId);
+	public List<Map<String, String>> getWorshipOrder(String churchId,String worshipId) {
+		Map<String,String> inputMap = new HashMap<>();
+		inputMap.put("worshipId", worshipId);
+		inputMap.put("churchId", churchId);
+		return sqlSession.selectList("order.getWorshipOrder", inputMap);
 	}
 	public List<WorshipOrderVO> getWorshipOrderList(String worshipId) {
 		return sqlSession.selectList("order.getWorshipOrderVOList", worshipId);

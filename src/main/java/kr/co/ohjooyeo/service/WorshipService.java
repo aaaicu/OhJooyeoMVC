@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import kr.co.ohjooyeo.dao.OrderDAO;
 import kr.co.ohjooyeo.dao.WorshipDAO;
 import kr.co.ohjooyeo.vo.WorshipAdVO;
 import kr.co.ohjooyeo.vo.WorshipOrderVO;
@@ -22,9 +23,32 @@ public class WorshipService {
 	@Autowired
 	WorshipDAO worshipDAO;
 	
-	public List<Map<String, String>> getWorshipList() {
-		return worshipDAO.getWorshipList();
+	@Autowired
+	OrderDAO orderDAO;
+	
+	public List<Map<String, String>> getWorshipList(String churchId) {
+		return worshipDAO.getWorshipList(churchId);
 	}
+	
+
+	public Map<String,Object> getWorshipOrder(String churchId, String worshipId,Map<String, Object> info) {
+		info.put("worshipOrder", orderDAO.getWorshipOrder(churchId,worshipId));
+		return info;
+	}
+	
+	public Map<String, Object> getWorshipMc(String churchId, String worshipId, Map<String, Object> info) {
+		// TODO Auto-generated method stub
+		Map<String,String> raw  = worshipDAO.getWorshipInfo(worshipId);
+		Map<String,String> nextPresenter = new HashMap<String,String>();
+		nextPresenter.put("mainPresenter", raw.get("nextPresenter"));
+		nextPresenter.put("prayer", raw.get("nextPrayer"));
+		nextPresenter.put("offer", raw.get("nextOffer"));
+		info.put("nextPresenter", nextPresenter);
+		info.put("mainPresenter",raw.get("mainPresenter"));
+		info.put("version", raw.get("version"));
+		return info;
+	}
+	
 
 	public boolean addWorship(WorshipVO worshipVO) {
 		if (worshipDAO.insertWorship(worshipVO) == 1) {
@@ -126,6 +150,9 @@ public class WorshipService {
 		
 		return result;
 	}
+
+
+
 
 
 	

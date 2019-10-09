@@ -43,7 +43,7 @@ public class MainController {
 		logger.debug("로그인페이지 확인");
 		
 		
-		Map<String,String> loginMap = new HashMap<>();
+		Map<String,String> loginMap = new HashMap<String,String>();
 		loginMap.put("id", id);
 		loginMap.put("pw", pw);
 		

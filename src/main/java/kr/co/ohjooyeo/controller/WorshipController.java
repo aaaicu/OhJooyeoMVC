@@ -1,5 +1,6 @@
 package kr.co.ohjooyeo.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,7 +19,6 @@ import kr.co.ohjooyeo.service.VersionService;
 import kr.co.ohjooyeo.service.WorshipService;
 import kr.co.ohjooyeo.util.WorshipIdGenerator;
 import kr.co.ohjooyeo.vo.WorshipAdVO;
-import kr.co.ohjooyeo.vo.WorshipOrderVO;
 import kr.co.ohjooyeo.vo.WorshipVO;
 
 
@@ -40,17 +40,30 @@ public class WorshipController {
 	@Autowired
 	AdvertisementService adService;
 
-	@RequestMapping(value = "/deleteWorship", method = RequestMethod.POST)
-	public @ResponseBody String deleteWorship(@RequestBody String worshipId) {
-		
-		orderService.deleteAll(worshipId);
-		adService.deleteAll(worshipId);
-		worshipService.delete(worshipId);
-		
-		return "";
+	@RequestMapping(value = "/worship/list", method = RequestMethod.GET)
+	public @ResponseBody List<Map<String, String>> worshipList(
+			@RequestBody Map<String, String> reqMap
+			){
+		String churchId = reqMap.get("churchId");
+		logger.debug(worshipService.getWorshipList(churchId).toString());
+		return worshipService.getWorshipList(churchId);
 	}
-
-	@RequestMapping(value = "/add/worship", method = RequestMethod.POST)
+	
+	@RequestMapping(value = "/worship/info", method = RequestMethod.POST)
+	public @ResponseBody Map<String, Object> worshipInfo(
+			@RequestBody Map<String, String> reqMap
+			) {
+		String churchId = reqMap.get("churchId");
+		String worshipId = reqMap.get("worshipId");
+		
+		Map<String, Object> info = new HashMap<String, Object>();
+		info = worshipService.getWorshipOrder(churchId,worshipId,info);
+		info = worshipService.getWorshipMc(churchId,worshipId,info);
+		
+		return info;
+	}
+	
+	@RequestMapping(value = "/worship/add", method = RequestMethod.POST)
 	public @ResponseBody String addWorship(@RequestBody  Map<String,Object> worshipData) {
 		logger.debug(worshipData.toString());
 		String lastWorshipId = worshipService.getLastWorshipId((String)worshipData.get("churchId"));
@@ -77,6 +90,20 @@ public class WorshipController {
 		
 		return "";
 	}
+	
+	
+	
+	@RequestMapping(value = "/worship/delete", method = RequestMethod.POST)
+	public @ResponseBody String deleteWorship(@RequestBody String worshipId) {
+		
+		orderService.deleteAll(worshipId);
+		adService.deleteAll(worshipId);
+		worshipService.delete(worshipId);
+		
+		return "";
+	}
+
+
 	
 	/* 업데이트 내용을 받는 컨트롤러 */
 	@SuppressWarnings("unchecked")
@@ -138,21 +165,14 @@ public class WorshipController {
 		return worshipService.getWorshipInfo(worshipId);
 	}
 	
-	@RequestMapping(value = "/getWorshipOrderList", method = RequestMethod.POST)
-	public @ResponseBody List<WorshipOrderVO> getWorshipOrderList(@RequestBody String worshipId) {
-		return orderService.getWorshipOrderList(worshipId);
-	}
+
 	
 	@RequestMapping(value = "/getWorshipAdList", method = RequestMethod.POST)
 	public @ResponseBody List<WorshipAdVO> getWorshipAdList(@RequestBody String worshipId) {
 		return adService.getWorshipAdList(worshipId);
 	}
 	
-	@RequestMapping(value = "/worship-list", method = RequestMethod.GET)
-	public @ResponseBody List<Map<String, String>> worshipList(){
-		logger.debug(worshipService.getWorshipList().toString());
-		return worshipService.getWorshipList();
-	}
+
 	
 
 //	

@@ -3,9 +3,9 @@
 <mapper namespace="worship">
 
 <!-- 실사용 쿼리 -->
-	<select id ="getWorshipIdList" parameterType = "string" resultType="string">
+	<select id ="getWorshipIdList" parameterType = "string" resultType="map">
 		<![CDATA[
-			SELECT worship_id
+			SELECT DATE_FORMAT(worship_date, '%Y-%m-%d') date , worship_id worshipId
 			FROM WORSHIP
 			WHERE church_id = #{churchId}	
 			ORDER BY worship_id desc
@@ -17,6 +17,16 @@
 			SELECT IFNULL(max(worship_id),' ')
 			FROM WORSHIP
 			WHERE church_id = #{id}
+		]]>		
+	</select>
+	
+	<select id="getWorshipMap" parameterType = "string" resultType="map">
+		<![CDATA[
+			SELECT worship_id worshipId, DATE_FORMAT(worship_date, '%Y-%m-%d') AS worshipDate, 
+				main_presenter mainPresenter, next_presenter nextPresenter, next_prayer nextPrayer, 
+				next_offer nextOffer,order_version version
+			FROM ohjooyeo.WORSHIP
+			WHERE worship_id = #{worshipId}
 		]]>		
 	</select>
 	
@@ -32,13 +42,7 @@
 	</select>
 
 	
-	<select id="getWorshipMap" parameterType = "string" resultType="map">
-		<![CDATA[
-			SELECT worship_id worshipId, DATE_FORMAT(worship_date, '%Y-%m-%d') AS worshipDate, main_presenter mainPresenter, next_presenter nextPresenter, next_prayer nextPrayer, next_offer nextOffer
-			FROM ohjooyeo.WORSHIP
-			WHERE worship_id = #{worshipId}
-		]]>		
-	</select>
+
 	<select id="getVersionById" parameterType = "string" resultType="string">
 		<![CDATA[
 			SELECT version
@@ -49,7 +53,7 @@
 	
 	<select id = "getWorshipList" resultType ="map" >
 		<![CDATA[
-			SELECT worship_id AS worshipId, DATE_FORMAT(worship_date, '%Y-%m-%d') AS worshipDate, version
+			SELECT worship_id AS worshipId, DATE_FORMAT(worship_date, '%Y-%m-%d') AS worshipDate, order_version version
 			FROM WORSHIP
 		]]>
 	</select>

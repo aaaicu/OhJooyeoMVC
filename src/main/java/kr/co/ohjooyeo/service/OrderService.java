@@ -57,10 +57,6 @@ public class OrderService {
 		return result;
 	}
 	
-	public List<WorshipOrderVO> getWorshipOrderList(String worshipId) {
-		return orderDAO.getWorshipOrderList(worshipId);
-	}
-	
 	/* 순서추가 */
 	public boolean add(List<Map<String,Object>> list) {
 		if(list.size() > 0 ) {
