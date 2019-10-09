@@ -148,6 +148,12 @@ public class WorshipController {
 		return adService.getWorshipAdList(worshipId);
 	}
 	
+	@RequestMapping(value = "/worship-list", method = RequestMethod.GET)
+	public @ResponseBody List<Map<String, String>> worshipList(){
+		logger.debug(worshipService.getWorshipList().toString());
+		return worshipService.getWorshipList();
+	}
+	
 
 //	
 //	@RequestMapping(value = "/form/update", method = RequestMethod.GET)
@@ -167,11 +173,6 @@ public class WorshipController {
 //		return "win/worship-list";
 //	}
 //	
-//	@RequestMapping(value = "/worship-list", method = RequestMethod.GET)
-//	public @ResponseBody List<Map<String, String>> worshipList(){
-//		logger.debug(worshipService.getWorshipList().toString());
-//		return worshipService.getWorshipList();
-//	}
 //
 //	@RequestMapping(value = "/order", method = RequestMethod.POST)
 //	public @ResponseBody Map<String,Object> getOrder(@RequestParam String id) {
