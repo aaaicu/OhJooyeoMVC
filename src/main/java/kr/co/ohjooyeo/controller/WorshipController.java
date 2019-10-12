@@ -56,10 +56,16 @@ public class WorshipController {
 		String churchId = reqMap.get("churchId");
 		String worshipId = reqMap.get("worshipId");
 		
+		int reqVersion = Integer.valueOf(reqMap.get("version"));
+		
+		
 		Map<String, Object> info = new HashMap<String, Object>();
 		info = worshipService.getWorshipOrder(churchId,worshipId,info);
 		info = worshipService.getWorshipMc(churchId,worshipId,info);
 		
+		if(reqVersion == Integer.parseInt(info.get("version").toString())) {
+			info = null;
+		}
 		return info;
 	}
 	
@@ -83,7 +89,7 @@ public class WorshipController {
 		worshipVO.setNextPresenter((String)worshipData.get("nextPresenter"));
 		worshipVO.setNextPrayer((String)worshipData.get("nextPrayer"));
 		worshipVO.setNextOffer((String)worshipData.get("nextOffer"));
-		worshipVO.setVersion("aaa");
+		worshipVO.setVersion("1");
 		worshipVO.setChurchId((String)worshipData.get("churchId"));
 		logger.debug("worshipVO : "+worshipVO.toString());
 		worshipService.addWorship(worshipVO);
