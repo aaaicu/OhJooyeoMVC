@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,7 +22,7 @@ import kr.co.ohjooyeo.util.WorshipIdGenerator;
 import kr.co.ohjooyeo.vo.WorshipAdVO;
 import kr.co.ohjooyeo.vo.WorshipVO;
 
-
+@CrossOrigin
 @Controller
 //@Scope(value="session", proxyMode=ScopedProxyMode.TARGET_CLASS)
 public class WorshipController {
@@ -40,7 +41,7 @@ public class WorshipController {
 	@Autowired
 	AdvertisementService adService;
 
-	@RequestMapping(value = "/worship/list", method = RequestMethod.GET)
+	@RequestMapping(value = "/worship/list", method = RequestMethod.POST)
 	public @ResponseBody List<Map<String, String>> worshipList(
 			@RequestBody Map<String, String> reqMap
 			){
@@ -70,13 +71,12 @@ public class WorshipController {
 	}
 	
 	@RequestMapping(value = "/worship/add", method = RequestMethod.POST)
-	public @ResponseBody String addWorship(@RequestBody  Map<String,Object> worshipData) {
+	public @ResponseBody String worshipAdd(@RequestBody  Map<String,Object> worshipData) {
 		logger.debug(worshipData.toString());
 		String lastWorshipId = worshipService.getLastWorshipId((String)worshipData.get("churchId"));
 		String newWorshipId = "";
 		if("".equals(lastWorshipId.trim())) {
 			newWorshipId = WorshipIdGenerator.newWorshipId();
-
 		}else {
 			newWorshipId = lastWorshipId;
 		}
