@@ -4,6 +4,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -45,9 +46,9 @@ public class WorshipControllerTest {
 				.contentType(MediaType.APPLICATION_JSON)
 				.content("{\"churchId\":\"1\"}"))
 //		.andDo(print())
+		.andExpect(status().isOk())
 		.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
 		.andExpect(jsonPath("$").exists())
-		
 		;
 	}
 	
@@ -55,10 +56,11 @@ public class WorshipControllerTest {
 	public void testWorshipInfo() throws Exception {
 		this.mockMvc.perform(post("/worship/info")
 				.contentType(MediaType.APPLICATION_JSON)
-				.content("{\"churchId\":\"1\",\"worshipId\":\"19-001\",\"version\" : 1}"))
-//		.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-//		.andExpect(jsonPath("$.worshipOrder").exists())
+				.content("{\"churchId\":\"1\",\"worshipId\":\"19-001\",\"version\" : 0}"))
 		.andDo(print())
+		.andExpect(status().isOk())
+//		.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+		.andExpect(jsonPath("$").exists())
 		;
 	}
 	
@@ -68,13 +70,44 @@ public class WorshipControllerTest {
     public void testWorshipAdd() throws Exception{
 		this.mockMvc.perform(post("/worship/add")
 				.contentType(MediaType.APPLICATION_JSON)
-				.content("{\"churchId\" : \"1\","
-						+ "\"worshipDate\" : \"2019-10-19\","
-						+ "\"mainPresenter\" : \"사회자\","
-						+ "\"nextPresenter\" : \"다음사회자\","
-						+ "\"nextPrayer\" : \"다음기도자\","
-						+ "\"nextOffer\" : \"다음봉헌자\""
-						+ " }")).andDo(print());
+				.content("{ "
+						+ 	"\"worshipInfo\" :  "
+						+ "{\"churchId\" : \"1\","
+						+	"\"worshipDate\" : \"2019-10-19\","
+						+ 	"\"mainPresenter\" : \"사회자\","
+						+ 	"\"nextPresenter\" : \"다음사회자\","
+						+ 	"\"nextPrayer\" : \"다음기도자\","
+						+ 	"\"nextOffer\" : \"다음봉헌자\""
+						+ "},"
+						+ "\"worshipOrder\" : "
+						+ "[{ "
+						+ 	"\"title\": \"경배와 찬양\"," 
+						+ 	"\"detail\": \"\" ," 
+						+	"\"presenter\": \"헤세드 찬양단\"," 
+						+ 	"\"order\": 1," 
+						+ 	"\"orderId\": 1" 
+						+ "},"
+						+ "{ "
+						+ 	"\"title\": \"말씀\"," 
+						+ 	"\"detail\": \"행복의 노래\" ," 
+						+	"\"presenter\": \"강인호 목사님\"," 
+						+ 	"\"order\": 2," 
+						+ 	"\"orderId\": 2" 
+						+ "}],"
+						+ "\"worshipAd\" : "
+						+ "[{ "
+						+ 	"\"title\": \"환영\","
+						+	"\"content\": \"돈암동교회 청년부에 오신 여러분 환영합니다.\"," 
+						+ 	"\"order\": 1," 
+						+ 	"\"adId\": 1" 
+						+ "},"
+						+ "{ "
+						+ 	"\"title\": \"1330 기도회\"," 
+						+	"\"content\": \"예배전 기도회가 있어요ㅎㅎㅎ\"," 
+						+ 	"\"order\": 2," 
+						+ 	"\"adId\": 2" 
+						+ "}]"
+						+ "}")).andDo(print()).andExpect(status().isOk());
     }
 	
 	public void testWorshipOrderAdd() {

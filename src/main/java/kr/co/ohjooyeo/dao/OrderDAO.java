@@ -43,8 +43,8 @@ public class OrderDAO {
 		return sqlSession.selectOne("order.getLaunchPhrase", inputMap);
 	}
 
-	public void insertVOList(List<Map<String,Object>> list) {
-		sqlSession.insert("order.insertVOList", list);
+	public int insertVOList(List<Map<String,Object>> list) {
+		return sqlSession.insert("order.insertVOList", list);
 	}
 
 	public void updateVOList(List<Map<String,Object>> list) {

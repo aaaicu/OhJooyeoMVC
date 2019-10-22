@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +19,6 @@ import kr.co.ohjooyeo.service.AdvertisementService;
 import kr.co.ohjooyeo.service.OrderService;
 import kr.co.ohjooyeo.service.VersionService;
 import kr.co.ohjooyeo.service.WorshipService;
-import kr.co.ohjooyeo.util.WorshipIdGenerator;
 import kr.co.ohjooyeo.vo.WorshipAdVO;
 import kr.co.ohjooyeo.vo.WorshipVO;
 
@@ -70,17 +70,17 @@ public class WorshipController {
 		return info;
 	}
 	
+	@SuppressWarnings("unchecked")
+	@Transactional
 	@RequestMapping(value = "/worship/add", method = RequestMethod.POST)
-	public @ResponseBody String worshipAdd(@RequestBody  Map<String,Object> worshipData) {
-		logger.debug(worshipData.toString());
-		String lastWorshipId = worshipService.getLastWorshipId((String)worshipData.get("churchId"));
-		String newWorshipId = "";
-		if("".equals(lastWorshipId.trim())) {
-			newWorshipId = WorshipIdGenerator.newWorshipId();
-		}else {
-			newWorshipId = WorshipIdGenerator.nextWorshipId(lastWorshipId);
-		}
-		logger.debug("worshipDate : "+worshipData.get("worshipDate").toString());
+	public @ResponseBody String worshipAdd(@RequestBody  Map<String,Object> worship) {
+		
+		/* 파라미터 데이터 파싱 */
+		Map<String,Object> worshipData = (Map<String, Object>) worship.get("worshipInfo");
+		List<Map<String,Object>> orderData = (List<Map<String,Object>>) worship.get("worshipOrder");
+		List<Map<String,Object>> adData = (List<Map<String,Object>>) worship.get("worshipAd");
+		
+		String newWorshipId = worshipService.getNewWorshipId((String)worshipData.get("churchId"));
 		
 		WorshipVO worshipVO = new WorshipVO();
 		
@@ -91,10 +91,11 @@ public class WorshipController {
 		worshipVO.setNextPrayer((String)worshipData.get("nextPrayer"));
 		worshipVO.setNextOffer((String)worshipData.get("nextOffer"));
 		worshipVO.setChurchId((String)worshipData.get("churchId"));
-		logger.debug("worshipVO : "+worshipVO.toString());
+		
 		worshipService.addWorship(worshipVO);
-//		
-//		return "";
+		
+		orderService.addWorshipOrder(orderData);
+		
 		return newWorshipId;
 	}
 	
@@ -179,30 +180,4 @@ public class WorshipController {
 		return adService.getWorshipAdList(worshipId);
 	}
 	
-
-	
-
-//	
-//	@RequestMapping(value = "/form/update", method = RequestMethod.GET)
-//	public String formUpdate(Model model) {
-//		model.addAttribute("pageName","worship-update");
-//		return "home";
-//	}
-//	
-//	@RequestMapping(value = "/form/add", method = RequestMethod.GET)
-//	public String formAdd(Model model) {
-//		model.addAttribute("pageName","worship-add");
-//		return "home";
-//	}
-//	
-//	@RequestMapping(value = "/win/list/worship", method = RequestMethod.GET)
-//	public String winListWorship(Model model) {
-//		return "win/worship-list";
-//	}
-//	
-//
-//	@RequestMapping(value = "/order", method = RequestMethod.POST)
-//	public @ResponseBody Map<String,Object> getOrder(@RequestParam String id) {
-//		return orderService.getOrderByWorshipId(id);
-//	}	
 }

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import kr.co.ohjooyeo.dao.OrderDAO;
 import kr.co.ohjooyeo.dao.WorshipDAO;
+import kr.co.ohjooyeo.util.WorshipIdGenerator;
 import kr.co.ohjooyeo.vo.WorshipAdVO;
 import kr.co.ohjooyeo.vo.WorshipOrderVO;
 import kr.co.ohjooyeo.vo.WorshipVO;
@@ -65,6 +66,22 @@ public class WorshipService {
 	public String getLastWorshipId(String churchId) {
 		return worshipDAO.getLastWorshipId(churchId);
 	}
+	
+	public String getNewWorshipId(String churchId) {
+		String lastWorshipId = getLastWorshipId(churchId);
+		String newWorshipId = "";
+		if("".equals(lastWorshipId.trim())) {
+			newWorshipId = WorshipIdGenerator.newWorshipId();
+		}else {
+			newWorshipId = WorshipIdGenerator.nextWorshipId(lastWorshipId);
+		}
+		return newWorshipId;
+	}
+	
+	
+	
+	
+	
 	
 	
 	public boolean update(Map<String,String> worshipMap) {
@@ -150,6 +167,9 @@ public class WorshipService {
 		
 		return result;
 	}
+
+
+
 
 
 

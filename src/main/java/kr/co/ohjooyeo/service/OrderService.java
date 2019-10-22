@@ -58,10 +58,13 @@ public class OrderService {
 	}
 	
 	/* 순서추가 */
-	public boolean add(List<Map<String,Object>> list) {
+	/*TODO JSON을 풀어서 OrderVO List로 생성후 insert 추가 */
+	public boolean addWorshipOrder(List<Map<String,Object>> list) {
 		if(list.size() > 0 ) {
 			
-			orderDAO.insertVOList(list);
+			if (orderDAO.insertVOList(list)  < 1) {
+				return false;
+			}
 			return true;
 		} else {
 			return false;
@@ -96,6 +99,4 @@ public class OrderService {
 	public void deleteAll(String worshipId) {
 		orderDAO.deleteAll(worshipId);
 	}
-	
-
 }
