@@ -30,7 +30,6 @@ public class WorshipDAO {
 		return sqlSession.selectList("worship.getWorshipIdList",churchId);
 	}
 	
-	
 	public String getVersionById(String id) {
 		return sqlSession.selectOne("worship.getVersionById", id);
 	}
@@ -63,5 +62,4 @@ public class WorshipDAO {
 	public void delete(String worshipId) {
 		sqlSession.delete("worship.deleteWorship",worshipId);
 	}
-
 }

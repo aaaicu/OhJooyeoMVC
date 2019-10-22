@@ -6,7 +6,6 @@ import java.util.Calendar;
 
 public class WorshipIdGenerator {
 	// 형식 : 00-000
-	
 	// 최초생성
 	// 다음 ID 생성 시
 	// 연도가 다르면 최초생성 ID 반환 '현재연도-001'
@@ -19,7 +18,7 @@ public class WorshipIdGenerator {
 		return mYear + "-" + "001";
 	}
 	
-	public static String nextId(String id) {
+	public static String nextWorshipId(String id) {
 		String year = id.split("-")[0];
 		String stringSeq = id.split("-")[1];
 		int intSeq = Integer.parseInt(id.split("-")[1]);

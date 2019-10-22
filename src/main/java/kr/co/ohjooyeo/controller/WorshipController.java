@@ -78,23 +78,24 @@ public class WorshipController {
 		if("".equals(lastWorshipId.trim())) {
 			newWorshipId = WorshipIdGenerator.newWorshipId();
 		}else {
-			newWorshipId = lastWorshipId;
+			newWorshipId = WorshipIdGenerator.nextWorshipId(lastWorshipId);
 		}
-		WorshipVO worshipVO = new WorshipVO();
 		logger.debug("worshipDate : "+worshipData.get("worshipDate").toString());
-
+		
+		WorshipVO worshipVO = new WorshipVO();
+		
 		worshipVO.setWorshipId(newWorshipId);
 		worshipVO.setWorshipDate((String)worshipData.get("worshipDate"));
 		worshipVO.setMainPresenter((String)worshipData.get("mainPresenter"));
 		worshipVO.setNextPresenter((String)worshipData.get("nextPresenter"));
 		worshipVO.setNextPrayer((String)worshipData.get("nextPrayer"));
 		worshipVO.setNextOffer((String)worshipData.get("nextOffer"));
-		worshipVO.setVersion("1");
 		worshipVO.setChurchId((String)worshipData.get("churchId"));
 		logger.debug("worshipVO : "+worshipVO.toString());
 		worshipService.addWorship(worshipVO);
-		
-		return "";
+//		
+//		return "";
+		return newWorshipId;
 	}
 	
 	
