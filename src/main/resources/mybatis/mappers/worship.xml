@@ -69,15 +69,15 @@
 	
 	<insert id ="insertWorship" parameterType = "kr.co.ohjooyeo.vo.WorshipVO">
 		<![CDATA[
-		INSERT INTO WORSHIP VALUES ( 
+		INSERT INTO WORSHIP(worship_id,worship_date,main_presenter,
+		next_presenter, next_prayer, next_offer,church_id) VALUES ( 
 			#{worshipId},
 			#{worshipDate},
 			#{mainPresenter},
 			#{nextPresenter},
 			#{nextPrayer},
 			#{nextOffer},
-			#{version},
-			#{churchId}			
+			#{churchId}		
 		)
 		]]>
 	</insert>

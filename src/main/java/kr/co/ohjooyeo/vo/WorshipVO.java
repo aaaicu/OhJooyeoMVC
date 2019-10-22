@@ -7,11 +7,16 @@ public class WorshipVO {
 	private String nextPresenter;
 	private String nextPrayer;
 	private String nextOffer;
-	private String version;
+	private String adVersion;
+	private String orderVersion;
 	private String churchId;
 	
+	public WorshipVO() {
+		super();
+	}
+
 	public WorshipVO(String worshipId, String worshipDate, String mainPresenter, String nextPresenter,
-			String nextPrayer, String nextOffer, String version, String churchId) {
+			String nextPrayer, String nextOffer, String adVersion, String orderVersion, String churchId) {
 		super();
 		this.worshipId = worshipId;
 		this.worshipDate = worshipDate;
@@ -19,15 +24,10 @@ public class WorshipVO {
 		this.nextPresenter = nextPresenter;
 		this.nextPrayer = nextPrayer;
 		this.nextOffer = nextOffer;
-		this.version = version;
+		this.adVersion = adVersion;
+		this.orderVersion = orderVersion;
 		this.churchId = churchId;
 	}
-	
-
-	public WorshipVO() {
-		super();
-	}
-
 
 	public String getWorshipId() {
 		return worshipId;
@@ -77,12 +77,20 @@ public class WorshipVO {
 		this.nextOffer = nextOffer;
 	}
 
-	public String getVersion() {
-		return version;
+	public String getAdVersion() {
+		return adVersion;
 	}
 
-	public void setVersion(String version) {
-		this.version = version;
+	public void setAdVersion(String adVersion) {
+		this.adVersion = adVersion;
+	}
+
+	public String getOrderVersion() {
+		return orderVersion;
+	}
+
+	public void setOrderVersion(String orderVersion) {
+		this.orderVersion = orderVersion;
 	}
 
 	public String getChurchId() {
@@ -97,10 +105,10 @@ public class WorshipVO {
 	public String toString() {
 		return "WorshipVO [worshipId=" + worshipId + ", worshipDate=" + worshipDate + ", mainPresenter=" + mainPresenter
 				+ ", nextPresenter=" + nextPresenter + ", nextPrayer=" + nextPrayer + ", nextOffer=" + nextOffer
-				+ ", version=" + version + ", churchId=" + churchId + "]";
+				+ ", adVersion=" + adVersion + ", orderVersion=" + orderVersion + ", churchId=" + churchId + "]";
 	}
 	
 	
 	
-	
 }
+
