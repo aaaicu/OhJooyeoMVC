@@ -56,6 +56,22 @@ Content-Type: application/json
 }]
 ```
 
+5) Back-End Info
+
+```
+* Controller
+WorshipController.worshipList(Map<String, String> reqMap) : List<Map<String, String>>
+  
+	- WorshipService.getWorshipList(String churchId) : List<Map<String, String>>
+		
+		>> Data <<
+		WorshipDAO.getWorshipList(String churchId) : List<Map<String, String>>
+		* SQL : worship.getWorshipIdList
+	
+
+```
+
+
 ----
 
 
@@ -184,6 +200,93 @@ Content-Type: application/json
 ```
 {}이 반환되었다면 현재 값이 최신버전인 것이다.
 ```
+
+
+5) Back-End Info
+
+```
+* Controller
+WorshipController.worshipInfo(Map<String, String> reqMap) : Map<String, Object>
+  
+	- WorshipService.getWorshipOrder(String churchId, String worshipId,Map<String, Object> info) : Map<String,Object>
+		
+		>> Data <<
+		WorshipDAO.getWorshipList(String churchId) : List<Map<String, String>>
+		* SQL : worship.getWorshipIdList
+		
+		
+	- WorshipService.getWorshipMc(String churchId, String worshipId, Map<String, Object> info) : Map<String, Object>
+
+		>> Data <<
+		WorshipDAO.getWorshipInfo(String worshipId) : Map<String, String>
+		* SQL : worship.getWorshipMap
+		
+```
+----
+
+
+
+`[Enabled]`
+### [3] _POST_ /worship/add
+
+
+1) Description
+
+```
+worship데이터를 추가한다
+```
+
+2) Headers
+
+```
+Content-Type: application/json
+```
+
+3) Body
+
+```
+{
+    "churchId": 13,  (교회 ID)
+    "worshipId": "19-001", (예배 ID)
+    "version": 3 (광고 버전)
+}
+```
+
+4) Response Data
+
+- 응답은 boolean형의 데이터 반환
+
+
+- Response Example
+
+
+```
+true
+```
+
+5) Back-End Info
+
+```
+* Controller
+WorshipController.worshipInfo(Map<String, String> reqMap) : Map<String, Object>
+  
+	- WorshipService.getWorshipOrder(String churchId, String worshipId,Map<String, Object> info) : Map<String,Object>
+		
+		>> Data <<
+		WorshipDAO.getWorshipList(String churchId) : List<Map<String, String>>
+		* SQL : worship.getWorshipIdList
+		
+		
+	- WorshipService.getWorshipMc(String churchId, String worshipId, Map<String, Object> info) : Map<String, Object>
+
+		>> Data <<
+		WorshipDAO.getWorshipInfo(String worshipId) : Map<String, String>
+		* SQL : worship.getWorshipMap
+		
+```
+
+
+
 
 ----
 
