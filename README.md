@@ -211,8 +211,8 @@ WorshipController.worshipInfo(Map<String, String> reqMap) : Map<String, Object>
 	- WorshipService.getWorshipOrder(String churchId, String worshipId,Map<String, Object> info) : Map<String,Object>
 		
 		>> Data <<
-		WorshipDAO.getWorshipList(String churchId) : List<Map<String, String>>
-		* SQL : worship.getWorshipIdList
+		OrderDAO.getWorshipOrder(String churchId, String worshipId) : List<Map<String, Object>>
+		* SQL : worship.getWorshipOrder
 		
 		
 	- WorshipService.getWorshipMc(String churchId, String worshipId, Map<String, Object> info) : Map<String, Object>
@@ -246,42 +246,113 @@ Content-Type: application/json
 
 ```
 {
-    "churchId": 13,  (교회 ID)
-    "worshipId": "19-001", (예배 ID)
-    "version": 3 (광고 버전)
+	worshipInfo : {
+		"churchId" : "교회에 대한 식별 ID" [Int],
+		"worshipDate" : "예배 날짜" [String],
+		"mainPresenter" : "사회자" [String],
+		"nextPresenter" : "다음 사회자" [String],
+		"nextPrayer" : "다음 기도자" [String],
+		"nextOffer" : "다음 봉헌자" [String] 
+	},
+	
+	worshipOrder : 
+	[{
+        "title": "순서1 - 순서 1에 해당하는 제목" [String],
+        "detail": "순서1 - 순서 1에 해당하는 상세 항목" [String],
+        "presenter": "순서1 - 순서 1에 해당하는 대표자" [String],
+        "order": 예배 순서 [Int],
+        "orderId": 각 순서에 대한 식별값ID 정보 [Int]
+    }],
+    
+	worshipAd : 
+	[{
+	
+	}]
 }
 ```
 
+- Response Example
+
+```
+{
+	worshipInfo : {
+		"churchId\" : "1",
+		"worshipDate" : "2019-10-19",
+		"mainPresenter" : "사회자",
+		"nextPresenter" : "다음사회자",
+		"nextPrayer" : "다음기도자",
+		"nextOffer" : "다음봉헌자" 
+	},
+	
+	worshipOrder : 
+	[
+		{
+	        "title": "경배와 찬양",
+	        "detail": "" ,
+	        "presenter": "헤세드 찬양단",
+	        "order": 1,
+	        "orderId": 1
+	    },
+	    {
+	        "title": "말씀",
+	        "detail": "행복의 노래" ,
+	        "presenter": "강인호 목사님",
+	        "order": 2,
+	        "orderId": 2
+	    }
+    ],
+    
+	worshipAd : 
+	[
+			{
+	        "title": "환영",
+	        "content": "돈암동교회 청년부에 오신 여러분 환영합니다." ,
+	        "order": 1,
+	        "adId": 1
+	    },
+	    {
+	        "title": "1330 기도회",
+	        "content": "예배전 기도회가 있어요ㅎㅎㅎ" ,
+	        "order": 2,
+	        "adId": 2
+	    }
+	]
+}
+```
+
+
 4) Response Data
 
-- 응답은 boolean형의 데이터 반환
+- 성공시, 예배의 ID[String]를 반환
+
+- 실패시, "" 공백데이터 반환
 
 
 - Response Example
 
 
 ```
-true
+19-002
 ```
 
 5) Back-End Info
 
 ```
 * Controller
-WorshipController.worshipInfo(Map<String, String> reqMap) : Map<String, Object>
+WorshipController.worshipAdd( Map<String,Object> worship) : String
   
-	- WorshipService.getWorshipOrder(String churchId, String worshipId,Map<String, Object> info) : Map<String,Object>
+	- worshipService.getNewWorshipId(String churchId) : String
+		worshipService.getLastWorshipId(String churchId) : String
 		
-		>> Data <<
-		WorshipDAO.getWorshipList(String churchId) : List<Map<String, String>>
-		* SQL : worship.getWorshipIdList
+			>> Util <<
+			WorshipIdGenerator 사용
 		
 		
-	- WorshipService.getWorshipMc(String churchId, String worshipId, Map<String, Object> info) : Map<String, Object>
+	- WorshipService.addWorship(WorshipVO worshipVO) : boolean
 
 		>> Data <<
-		WorshipDAO.getWorshipInfo(String worshipId) : Map<String, String>
-		* SQL : worship.getWorshipMap
+		WorshipDAO.insertWorship(WorshipVO worshipVO) : int
+		* SQL : worship.insertWorship
 		
 ```
 
