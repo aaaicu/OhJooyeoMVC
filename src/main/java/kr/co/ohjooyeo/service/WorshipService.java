@@ -63,11 +63,11 @@ public class WorshipService {
 		return worshipDAO.getWorshipIdList(churchId);
 	}
 	
-	public String getLastWorshipId(String churchId) {
+	public String getLastWorshipId(int churchId) {
 		return worshipDAO.getLastWorshipId(churchId);
 	}
 	
-	public String getNewWorshipId(String churchId) {
+	public String getNewWorshipId(int churchId) {
 		String lastWorshipId = getLastWorshipId(churchId);
 		String newWorshipId = "";
 		if("".equals(lastWorshipId.trim())) {
@@ -117,54 +117,54 @@ public class WorshipService {
 		
 		/* worship_id에 속하는 orderId의 최대값 구하기 */
 		int maxId = 0;
-		
-		if(voName.equals("order")) {
-			for(String id : params.get("orderId")) {
-				if(maxId <= Integer.valueOf(id)) {
-					maxId = Integer.valueOf(id);				
-				}
-			}
-			for(int i = 0 ; i < params.get("orderId").size() ; i++) {
-				System.out.println(params);
-				WorshipOrderVO order = new WorshipOrderVO(
-						params.get("worshipId").get(0), 
-						Integer.valueOf(params.get("orderId").get(i)), 
-						i, 
-						params.get("orderType").get(i), 
-						params.get("orderTitle").get(i), 
-						params.get("detail").get(i), 
-						params.get("orderPresenter").get(i));
-				if (params.get("orderId").get(i).equals("-1")  ) {
-					order.setOrderId(++maxId);
-					addList.add(order);
-				}else if(params.get("orderUpdateYN").get(i).equals("1") ||!params.get("orderOrder").get(i).equals(Integer.toString(i)) ){
-					updateList.add(order);
-				}
-			}
-
-		}if(voName.equals("ad")) {
-			for(String id : params.get("adId")) {
-				if(maxId <= Integer.valueOf(id)) {
-					maxId = Integer.valueOf(id);				
-				}
-			}
-			//String worshipId, int advertisementId, int order, String title, String content
-			for(int i = 0 ; i < params.get("adId").size() ; i++) {
-				WorshipAdVO ad = new WorshipAdVO(
-						params.get("worshipId").get(0), 
-						Integer.valueOf(params.get("adId").get(i)), 
-						i, 
-						params.get("adTitle").get(i), 
-						params.get("adContent").get(i));
-				if (params.get("adId").get(i).equals("-1")  ) {
-					ad.setAdId(++maxId);
-					addList.add(ad);
-				}else if(params.get("adUpdateYN").get(i).equals("1") ||!params.get("adOrder").get(i).equals(Integer.toString(i)) ){
-					updateList.add(ad);
-				}
-			}
-		}
-		
+//		
+//		if(voName.equals("order")) {
+//			for(String id : params.get("orderId")) {
+//				if(maxId <= Integer.valueOf(id)) {
+//					maxId = Integer.valueOf(id);				
+//				}
+//			}
+//			for(int i = 0 ; i < params.get("orderId").size() ; i++) {
+//				System.out.println(params);
+//				WorshipOrderVO order = new WorshipOrderVO(
+//						params.get("worshipId").get(0), 
+//						Integer.valueOf(params.get("orderId").get(i)), 
+//						i, 
+//						params.get("orderType").get(i), 
+//						params.get("orderTitle").get(i), 
+//						params.get("detail").get(i), 
+//						params.get("orderPresenter").get(i));
+//				if (params.get("orderId").get(i).equals("-1")  ) {
+//					order.setOrderId(++maxId);
+//					addList.add(order);
+//				}else if(params.get("orderUpdateYN").get(i).equals("1") ||!params.get("orderOrder").get(i).equals(Integer.toString(i)) ){
+//					updateList.add(order);
+//				}
+//			}
+//
+//		}if(voName.equals("ad")) {
+//			for(String id : params.get("adId")) {
+//				if(maxId <= Integer.valueOf(id)) {
+//					maxId = Integer.valueOf(id);				
+//				}
+//			}
+//			//String worshipId, int advertisementId, int order, String title, String content
+//			for(int i = 0 ; i < params.get("adId").size() ; i++) {
+//				WorshipAdVO ad = new WorshipAdVO(
+//						params.get("worshipId").get(0), 
+//						Integer.valueOf(params.get("adId").get(i)), 
+//						i, 
+//						params.get("adTitle").get(i), 
+//						params.get("adContent").get(i));
+//				if (params.get("adId").get(i).equals("-1")  ) {
+//					ad.setAdId(++maxId);
+//					addList.add(ad);
+//				}else if(params.get("adUpdateYN").get(i).equals("1") ||!params.get("adOrder").get(i).equals(Integer.toString(i)) ){
+//					updateList.add(ad);
+//				}
+//			}
+//		}
+//		
 		return result;
 	}
 

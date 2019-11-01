@@ -45,9 +45,8 @@ public class WorshipDAO {
 		return sqlSession.selectList("worship.getWorshipIdList",churchId);
 	}
 	
-	public String getLastWorshipId(String userId) {
-		log.debug("'" + sqlSession.selectOne("worship.getLastWorshipId", userId).toString()+"'");
-		return sqlSession.selectOne("worship.getLastWorshipId", userId);
+	public String getLastWorshipId(int churchId) {
+		return sqlSession.selectOne("worship.getLastWorshipId", churchId);
 	}
 	
 	public void getVersionById(String worshipId, String version) {

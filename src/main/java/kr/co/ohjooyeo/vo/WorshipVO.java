@@ -9,14 +9,14 @@ public class WorshipVO {
 	private String nextOffer;
 	private String adVersion;
 	private String orderVersion;
-	private String churchId;
+	private int churchId;
 	
 	public WorshipVO() {
 		super();
 	}
 
 	public WorshipVO(String worshipId, String worshipDate, String mainPresenter, String nextPresenter,
-			String nextPrayer, String nextOffer, String adVersion, String orderVersion, String churchId) {
+			String nextPrayer, String nextOffer, String adVersion, String orderVersion, int churchId) {
 		super();
 		this.worshipId = worshipId;
 		this.worshipDate = worshipDate;
@@ -93,11 +93,11 @@ public class WorshipVO {
 		this.orderVersion = orderVersion;
 	}
 
-	public String getChurchId() {
+	public int getChurchId() {
 		return churchId;
 	}
 
-	public void setChurchId(String churchId) {
+	public void setChurchId(int churchId) {
 		this.churchId = churchId;
 	}
 

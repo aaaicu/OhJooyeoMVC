@@ -80,7 +80,7 @@ public class WorshipController {
 		List<Map<String,Object>> orderData = (List<Map<String,Object>>) worship.get("worshipOrder");
 		List<Map<String,Object>> adData = (List<Map<String,Object>>) worship.get("worshipAd");
 		
-		String newWorshipId = worshipService.getNewWorshipId((String)worshipData.get("churchId"));
+		String newWorshipId = worshipService.getNewWorshipId((int)worshipData.get("churchId"));
 		
 		WorshipVO worshipVO = new WorshipVO();
 		
@@ -90,12 +90,11 @@ public class WorshipController {
 		worshipVO.setNextPresenter((String)worshipData.get("nextPresenter"));
 		worshipVO.setNextPrayer((String)worshipData.get("nextPrayer"));
 		worshipVO.setNextOffer((String)worshipData.get("nextOffer"));
-		worshipVO.setChurchId((String)worshipData.get("churchId"));
+		worshipVO.setChurchId((int)worshipData.get("churchId"));
 		
 		worshipService.addWorship(worshipVO);
 		
-		orderService.addWorshipOrder(orderData);
-		
+		orderService.addWorshipOrder((int)worshipData.get("churchId"),newWorshipId,orderData);
 		return newWorshipId;
 	}
 	
@@ -142,7 +141,7 @@ public class WorshipController {
 			version = versionService.versionUp(version , 2) ;
 		}
 		
-		orderUpdateYN = orderUpdateYN || orderService.add((List<Map<String, Object>>) inputMap.get("addOrderList"));
+//		orderUpdateYN = orderUpdateYN || orderService.add((List<Map<String, Object>>) inputMap.get("addOrderList"));
 		orderUpdateYN = orderUpdateYN || orderService.update((List<Map<String, Object>>) inputMap.get("orderList"));
 		orderUpdateYN = orderUpdateYN || orderService.delete((String)inputMap.get("worshipId"), (List<String>)inputMap.get("removeOrderList"));
 		

@@ -12,7 +12,7 @@
 		]]>	
 	</select>
 
-	<select id="getLastWorshipId" parameterType = "string" resultType="string">
+	<select id="getLastWorshipId" parameterType = "int" resultType="string">
 		<![CDATA[
 			SELECT IFNULL(max(worship_id),' ')
 			FROM WORSHIP
