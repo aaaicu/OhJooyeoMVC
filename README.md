@@ -109,9 +109,11 @@ Content-Type: application/json
 {
     "mainPresenter": "인도자 이름" [String],
     "worshipOrder": [{
+    	 "type" : 순서의 특징을 나타내는 타입 [String],
         "title": "순서1 - 순서 1에 해당하는 제목" [String],
         "detail": "순서1 - 순서 1에 해당하는 상세 항목" [String],
         "presenter": "순서1 - 순서 1에 해당하는 대표자" [String],
+        "standupYn" : 순서에서 성도가 일어서는지 여부 [Int],
         "order": 예배 순서 [Int],
         "orderId": 각 순서에 대한 식별값ID 정보 [Int]
     }],
@@ -128,11 +130,17 @@ Content-Type: application/json
 - Category Enum Values
 
 ```
+type Enum 
 0: "일반순서"
 1: "성경봉독"
 2: "찬양"
 ```
 
+```
+standupYn Enum
+0: "앉아있기"
+1: "일어서기"
+```
 
 - Response Example
 
@@ -145,49 +153,72 @@ Content-Type: application/json
     },
     "mainPresenter": "박요한",
     "worshipOrder": [{
+	        "type": 2,
+	        "standupYn": 0,
 	        "presenter": "회중",
 	        "title": "경배와찬양",
 	        "order": 1
 	    },
 	    {
+	        "type": 0,
+	        "standupYn": 0,
 	        "presenter": "정애림",
 	        "title": "기도",
 	        "order": 2
 	    },
 	    {
+	        "type": 1,
+	        "standupYn": 1,
 	        "presenter": "인도자",
 	        "detail": "욘 2:7-2:10/고전 2:1-3:1",
 	        "title": "성경봉독",
 	        "order": 3
 	    },
 	    {
+	        "type": 0,
+	        "standupYn": 0,
 	        "presenter": "김희선전도사님",
 	        "detail": "감사의 노래",
 	        "title": "설교",
 	        "order": 4
 	    },
 	    {
+	        "type": 0,
+	        "standupYn": 1,
 	        "presenter": "표준범",
+	        "detail": "",
 	        "title": "헌금",
 	        "order": 5
 	    },
 	    {
+	        "type": 0,
+	        "standupYn": 1,
 	        "presenter": "설교자",
+	        "detail": "",
 	        "title": "헌금기도",
 	        "order": 6
 	    },
 	    {
+	        "type": 0,
+	        "standupYn": 0,
 	        "presenter": "인도자",
+	        "detail": "",
 	        "title": "성도의교제",
 	        "order": 7
 	    },
 	    {
+	        "type": 2,
+	        "standupYn": 0,
 	        "presenter": "회중",
+	        "detail": "",
 	        "title": "파송찬양",
 	        "order": 8
 	    },
 	    {
+	        "type": 0,
+	        "standupYn": 1,
 	        "presenter": "회중",
+	        "detail": "",
 	        "title": "주기도문",
 	        "order": 9
 	    }],
@@ -257,9 +288,11 @@ Content-Type: application/json
 	
 	worshipOrder : 
 	[{
+    	 "type" : 순서의 특징을 나타내는 타입 [String],
         "title": "순서1 - 순서 1에 해당하는 제목" [String],
         "detail": "순서1 - 순서 1에 해당하는 상세 항목" [String],
         "presenter": "순서1 - 순서 1에 해당하는 대표자" [String],
+        "standupYn" : 순서에서 성도가 일어서는지 여부 [Int],
         "order": 예배 순서 [Int],
         "orderId": 각 순서에 대한 식별값ID 정보 [Int]
     }],
@@ -271,61 +304,19 @@ Content-Type: application/json
 }
 ```
 
-- Response Example
-
-```
-{
-	worshipInfo : {
-		"churchId\" : "1",
-		"worshipDate" : "2019-10-19",
-		"mainPresenter" : "사회자",
-		"nextPresenter" : "다음사회자",
-		"nextPrayer" : "다음기도자",
-		"nextOffer" : "다음봉헌자" 
-	},
-	
-	worshipOrder : 
-	[
-		{
-	        "title": "경배와 찬양",
-	        "detail": "" ,
-	        "presenter": "헤세드 찬양단",
-	        "order": 1,
-	        "orderId": 1
-	    },
-	    {
-	        "title": "말씀",
-	        "detail": "행복의 노래" ,
-	        "presenter": "강인호 목사님",
-	        "order": 2,
-	        "orderId": 2
-	    }
-    ],
-    
-	worshipAd : 
-	[
-			{
-	        "title": "환영",
-	        "content": "돈암동교회 청년부에 오신 여러분 환영합니다." ,
-	        "order": 1,
-	        "adId": 1
-	    },
-	    {
-	        "title": "1330 기도회",
-	        "content": "예배전 기도회가 있어요ㅎㅎㅎ" ,
-	        "order": 2,
-	        "adId": 2
-	    }
-	]
-}
-```
-
 
 4) Response Data
 
 - 성공시, 예배의 ID[String]를 반환
 
 - 실패시, "" 공백데이터 반환
+
+```
+새롭게 추가된 예배ID
+
+```
+
+
 
 
 - Response Example
@@ -353,7 +344,23 @@ WorshipController.worshipAdd( Map<String,Object> worship) : String
 		>> Data <<
 		WorshipDAO.insertWorship(WorshipVO worshipVO) : int
 		* SQL : worship.insertWorship
+
+
+	- OrderService.addWorshipOrder(int churchId, String worshipId , List<Map<String,Object>> list) : boolean
+
+		>> Data <<
+		OrderDAO.insertVOList(List<WorshipOrderVO> list) : int
+		* SQL : order.insertVOList
 		
+		
+	- AdvertisementService.addWorshipAd(int churchId, String worshipId , List<Map<String,Object>> list) : boolean
+
+		>> Data <<
+		advertisementDAO.insertVOList(List<WorshipOrderVO> list) : int
+		* SQL : advertisement.insertVOList
+
+	
+	
 ```
 
 
