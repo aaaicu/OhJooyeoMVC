@@ -95,6 +95,8 @@ public class WorshipController {
 		worshipService.addWorship(worshipVO);
 		
 		orderService.addWorshipOrder((int)worshipData.get("churchId"),newWorshipId,orderData);
+		adService.addWorshipAd((int)worshipData.get("churchId"),newWorshipId,adData);
+		
 		return newWorshipId;
 	}
 	
@@ -150,7 +152,7 @@ public class WorshipController {
 			version = versionService.versionUp(version , 0) ;
 		}
 		
-		adUpdateYN = adUpdateYN || adService.add((List<Map<String, Object>>) inputMap.get("addAdList"));
+//		adUpdateYN = adUpdateYN || adService.addWorshipAd((List<Map<String, Object>>) inputMap.get("addAdList"));
 		adUpdateYN = adUpdateYN || adService.update((List<Map<String, Object>>) inputMap.get("adList"));
 		adUpdateYN = adUpdateYN || adService.delete((String)inputMap.get("worshipId"), (List<String>)inputMap.get("removeAdList"));
 		

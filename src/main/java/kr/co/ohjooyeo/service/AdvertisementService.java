@@ -1,5 +1,6 @@
 package kr.co.ohjooyeo.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import kr.co.ohjooyeo.dao.AdvertisementDAO;
 import kr.co.ohjooyeo.dao.WorshipDAO;
 import kr.co.ohjooyeo.vo.WorshipAdVO;
+import kr.co.ohjooyeo.vo.WorshipOrderVO;
 
 @Service
 public class AdvertisementService {
@@ -32,9 +34,25 @@ public class AdvertisementService {
 		return advertisementDAO.getWorshipAdList(worshipId);
 	}
 	
-	public boolean add(List<Map<String,Object>>  list ) {
+	public boolean addWorshipAd(int churchId, String worshipId, List<Map<String,Object>>  list ) {
 		if(list.size() > 0 ) {
-			advertisementDAO.insertVOList(list);
+			List<WorshipAdVO > adVOList = new ArrayList<>();
+			for( Map<String, Object> o : list ) {
+				 
+				WorshipAdVO vo = new WorshipAdVO();
+				vo.setChurchId(churchId);
+				vo.setWorshipId(worshipId);
+				
+				vo.setAdId((int)o.get("adId"));
+				vo.setTitle((String)o.get("title"));
+				vo.setContent((String)o.get("content"));
+				vo.setOrder((int)o.get("order"));
+				adVOList.add(vo);
+			}
+			
+			advertisementDAO.insertVOList(adVOList);
+			
+			
 			return true;
 		} else {
 			return false;

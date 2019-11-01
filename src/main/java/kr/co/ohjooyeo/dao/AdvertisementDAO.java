@@ -22,7 +22,7 @@ public class AdvertisementDAO {
 		return sqlSession.selectList("advertisement.getAdsList",worshipId);
 	}
 
-	public void insertVOList(List<Map<String,Object>>  list) {		
+	public void insertVOList(List<WorshipAdVO >  list) {		
 		logger.debug("추가 광고 내용 : "+list);
 		sqlSession.insert("advertisement.insertVOList",list);
 	}

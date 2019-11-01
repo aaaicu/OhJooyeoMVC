@@ -15,7 +15,8 @@
         SELECT MAX(advertisement_id) + 1 FROM ohjooyeo.ADVERTISEMENT        
   		</selectKey>    
 		<foreach collection="list" item = "vo" index= "index" separator = ";">
-			INSERT INTO ohjooyeo.ADVERTISEMENT VALUES (#{vo.worshipId}, #{advertisement_id}+#{index}, #{vo.order}, #{vo.title}, #{vo.content})
+			INSERT INTO `ohjooyeo`.`ADVERTISEMENT` (`church_id`, `worship_id`, `advertisement_id`, `order`, `title`, `content`) 
+			VALUES (#{vo.churchId}, #{vo.worshipId}, (#{advertisement_id}+#{index}),  #{vo.order}, #{vo.title},#{vo.content})
 		</foreach>
 	</insert>
 	

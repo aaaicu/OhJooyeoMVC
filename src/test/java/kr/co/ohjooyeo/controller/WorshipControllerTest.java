@@ -57,10 +57,12 @@ public class WorshipControllerTest {
 		this.mockMvc.perform(post("/worship/info")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content("{\"churchId\":\"1\",\"worshipId\":\"19-001\",\"version\" : 0}"))
-		.andDo(print())
+//		.andDo(print())
 		.andExpect(status().isOk())
 //		.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-		.andExpect(jsonPath("$").exists())
+		.andExpect(jsonPath("$.nextPresenter").exists())
+		.andExpect(jsonPath("$.mainPresenter").exists())
+		.andExpect(jsonPath("$.worshipOrder").exists())
 		;
 	}
 	
@@ -111,7 +113,9 @@ public class WorshipControllerTest {
 						+ 	"\"order\": 2," 
 						+ 	"\"adId\": 2" 
 						+ "}]"
-						+ "}")).andDo(print()).andExpect(status().isOk());
+						+ "}"))
+		.andDo(print())
+		.andExpect(status().isOk());
     }
 	
 	public void testWorshipOrderAdd() {
