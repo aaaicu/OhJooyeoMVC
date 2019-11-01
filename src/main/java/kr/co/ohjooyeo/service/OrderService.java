@@ -61,25 +61,7 @@ public class OrderService {
 	/* 순서추가 */
 	public boolean addWorshipOrder(int churchId, String worshipId , List<Map<String,Object>> list) {
 		if(list.size() > 0 ) {
-			/*
-			"worshipOrder":[{"presenter":"발표자","orderId":1,"detail":"상세","title":"제목","order":1},
-			                {"presenter":"고고","orderId":2,"detail":"테스트","title":"오늘의","order":2}
-			                ]
-			+ "[{ "
-			+ 	"\"title\": \"경배와 찬양\"," 
-			+ 	"\"detail\": \"\" ," 
-			+	"\"presenter\": \"헤세드 찬양단\"," 
-			+ 	"\"order\": 1," 
-			+ 	"\"orderId\": 1" 
-			+ "},"
-			+ "{ "
-			+ 	"\"title\": \"말씀\"," 
-			+ 	"\"detail\": \"행복의 노래\" ," 
-			+	"\"presenter\": \"강인호 목사님\"," 
-			+ 	"\"order\": 2," 
-			+ 	"\"orderId\": 2" 
-			+ "}],"
-			*/
+
 			List<WorshipOrderVO > orderVOList = new ArrayList<>();
 			for( Map<String, Object> o : list ) {
 				 
