@@ -38,14 +38,16 @@
 	</select>
 	
 	
-	<insert id="insertVOList" parameterType="map">
-	<selectKey resultType="string" keyProperty="order_id" order="BEFORE">
-        SELECT MAX(order_id)+1 FROM ohjooyeo.ORDER        
-    </selectKey>    
-	
+	<insert id="insertVOList" parameterType="kr.co.ohjooyeo.vo.WorshipOrderVO">
+		<selectKey resultType="string" keyProperty="order_id" order="BEFORE">
+	        SELECT MAX(order_id)+1 FROM ohjooyeo.ORDER        
+	    </selectKey>    
+		
 		<foreach collection="list" index = "index" item = "vo" separator = ";">		
-			INSERT INTO ohjooyeo.ORDER VALUES
-			(#{vo.worshipId}, #{order_id}+#{index},#{vo.order},#{vo.type},#{vo.title},#{vo.detail}, #{vo.presenter})
+			<!-- INSERT INTO ohjooyeo.ORDER(church_id, worship_id, order_id, order, type, standup_yn , title, detail, presenter )  -->
+			INSERT INTO `ohjooyeo`.`ORDER` (`church_id`, `worship_id`, `order_id`, `order`, `type`, `standup_yn` , `title`, `detail`, `presenter`)
+			VALUES
+			(#{vo.churchId}, #{vo.worshipId}, (#{order_id}+#{index}),#{vo.order},#{vo.standupYn},#{vo.type},#{vo.title},#{vo.detail}, #{vo.presenter})
 		</foreach> 
 	</insert>
 	

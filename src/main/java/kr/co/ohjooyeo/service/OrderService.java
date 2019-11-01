@@ -1,5 +1,6 @@
 package kr.co.ohjooyeo.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,11 +59,44 @@ public class OrderService {
 	}
 	
 	/* 순서추가 */
-	/*TODO JSON을 풀어서 OrderVO List로 생성후 insert 추가 */
-	public boolean addWorshipOrder(List<Map<String,Object>> list) {
+	public boolean addWorshipOrder(int churchId, String worshipId , List<Map<String,Object>> list) {
 		if(list.size() > 0 ) {
+			/*
+			"worshipOrder":[{"presenter":"발표자","orderId":1,"detail":"상세","title":"제목","order":1},
+			                {"presenter":"고고","orderId":2,"detail":"테스트","title":"오늘의","order":2}
+			                ]
+			+ "[{ "
+			+ 	"\"title\": \"경배와 찬양\"," 
+			+ 	"\"detail\": \"\" ," 
+			+	"\"presenter\": \"헤세드 찬양단\"," 
+			+ 	"\"order\": 1," 
+			+ 	"\"orderId\": 1" 
+			+ "},"
+			+ "{ "
+			+ 	"\"title\": \"말씀\"," 
+			+ 	"\"detail\": \"행복의 노래\" ," 
+			+	"\"presenter\": \"강인호 목사님\"," 
+			+ 	"\"order\": 2," 
+			+ 	"\"orderId\": 2" 
+			+ "}],"
+			*/
+			List<WorshipOrderVO > orderVOList = new ArrayList<>();
+			for( Map<String, Object> o : list ) {
+				 
+				WorshipOrderVO vo = new WorshipOrderVO();
+				vo.setChurchId(churchId);
+				vo.setWorshipId(worshipId);
+				vo.setType((int)o.get("type"));
+				vo.setStandupYn((int)o.get("standupYn"));
+				vo.setTitle((String)o.get("title"));
+				vo.setDetail((String)o.get("detail"));
+				vo.setPresenter((String)o.get("presenter"));
+				vo.setOrder((int)o.get("order"));
+				vo.setOrderId((int)o.get("orderId"));
+				orderVOList.add(vo);
+			}
 			
-			if (orderDAO.insertVOList(list)  < 1) {
+			if (orderDAO.insertVOList(orderVOList)  < 1) {
 				return false;
 			}
 			return true;
