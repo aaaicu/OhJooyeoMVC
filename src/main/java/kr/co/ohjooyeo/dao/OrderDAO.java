@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import kr.co.ohjooyeo.vo.WorshipOrderVO;
+import kr.co.ohjooyeo.vo.WorshipVO;
 
 @Repository
 public class OrderDAO {
@@ -47,17 +48,16 @@ public class OrderDAO {
 		return sqlSession.insert("order.insertVOList", list);
 	}
 
-	public void updateVOList(List<Map<String,Object>> list) {
-		logger.debug(list.toString());
-		sqlSession.update("order.updateVOList", list);
+	public int updateVOList(List<WorshipOrderVO > worshipOrderList) {
+		return sqlSession.update("order.updateVOList", worshipOrderList);
 	}
 
 	public void deleteVOList(Map<String,Object> map) {
 		sqlSession.delete("order.deleteVOList", map);
 	}
 
-	public void deleteAll(String worshipId) {
-		sqlSession.delete("order.deleteAll", worshipId);
+	public int deleteWorshipOrder(Map<String,String> map) {
+		return sqlSession.delete("order.deleteWorshipOrder", map);
 	}
 
 	

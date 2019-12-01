@@ -84,22 +84,16 @@ public class WorshipService {
 	
 	
 	
-	public boolean update(Map<String,String> worshipMap) {
-		if(worshipMap.size()>2) {
-			
-//			updateWorship -> {worshipId=36-12, userId=admin}
-//			logger.debug(worshipMap.toString());
-			
-			worshipDAO.updateWorship(worshipMap);	
+	public boolean updateWorship(WorshipVO worshipVO)  {
+		if (worshipDAO.updateWorship(worshipVO) == 1) {
 			return true;
-		} else {
+		}else {
 			return false;
-		}
-		
+		}		
 	}
 	
-	public void delete(String worshipId) {
-		worshipDAO.delete(worshipId);
+	public int deleteWorship(Map<String,String> map) {
+		return worshipDAO.deleteWorship(map);
 	}
 
 	public Map<String, String> getWorshipInfo(String worshipId) {
@@ -167,6 +161,7 @@ public class WorshipService {
 //		
 		return result;
 	}
+
 
 
 

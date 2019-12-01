@@ -24,9 +24,12 @@
 	<!-- 다중 업데이트 가능하게하려면 jdbc 커넥션 url에 다음의 내용을 추가하여야 함 ==> &amp;allowMultiQueries=true  -->
 		<foreach collection="list" item = "vo" separator = ";">	
 			UPDATE ohjooyeo.ADVERTISEMENT 
-			SET ohjooyeo.ADVERTISEMENT.order = #{vo.order}, title = #{vo.title},content = #{vo.content}
-			WHERE worship_id = #{vo.worshipId} 
-			AND advertisement_id = #{vo.id}
+			SET ohjooyeo.ADVERTISEMENT.order = #{vo.order}, 
+				ohjooyeo.ADVERTISEMENT.title = #{vo.title},
+				ohjooyeo.ADVERTISEMENT.content = #{vo.content}
+			WHERE church_id = #{vo.churchId}
+			AND worship_id = #{vo.worshipId} 
+			AND advertisement_id = #{vo.adId}
 		</foreach> 
 	</update>
 	
@@ -38,8 +41,9 @@
 		</foreach>
 	</delete>
 	
-	<delete id="deleteAll" parameterType="string">
+	<delete id="deleteWorshipAd" parameterType="map">
 		DELETE FROM ohjooyeo.ADVERTISEMENT
-		WHERE worship_id = #{worshipId} 
+		WHERE church_id = #{churchId} 
+		AND worship_id = #{worshipId} 
 	</delete>
 </mapper>

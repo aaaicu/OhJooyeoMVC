@@ -27,17 +27,16 @@ public class AdvertisementDAO {
 		sqlSession.insert("advertisement.insertVOList",list);
 	}
 	
-	public void updateVOList(List<Map<String,Object>> list) {
-		logger.debug("업데이트 광고 내용 : "+list);
-		sqlSession.update("advertisement.updateVOList",list);
+	public int updateVOList(List<WorshipAdVO > list) {
+		return sqlSession.update("advertisement.updateVOList",list);
 	}
 
 	public void deleteVOList(Map<String, Object> map) {
 		sqlSession.delete("advertisement.deleteVOList", map);
 	}
 
-	public void deleteAll(String worshipId) {
-		sqlSession.delete("advertisement.deleteAll", worshipId);
+	public int deleteWorshipAd(Map<String,String> map) {
+		return sqlSession.delete("advertisement.deleteWorshipAd", map);
 	}
 	
 }

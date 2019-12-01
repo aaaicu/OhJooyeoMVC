@@ -55,10 +55,17 @@ public class WorshipDAO {
 		inputMap.put("version", version);
 		sqlSession.selectList("worship.setVersion",inputMap);
 	}
-	public void updateWorship(Map<String,String> worshipMap) {
-		sqlSession.update("worship.updateWorship",worshipMap);
+	public int updateWorship(WorshipVO worship) {
+		return sqlSession.update("worship.updateWorship",worship);
 	}
-	public void delete(String worshipId) {
-		sqlSession.delete("worship.deleteWorship",worshipId);
+	public int deleteWorship(Map<String,String> map) {
+		return sqlSession.delete("worship.deleteWorship",map);
+	}
+	public int versionUp(int churchId, String worshipId) {
+		Map<String, Object > inputMap = new HashMap<>();
+		inputMap.put("churchId",  churchId);
+		inputMap.put("worshipId", worshipId);
+		System.out.println(inputMap);
+		return sqlSession.update("worship.versionUp",inputMap);
 	}
 }

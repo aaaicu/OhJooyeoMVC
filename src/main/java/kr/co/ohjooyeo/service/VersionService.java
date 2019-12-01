@@ -46,26 +46,11 @@ public class VersionService {
 		return worshipDAO.getVersionById(id);
 	}
 	
-	/* a-z(97-122) A-Z() */
-	/* index = 0 : orderVersion / 1 : advertiseVersion / 2 : worshipInfoVersrion  */
-	public String versionUp(String currentVersion, int index) {
-		String result = null;
-		if ( currentVersion.length() != 3) {
-			System.out.println("input error!");
-		} else {
-			int tempInt = (char)(currentVersion.charAt(index) + 1);
-			if (tempInt == 123) {
-				tempInt = 65;
-			} else if (tempInt == 91) {
-				// 다시 a 로 돌아가게 했지만 다른 전략이나 에러 처리 필요 
-				tempInt = 97;
-				System.out.println("index error!");
-			} 
-			char tempChar = (char)(tempInt);
-			
-			result = currentVersion.substring(0, index)+tempChar+currentVersion.substring(index+1);
+	public boolean versionUp(int churchId, String worshipId) {
+		if(worshipDAO.versionUp(churchId,worshipId) > 0) {
+			return true;
 		}
-		return result;
+		return false;
 	}
 
 	public void updateVersion(String worshipId, String version) {

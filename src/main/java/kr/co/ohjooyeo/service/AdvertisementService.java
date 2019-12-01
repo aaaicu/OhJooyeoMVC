@@ -58,9 +58,25 @@ public class AdvertisementService {
 			return false;
 		}
 	}
-	public boolean update(List<Map<String,Object>>  list ) {
+	public boolean updateWorshipAd(int churchId, String worshipId,List<Map<String,Object>>  list ) {
+		
 		if(list.size() > 0 ) {
-			advertisementDAO.updateVOList(list);
+			List<WorshipAdVO > adVOList = new ArrayList<>();
+			for( Map<String, Object> o : list ) {
+				 
+				WorshipAdVO vo = new WorshipAdVO();
+				vo.setChurchId(churchId);
+				vo.setWorshipId(worshipId);
+				
+				vo.setAdId((int)o.get("adId"));
+				vo.setTitle((String)o.get("title"));
+				vo.setContent((String)o.get("content"));
+				vo.setOrder((int)o.get("order"));
+				adVOList.add(vo);
+			}
+			if (advertisementDAO.updateVOList(adVOList)  < 1) {
+				return false;
+			}
 			return true;
 		} else {
 			return false;
@@ -81,8 +97,8 @@ public class AdvertisementService {
 		}
 	}
 
-	public void deleteAll(String worshipId) {
-		advertisementDAO.deleteAll(worshipId);
+	public int deleteWorshipAd(Map<String,String> map) {
+		return advertisementDAO.deleteWorshipAd(map);
 	}
 
 }

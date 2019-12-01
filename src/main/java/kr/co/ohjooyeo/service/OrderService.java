@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import kr.co.ohjooyeo.dao.BibleDAO;
 import kr.co.ohjooyeo.dao.OrderDAO;
 import kr.co.ohjooyeo.vo.WorshipOrderVO;
+import kr.co.ohjooyeo.vo.WorshipVO;
 
 @Service
 public class OrderService {
@@ -88,11 +89,31 @@ public class OrderService {
 	}
 
 	/* 순서수정 */
-	public boolean update(List<Map<String,Object>> list) {
+	public boolean updateWorshipOrder(int churchId, String worshipId , List<Map<String,Object>> list) {
 		if(list.size() > 0 ) {
-			orderDAO.updateVOList(list);
+
+			List<WorshipOrderVO > orderVOList = new ArrayList<>();
+			for( Map<String, Object> o : list ) {
+				 
+				WorshipOrderVO vo = new WorshipOrderVO();
+				vo.setChurchId(churchId);
+				vo.setWorshipId(worshipId);
+				vo.setType((int)o.get("type"));
+				vo.setStandupYn((int)o.get("standupYn"));
+				vo.setTitle((String)o.get("title"));
+				vo.setDetail((String)o.get("detail"));
+				vo.setPresenter((String)o.get("presenter"));
+				vo.setOrder((int)o.get("order"));
+				vo.setOrderId((int)o.get("orderId"));
+				orderVOList.add(vo);
+				System.out.println(vo);
+			}
+			
+			if (orderDAO.updateVOList(orderVOList)  < 1) {
+				return false;
+			}
 			return true;
-		}else {
+		} else {
 			return false;
 		}
 	}
@@ -112,7 +133,7 @@ public class OrderService {
 		}
 	}
 
-	public void deleteAll(String worshipId) {
-		orderDAO.deleteAll(worshipId);
+	public int deleteWorshipOrder(Map<String,String> map) {
+		return orderDAO.deleteWorshipOrder(map);
 	}
 }

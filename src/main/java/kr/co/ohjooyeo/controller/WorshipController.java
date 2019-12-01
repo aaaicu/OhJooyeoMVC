@@ -20,6 +20,7 @@ import kr.co.ohjooyeo.service.OrderService;
 import kr.co.ohjooyeo.service.VersionService;
 import kr.co.ohjooyeo.service.WorshipService;
 import kr.co.ohjooyeo.vo.WorshipAdVO;
+import kr.co.ohjooyeo.vo.WorshipOrderVO;
 import kr.co.ohjooyeo.vo.WorshipVO;
 
 @CrossOrigin
@@ -93,7 +94,6 @@ public class WorshipController {
 		worshipVO.setChurchId((int)worshipData.get("churchId"));
 		
 		worshipService.addWorship(worshipVO);
-		
 		orderService.addWorshipOrder((int)worshipData.get("churchId"),newWorshipId,orderData);
 		adService.addWorshipAd((int)worshipData.get("churchId"),newWorshipId,adData);
 		
@@ -102,69 +102,52 @@ public class WorshipController {
 	
 	
 	
-	@RequestMapping(value = "/worship/delete", method = RequestMethod.POST)
-	public @ResponseBody String deleteWorship(@RequestBody String worshipId) {
+	@RequestMapping(value = "/worship/delete", method = RequestMethod.DELETE)
+	public @ResponseBody boolean deleteWorship(@RequestBody Map<String,String> map) {
+		int resultOrder = orderService.deleteWorshipOrder(map);
+		int resultAd = adService.deleteWorshipAd(map);
+		int resultWorship = worshipService.deleteWorship(map);
+		boolean result = false;
 		
-		orderService.deleteAll(worshipId);
-		adService.deleteAll(worshipId);
-		worshipService.delete(worshipId);
-		
-		return "";
+		if (resultOrder * resultAd * resultWorship == 1 ) {
+			result= true;
+		}
+		return result;
 	}
 
 
 	
 	/* 업데이트 내용을 받는 컨트롤러 */
 	@SuppressWarnings("unchecked")
-	@RequestMapping(value = "/process/update", method = RequestMethod.POST)
-	public @ResponseBody String updateWorship(
-			@RequestBody Map<String,Object> inputMap
+	@RequestMapping(value = "/worship/update", method = RequestMethod.PUT)
+	public @ResponseBody Boolean updateWorship(
+			@RequestBody Map<String,Object> worship
 			){
-
-		logger.debug("worshipObject : "+ inputMap.get("worshipObject"));
-		logger.debug("orderList : "+ inputMap.get("orderList"));
-		logger.debug("addOrderList : "+ inputMap.get("addOrderList"));
-		logger.debug("adList : "+ inputMap.get("adList"));
-		logger.debug("addAdList : "+ inputMap.get("addAdList"));
-		logger.debug("worshipId : "+ inputMap.get("worshipId"));
 		
-		String version = versionService.getVersionById((String)inputMap.get("worshipId"));
+		/* 파라미터 데이터 파싱 */
+		Map<String,Object> worshipData = (Map<String, Object>) worship.get("worshipInfo");
+		List<Map<String,Object>> orderData = (List<Map<String,Object>>) worship.get("worshipOrder");
+		List<Map<String,Object>> adData = (List<Map<String,Object>>) worship.get("worshipAd");
 		
+		WorshipVO worshipVO = new WorshipVO();
 		
-		boolean worshipInfoUpdateYN = false;
-		boolean orderUpdateYN = false;
-		boolean adUpdateYN = false;
-		Map<String,String> worshipMap = (Map<String,String>)inputMap.get("worshipObject");
-		worshipMap.put("worshipId", (String)inputMap.get("worshipId"));
-		worshipMap.put("userId", "admin");
+		worshipVO.setChurchId((int)worshipData.get("churchId"));
+		worshipVO.setWorshipId((String)worshipData.get("worshipId"));
+		worshipVO.setWorshipDate((String)worshipData.get("worshipDate"));
+		worshipVO.setMainPresenter((String)worshipData.get("mainPresenter"));
+		worshipVO.setNextPresenter((String)worshipData.get("nextPresenter"));
+		worshipVO.setNextPrayer((String)worshipData.get("nextPrayer"));
+		worshipVO.setNextOffer((String)worshipData.get("nextOffer"));
 		
-		worshipInfoUpdateYN = worshipInfoUpdateYN || worshipService.update(worshipMap);
-		if (worshipInfoUpdateYN) { 
-			version = versionService.versionUp(version , 2) ;
+		boolean result = true;
+		result = result && worshipService.updateWorship(worshipVO);
+		result = result && orderService.updateWorshipOrder((int)worshipData.get("churchId"),(String)worshipData.get("worshipId"),orderData);
+		result = result && adService.updateWorshipAd((int)worshipData.get("churchId"),(String)worshipData.get("worshipId"),adData);
+		System.out.println(adService.updateWorshipAd((int)worshipData.get("churchId"),(String)worshipData.get("worshipId"),adData));
+		if(result) {
+			versionService.versionUp((int)worshipData.get("churchId"),(String)worshipData.get("worshipId")) ;
 		}
-		
-//		orderUpdateYN = orderUpdateYN || orderService.add((List<Map<String, Object>>) inputMap.get("addOrderList"));
-		orderUpdateYN = orderUpdateYN || orderService.update((List<Map<String, Object>>) inputMap.get("orderList"));
-		orderUpdateYN = orderUpdateYN || orderService.delete((String)inputMap.get("worshipId"), (List<String>)inputMap.get("removeOrderList"));
-		
-		logger.debug("order version update YN : "+ orderUpdateYN);
-		if (orderUpdateYN) { 
-			version = versionService.versionUp(version , 0) ;
-		}
-		
-//		adUpdateYN = adUpdateYN || adService.addWorshipAd((List<Map<String, Object>>) inputMap.get("addAdList"));
-		adUpdateYN = adUpdateYN || adService.update((List<Map<String, Object>>) inputMap.get("adList"));
-		adUpdateYN = adUpdateYN || adService.delete((String)inputMap.get("worshipId"), (List<String>)inputMap.get("removeAdList"));
-		
-		logger.debug("advertisement version update YN : "+ adUpdateYN);
-		if (adUpdateYN) { 
-			version = versionService.versionUp(version , 1) ;
-		}
-		
-		logger.debug(version);
-		versionService.updateVersion((String)inputMap.get("worshipId"),version);
-		
-		return "";
+		return result;
 	}
 	
 	/* 예배 정보 관련 API*/

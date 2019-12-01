@@ -24,12 +24,21 @@
 		<![CDATA[
 			SELECT worship_id worshipId, DATE_FORMAT(worship_date, '%Y-%m-%d') AS worshipDate, 
 				main_presenter mainPresenter, next_presenter nextPresenter, next_prayer nextPrayer, 
-				next_offer nextOffer,order_version version
+				next_offer nextOffer,version version
 			FROM ohjooyeo.WORSHIP
 			WHERE worship_id = #{worshipId}
 		]]>		
 	</select>
 	
+	<update id = "updateWorship" parameterType = "kr.co.ohjooyeo.vo.WorshipVO">
+		UPDATE ohjooyeo.WORSHIP SET 
+			worship_date = #{worshipDate},
+			main_presenter = #{mainPresenter},
+			next_presenter = #{nextPresenter},
+			next_prayer = #{nextPrayer},
+			next_offer = #{nextOffer}
+		WHERE worship_id = #{worshipId} AND church_id = #{churchId}	
+	</update>
 	
 
 <!-- 사용확인 중 -->
@@ -53,7 +62,7 @@
 	
 	<select id = "getWorshipList" resultType ="map" >
 		<![CDATA[
-			SELECT worship_id AS worshipId, DATE_FORMAT(worship_date, '%Y-%m-%d') AS worshipDate, order_version version
+			SELECT worship_id AS worshipId, DATE_FORMAT(worship_date, '%Y-%m-%d') AS worshipDate, version version
 			FROM WORSHIP
 		]]>
 	</select>
@@ -88,19 +97,28 @@
 		]]>
 	</update>
 	
-	<update id = "updateWorship" parameterType = "map">
-			UPDATE ohjooyeo.WORSHIP SET 
-				worship_date = #{worshipDate},
-				main_presenter = #{mainPresenter},
-				next_presenter = #{nextPresenter},
-				next_prayer = #{nextPrayer},
-				next_offer = #{nextOffer}
-				
-			WHERE worship_id = #{worshipId} AND user_id = #{userId}	
+	
+	<update id="versionUp" parameterType = "map">
+		<selectKey resultType="int" keyProperty="v" order="BEFORE">
+	        SELECT IFNULL(MAX(version)+1,1) 
+	        FROM ohjooyeo.WORSHIP  
+	        WHERE church_id = #{map.churchId} 
+	        AND worship_id = #{map.worshipId}
+	    </selectKey> 
+	    <![CDATA[
+	    UPDATE ohjooyeo.WORSHIP SET ohjooyeo.WORSHIP.version = #{v} 	       
+	    WHERE church_id = #{map.churchId} 
+	    AND worship_id = #{map.worshipId}
+	    ]]>
+	    
 	</update>
-	<delete id="deleteWorship" parameterType = "string">
+
+	
+	<delete id="deleteWorship" parameterType = "map">
 		<![CDATA[
-			DELETE FROM ohjooyeo.WORSHIP WHERE worship_id = #{worshipId}
+			DELETE FROM ohjooyeo.WORSHIP 
+			WHERE church_id = #{church}
+			AND worship_id = #{worshipId}
 		]]>
 	</delete>
 </mapper>

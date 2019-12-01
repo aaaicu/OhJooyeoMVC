@@ -38,9 +38,9 @@
 	</select>
 	
 	
-	<insert id="insertVOList" parameterType="kr.co.ohjooyeo.vo.WorshipOrderVO">
+	<insert id="insertVOList" parameterType="java.util.List">
 		<selectKey resultType="string" keyProperty="order_id" order="BEFORE">
-	        SELECT MAX(order_id)+1 FROM ohjooyeo.ORDER        
+	        SELECT IFNULL(MAX(order_id)+1,1) FROM ohjooyeo.ORDER WHERE church_id = #{list[0].churchId} AND  worship_id = #{list[0].worshipId}   
 	    </selectKey>    
 		
 		<foreach collection="list" index = "index" item = "vo" separator = ";">		
@@ -51,13 +51,19 @@
 		</foreach> 
 	</insert>
 	
-	<update id="updateVOList" parameterType="map">
+	<update id="updateVOList" parameterType="kr.co.ohjooyeo.vo.WorshipOrderVO">
 	<!-- 다중 업데이트 가능하게하려면 jdbc 커넥션 url에 다음의 내용을 추가하여야 함 ==> &amp;allowMultiQueries=true  -->
 		<foreach collection="list" item = "vo" separator = ";">	
 			UPDATE ohjooyeo.ORDER 
-			SET ohjooyeo.ORDER.order = #{vo.order}, type = #{vo.type}, title = #{vo.title},detail = #{vo.detail}, presenter = #{vo.presenter}
-			WHERE worship_id = #{vo.worshipId} 
-			AND order_id = #{vo.id}
+			SET ohjooyeo.ORDER.order = #{vo.order}, 
+				ohjooyeo.ORDER.type = #{vo.type}, 
+				ohjooyeo.ORDER.title = #{vo.title}, 
+				ohjooyeo.ORDER.detail = #{vo.detail}, 
+				ohjooyeo.ORDER.presenter = #{vo.presenter},
+				ohjooyeo.ORDER.standup_yn = #{vo.standupYn}
+			WHERE order_id = #{vo.orderId}
+			AND church_id = #{vo.churchId}
+			AND worship_id = #{vo.worshipId} 
 		</foreach> 
 		
 	</update>
@@ -69,8 +75,9 @@
 			AND order_id = #{id}
 		</foreach>
 	</delete>
-	<delete id="deleteAll" parameterType="string">
+	<delete id="deleteWorshipOrder" parameterType="map">
 		DELETE FROM ohjooyeo.ORDER
-		WHERE worship_id = #{worshipId} 
+		WHERE church_id = #{churchId} 
+		AND worship_id = #{worshipId} 
 	</delete>
 </mapper>
