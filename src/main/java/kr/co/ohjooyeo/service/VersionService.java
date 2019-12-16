@@ -22,24 +22,24 @@ public class VersionService {
 	@Autowired
 	MusicService musicService;
 	
-	public Map<String, Object> getAllData(String id) {
-		
-		Map<String, Object> result = new HashMap<>();
-		
-		//날짜기준으로 가장 가까운 업로드된 worship date 구하는 method 필요 
-		String worshipDate = worshipDAO.getWorshipDateById(id);
-		
-		result.put("worship", null);
-		result.put("advertisement", null);
-		result.put("music", null);
-		result.put("worshipDate", worshipDate);
-
-			result.put("worship", orderService.getOrderByWorshipId(id));
-			result.put("advertisement", adService.getWorshipAdList(id));
-			result.put("music", musicService.getMusicListByWorshipId(id));
-		System.out.println(result);
-		return result;
-	}
+//	public Map<String, Object> getAllData(String id) {
+//		
+//		Map<String, Object> result = new HashMap<>();
+//		
+//		//날짜기준으로 가장 가까운 업로드된 worship date 구하는 method 필요 
+//		String worshipDate = worshipDAO.getWorshipDateById(id);
+//		
+//		result.put("worship", null);
+//		result.put("advertisement", null);
+//		result.put("music", null);
+//		result.put("worshipDate", worshipDate);
+//
+//			result.put("worship", orderService.getOrderByWorshipId(id));
+//			result.put("advertisement", adService.getWorshipAdList(id));
+//			result.put("music", musicService.getMusicListByWorshipId(id));
+//		System.out.println(result);
+//		return result;
+//	}
 	
 	/* WorshipControlle.updateWorship에서 버전업데이트 시에 사용 (12/1 회의를 통해 list에서 버전을 가져오기로하였음 )*/
 	public String getVersionById(String id) {

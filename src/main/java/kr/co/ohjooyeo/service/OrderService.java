@@ -34,23 +34,23 @@ public class OrderService {
 //		orderDAO.insertVOList(orderList);
 //	}
 
-	public Map<String, Object> getOrderByWorshipId(String id) {
-		String worshipId = id;
-		Map<String,Object> result = new HashMap<>();
-		Map<String,String> worship = worshipService.getWorshipInfo(worshipId);
-		Map<String,String> nextPresenter = new HashMap<>();
-		
-		List<WorshipOrderVO> order = orderDAO.getWorshipOrderList(worshipId);
-		
-		result.put("worshipOrder",order);
-		nextPresenter.put("offer",  worship.get("nextOffer"));
-		nextPresenter.put("prayer",  worship.get("nextPrayer"));
-		nextPresenter.put("mainPresenter", worship.get("nextPresenter"));
-		
-		result.put("mainPresenter",worship.get("mainPresenter"));
-		result.put("nextPresenter",nextPresenter);
-		return result;
-	}
+//	public Map<String, Object> getOrderByWorshipId(String id) {
+//		String worshipId = id;
+//		Map<String,Object> result = new HashMap<>();
+//		Map<String,String> worship = worshipService.getWorshipInfo(worshipId);
+//		Map<String,String> nextPresenter = new HashMap<>();
+//		
+//		List<WorshipOrderVO> order = orderDAO.getWorshipOrderList(worshipId);
+//		
+//		result.put("worshipOrder",order);
+//		nextPresenter.put("offer",  worship.get("nextOffer"));
+//		nextPresenter.put("prayer",  worship.get("nextPrayer"));
+//		nextPresenter.put("mainPresenter", worship.get("nextPresenter"));
+//		
+//		result.put("mainPresenter",worship.get("mainPresenter"));
+//		result.put("nextPresenter",nextPresenter);
+//		return result;
+//	}
 	/* 런처 말씀 */
 	public Map<String, String> getLaunchPhrase(String userId, String date) {
 		Map<String,String> result = new HashMap<>();
@@ -61,6 +61,7 @@ public class OrderService {
 	
 	/* 순서추가 */
 	public boolean addWorshipOrder(int churchId, String worshipId , List<Map<String,Object>> list) {
+		
 		if(list.size() > 0 ) {
 
 			List<WorshipOrderVO > orderVOList = new ArrayList<>();
@@ -90,32 +91,43 @@ public class OrderService {
 
 	/* 순서수정 */
 	public boolean updateWorshipOrder(int churchId, String worshipId , List<Map<String,Object>> list) {
-		if(list.size() > 0 ) {
-
-			List<WorshipOrderVO > orderVOList = new ArrayList<>();
-			for( Map<String, Object> o : list ) {
-				 
-				WorshipOrderVO vo = new WorshipOrderVO();
-				vo.setChurchId(churchId);
-				vo.setWorshipId(worshipId);
-				vo.setType((int)o.get("type"));
-				vo.setStandupYn((int)o.get("standupYn"));
-				vo.setTitle((String)o.get("title"));
-				vo.setDetail((String)o.get("detail"));
-				vo.setPresenter((String)o.get("presenter"));
-				vo.setOrder((int)o.get("order"));
-				vo.setOrderId((int)o.get("orderId"));
-				orderVOList.add(vo);
-				System.out.println(vo);
-			}
-			
-			if (orderDAO.updateVOList(orderVOList)  < 1) {
-				return false;
-			}
-			return true;
-		} else {
-			return false;
-		}
+		//순서 일괄 삭제
+		Map<String, String> map = new HashMap<String,String>();
+		map.put("churchId",churchId+"");
+		map.put("worshipId",worshipId);
+		deleteWorshipOrder(map);
+		
+		// TODO : 일괄 삭제 성공도 리턴에 반영될 수 있도록 수정 필요
+		//순서 일괄 추가
+		return addWorshipOrder(churchId,worshipId,list);
+		
+		
+//		if(list.size() > 0 ) {
+//
+//			List<WorshipOrderVO > orderVOList = new ArrayList<>();
+//			for( Map<String, Object> o : list ) {
+//				 
+//				WorshipOrderVO vo = new WorshipOrderVO();
+//				vo.setChurchId(churchId);
+//				vo.setWorshipId(worshipId);
+//				vo.setType((int)o.get("type"));
+//				vo.setStandupYn((int)o.get("standupYn"));
+//				vo.setTitle((String)o.get("title"));
+//				vo.setDetail((String)o.get("detail"));
+//				vo.setPresenter((String)o.get("presenter"));
+//				vo.setOrder((int)o.get("order"));
+//				vo.setOrderId((int)o.get("orderId"));
+//				orderVOList.add(vo);
+//				System.out.println(vo);
+//			}
+//			
+//			if (orderDAO.updateVOList(orderVOList)  < 1) {
+//				return false;
+//			}
+//			return true;
+//		} else {
+//			return false;
+//		}
 	}
 
 	/* 순서삭제 */
