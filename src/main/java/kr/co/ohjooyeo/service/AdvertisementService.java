@@ -30,8 +30,9 @@ public class AdvertisementService {
 //		advertisementDAO.insertVOList(adList);
 //	}
 
-	public List<WorshipAdVO> getWorshipAdList(String worshipId) {
-		return advertisementDAO.getWorshipAdList(worshipId);
+	public Map<String,Object> getWorshipAd(String churchId,String worshipId, Map<String,Object> info) {
+		info.put("worshipAd", advertisementDAO.getWorshipAd(churchId,worshipId));
+		return info;
 	}
 	
 	public boolean addWorshipAd(int churchId, String worshipId, List<Map<String,Object>>  list ) {
@@ -60,27 +61,35 @@ public class AdvertisementService {
 	}
 	public boolean updateWorshipAd(int churchId, String worshipId,List<Map<String,Object>>  list ) {
 		
-		if(list.size() > 0 ) {
-			List<WorshipAdVO > adVOList = new ArrayList<>();
-			for( Map<String, Object> o : list ) {
-				 
-				WorshipAdVO vo = new WorshipAdVO();
-				vo.setChurchId(churchId);
-				vo.setWorshipId(worshipId);
-				
-				vo.setAdId((int)o.get("adId"));
-				vo.setTitle((String)o.get("title"));
-				vo.setContent((String)o.get("content"));
-				vo.setOrder((int)o.get("order"));
-				adVOList.add(vo);
-			}
-			if (advertisementDAO.updateVOList(adVOList)  < 1) {
-				return false;
-			}
-			return true;
-		} else {
-			return false;
-		}
+		Map<String, String> map = new HashMap<String,String>();
+		map.put("churchId",churchId+"");
+		map.put("worshipId",worshipId);
+		deleteWorshipAd(map);
+		
+		// TODO : 일괄 삭제 성공도 리턴에 반영될 수 있도록 수정 필요
+		//순서 일괄 추가
+		return addWorshipAd(churchId,worshipId,list);
+//		if(list.size() > 0 ) {
+//			List<WorshipAdVO > adVOList = new ArrayList<>();
+//			for( Map<String, Object> o : list ) {
+//				 
+//				WorshipAdVO vo = new WorshipAdVO();
+//				vo.setChurchId(churchId);
+//				vo.setWorshipId(worshipId);
+//				
+//				vo.setAdId((int)o.get("adId"));
+//				vo.setTitle((String)o.get("title"));
+//				vo.setContent((String)o.get("content"));
+//				vo.setOrder((int)o.get("order"));
+//				adVOList.add(vo);
+//			}
+//			if (advertisementDAO.updateVOList(adVOList)  < 1) {
+//				return false;
+//			}
+//			return true;
+//		} else {
+//			return false;
+//		}
 	}
 
 	public boolean delete(String worshipId, List<String> list) {

@@ -103,7 +103,7 @@ public class WorshipController {
 	
 	
 	@RequestMapping(value = "/worship/delete", method = RequestMethod.DELETE)
-	public @ResponseBody boolean deleteWorship(@RequestBody Map<String,String> map) {
+	public @ResponseBody boolean worshipDelete(@RequestBody Map<String,String> map) {
 		int resultOrder = orderService.deleteWorshipOrder(map);
 		int resultAd = adService.deleteWorshipAd(map);
 		int resultWorship = worshipService.deleteWorship(map);
@@ -143,25 +143,43 @@ public class WorshipController {
 		result = result && worshipService.updateWorship(worshipVO);
 		result = result && orderService.updateWorshipOrder((int)worshipData.get("churchId"),(String)worshipData.get("worshipId"),orderData);
 		result = result && adService.updateWorshipAd((int)worshipData.get("churchId"),(String)worshipData.get("worshipId"),adData);
-		System.out.println(adService.updateWorshipAd((int)worshipData.get("churchId"),(String)worshipData.get("worshipId"),adData));
 		if(result) {
 			versionService.versionUp((int)worshipData.get("churchId"),(String)worshipData.get("worshipId")) ;
 		}
 		return result;
 	}
 	
-	/* 예배 정보 관련 API*/
 	
-	@RequestMapping(value = "/getWorshipInfo", method = RequestMethod.POST)
-	public @ResponseBody Map<String,String> getWorshipInfo(@RequestBody String worshipId) {
-		return worshipService.getWorshipInfo(worshipId);
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/worship/ad/info", method = RequestMethod.POST)
+	public @ResponseBody Map<String, Object> worshipAdInfo(@RequestBody Map<String, String> reqMap) {
+		String churchId = reqMap.get("churchId");
+		String worshipId = reqMap.get("worshipId");
+		
+		int reqVersion = Integer.valueOf(reqMap.get("version"));
+		Map<String, Object> info = new HashMap<String, Object>();
+		info = adService.getWorshipAd(churchId,worshipId,info);
+		List<Map<String, Object>> worshipAd = (List<Map<String, Object>>)info.get("worshipAd");
+		int version = (int)worshipAd.get(0).get("version");
+		if(worshipAd.size() >0) {
+			if(reqVersion == version) {
+				info = null;
+			}
+		}else {
+			info = null;
+		}
+		return info;
 	}
+	
+//	/* 예배 정보 관련 API*/
+//	
+//	@RequestMapping(value = "/getWorshipInfo", method = RequestMethod.POST)
+//	public @ResponseBody Map<String,String> getWorshipInfo(@RequestBody String worshipId) {
+//		return worshipService.getWorshipInfo(worshipId);
+//	}
 	
 
 	
-	@RequestMapping(value = "/getWorshipAdList", method = RequestMethod.POST)
-	public @ResponseBody List<WorshipAdVO> getWorshipAdList(@RequestBody String worshipId) {
-		return adService.getWorshipAdList(worshipId);
-	}
+
 	
 }

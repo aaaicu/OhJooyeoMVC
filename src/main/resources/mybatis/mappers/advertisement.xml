@@ -2,17 +2,26 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="advertisement">
 
-	<select id="getAdsList" parameterType = "string" resultType="kr.co.ohjooyeo.vo.WorshipAdVO">
+	<select id="getWorshipAd" parameterType = "map" resultType="map">
 		<![CDATA[
-			SELECT ad.worship_id worshipId, ad.advertisement_id adId, ad.content, ad.title, ad.order
-			FROM ohjooyeo.ADVERTISEMENT ad
-			WHERE ad.worship_id = #{worshipId}
+			SELECT ad.church_id churchId, 
+				ad.worship_id worshipId, 
+				ad.advertisement_id adId, 
+				ad.content, 
+				ad.title, 
+				ad.order,
+				w.version
+			FROM ohjooyeo.ADVERTISEMENT ad,
+			ohjooyeo.WORSHIP w
+            WHERE ad.worship_id = w.worship_id
+			AND ad.worship_id = #{worshipId}
+			AND ad.church_id = #{churchId}
 			ORDER BY ad.order
 		]]>		
 	</select>
 	<insert id="insertVOList" parameterType = "kr.co.ohjooyeo.vo.WorshipAdVO">
 		<selectKey resultType="string" keyProperty="advertisement_id" order="BEFORE">
-        SELECT MAX(advertisement_id) + 1 FROM ohjooyeo.ADVERTISEMENT        
+        SELECT IFNULL(MAX(#{list[0].adId}),0) + 1 FROM ohjooyeo.ADVERTISEMENT        
   		</selectKey>    
 		<foreach collection="list" item = "vo" index= "index" separator = ";">
 			INSERT INTO `ohjooyeo`.`ADVERTISEMENT` (`church_id`, `worship_id`, `advertisement_id`, `order`, `title`, `content`) 

@@ -26,7 +26,8 @@
 				main_presenter mainPresenter, next_presenter nextPresenter, next_prayer nextPrayer, 
 				next_offer nextOffer,version version
 			FROM ohjooyeo.WORSHIP
-			WHERE worship_id = #{worshipId}
+			WHERE church_id = #{churchId}
+			AND worship_id = #{worshipId}
 		]]>		
 	</select>
 	

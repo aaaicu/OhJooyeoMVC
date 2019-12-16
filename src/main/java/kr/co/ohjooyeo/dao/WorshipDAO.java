@@ -22,8 +22,11 @@ public class WorshipDAO {
 	public String getWorshipId(String date) {
 		return sqlSession.selectOne("worship.getWorshipId", date);
 	}
-	public Map<String, String> getWorshipInfo(String worshipId) {
-		return sqlSession.selectOne("worship.getWorshipMap", worshipId);
+	public Map<String, String> getWorshipInfo(String churchId, String worshipId){
+		Map<String,String> inputMap = new HashMap<>();
+		inputMap.put("worshipId", worshipId);
+		inputMap.put("churchId", churchId);
+		return sqlSession.selectOne("worship.getWorshipMap", inputMap);
 	}
 	
 	public List<Map<String, String>> getWorshipList(String churchId) {

@@ -1,5 +1,6 @@
 package kr.co.ohjooyeo.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,8 +19,11 @@ public class AdvertisementDAO {
 
 	private static final Logger logger = LoggerFactory.getLogger(AdvertisementDAO.class);
 	
-	public List<WorshipAdVO> getWorshipAdList(String worshipId) {
-		return sqlSession.selectList("advertisement.getAdsList",worshipId);
+	public List<Map<String, String>> getWorshipAd(String churchId,String worshipId) {
+		Map<String,String> inputMap = new HashMap<>();
+		inputMap.put("worshipId", worshipId);
+		inputMap.put("churchId", churchId);
+		return sqlSession.selectList("advertisement.getWorshipAd",inputMap);
 	}
 
 	public void insertVOList(List<WorshipAdVO >  list) {		

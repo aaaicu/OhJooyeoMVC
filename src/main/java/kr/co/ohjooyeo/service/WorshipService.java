@@ -39,7 +39,7 @@ public class WorshipService {
 	
 	public Map<String, Object> getWorshipMc(String churchId, String worshipId, Map<String, Object> info) {
 		// TODO Auto-generated method stub
-		Map<String,String> raw  = worshipDAO.getWorshipInfo(worshipId);
+		Map<String,String> raw  = worshipDAO.getWorshipInfo(churchId,worshipId);
 		Map<String,String> nextPresenter = new HashMap<String,String>();
 		nextPresenter.put("mainPresenter", raw.get("nextPresenter"));
 		nextPresenter.put("prayer", raw.get("nextPrayer"));
@@ -96,9 +96,9 @@ public class WorshipService {
 		return worshipDAO.deleteWorship(map);
 	}
 
-	public Map<String, String> getWorshipInfo(String worshipId) {
+	public Map<String, String> getWorshipInfo(String churchId, String worshipId) {
 		logger.debug("요청 : " + worshipId);
-		return worshipDAO.getWorshipInfo(worshipId);
+		return worshipDAO.getWorshipInfo(churchId,worshipId);
 	}
 	
 
