@@ -40,7 +40,7 @@
 	
 	<insert id="insertVOList" parameterType="java.util.List">
 		<selectKey resultType="string" keyProperty="order_id" order="BEFORE">
-	        SELECT IFNULL(MAX(order_id)+1,1) FROM ohjooyeo.ORDER WHERE church_id = #{list[0].churchId} AND  worship_id = #{list[0].worshipId}   
+	        SELECT IFNULL(MAX(order_id)+1,0) FROM ohjooyeo.ORDER WHERE church_id = #{list[0].churchId} AND  worship_id = #{list[0].worshipId}   
 	    </selectKey>    
 		
 		<foreach collection="list" index = "index" item = "vo" separator = ";">		
