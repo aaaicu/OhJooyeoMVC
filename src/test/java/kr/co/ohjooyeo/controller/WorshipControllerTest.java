@@ -60,7 +60,7 @@ public class WorshipControllerTest {
 	public void testWorshipInfo() throws Exception {
 		this.mockMvc.perform(post("/worship/info")
 				.contentType(MediaType.APPLICATION_JSON)
-				.content("{\"churchId\":\"1\",\"worshipId\":\"19-001\",\"version\" : 0}"))
+				.content("{\"churchId\":\"1\",\"worshipId\":\"19-005\",\"version\" : 0}"))
 //		.andDo(print())
 		.andExpect(status().isOk())
 //		.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -118,7 +118,7 @@ public class WorshipControllerTest {
 						+ 	"\"adId\": 2" 
 						+ "}]"
 						+ "}"))
-				.andDo(print())
+//				.andDo(print())
 				.andExpect(status().isOk());
     }
 	
@@ -131,11 +131,10 @@ public class WorshipControllerTest {
 		this.mockMvc.perform(delete("/worship/delete")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content("{\"churchId\" : 1,"
-						+ "\"worshipId\" : \"19-001\"}"))
+						+ "\"worshipId\" : \"19-005\"}"))
 //				.andDo(print())
 				.andExpect(status().isOk());
 	}
-	
 	
 	@Test 
 	@Transactional
@@ -188,16 +187,26 @@ public class WorshipControllerTest {
 						+ "}"))
 //				.andDo(print())
 				.andExpect(status().isOk());
-    }	
-	
-	@Test
-	@Transactional
-	@Rollback(true)
-	public void testVersionUp() {
-//		System.out.println(worshipService.getWorshipIdList("1"));
-	}
+    }
 
+	@Transactional
+	@Test
+	public void testWorshipAd() throws Exception {
+		this.mockMvc.perform(post("/worship/ad/info")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content("{\"churchId\":\"1\",\"worshipId\":\"19-001\",\"version\" : 1}"))
+		.andDo(print())
+		.andExpect(status().isOk())
+//		.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+//		.andExpect(jsonPath("$.worshipAd").exists())
+		;
+	}
 	
-	
-	
+	//TODO : 버전업하는 부분 추가 필요
+//	@Test
+//	@Transactional
+//	@Rollback(true)
+//	public void testVersionUp() {
+////		System.out.println(worshipService.getWorshipIdList("1"));
+//	}
 }

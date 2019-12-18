@@ -118,7 +118,7 @@
 	<delete id="deleteWorship" parameterType = "map">
 		<![CDATA[
 			DELETE FROM ohjooyeo.WORSHIP 
-			WHERE church_id = #{church}
+			WHERE church_id = #{churchId}
 			AND worship_id = #{worshipId}
 		]]>
 	</delete>

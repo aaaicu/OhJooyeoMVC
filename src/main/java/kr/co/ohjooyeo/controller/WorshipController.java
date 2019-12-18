@@ -100,16 +100,17 @@ public class WorshipController {
 		return newWorshipId;
 	}
 	
-	
-	
 	@RequestMapping(value = "/worship/delete", method = RequestMethod.DELETE)
 	public @ResponseBody boolean worshipDelete(@RequestBody Map<String,String> map) {
 		int resultOrder = orderService.deleteWorshipOrder(map);
 		int resultAd = adService.deleteWorshipAd(map);
 		int resultWorship = worshipService.deleteWorship(map);
 		boolean result = false;
+		logger.debug("resultOrder : " + resultOrder+"");
+		logger.debug("resultAd : "+resultAd+"");
+		logger.debug("resultWorship : "+resultWorship+"");
 		
-		if (resultOrder * resultAd * resultWorship == 1 ) {
+		if (resultWorship > 0 ) {
 			result= true;
 		}
 		return result;

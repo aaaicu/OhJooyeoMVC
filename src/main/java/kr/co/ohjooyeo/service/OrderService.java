@@ -5,9 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import kr.co.ohjooyeo.controller.WorshipController;
 import kr.co.ohjooyeo.dao.BibleDAO;
 import kr.co.ohjooyeo.dao.OrderDAO;
 import kr.co.ohjooyeo.vo.WorshipOrderVO;
@@ -15,6 +18,8 @@ import kr.co.ohjooyeo.vo.WorshipVO;
 
 @Service
 public class OrderService {
+	private static final Logger logger = LoggerFactory.getLogger(WorshipController.class);
+	
 	@Autowired
 	BibleDAO bibleDAO;
 
@@ -146,6 +151,7 @@ public class OrderService {
 	}
 
 	public int deleteWorshipOrder(Map<String,String> map) {
+		logger.debug(map.toString());
 		return orderDAO.deleteWorshipOrder(map);
 	}
 }
