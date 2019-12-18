@@ -298,9 +298,12 @@ Content-Type: application/json
     }],
     
 	worshipAd : 
-	[{
-	
-	}]
+    [{
+        "title": "광고1 - 광고 1에 해당하는 제목" [String],
+        "content": "광고1 - 광고 1에 해당하는 내용" [String],
+        "order": 광고순서 [Int] ,
+        "adId": 각 광고에 대한 식별값ID 정보 [Int]
+     }]
 }
 ```
 
@@ -363,6 +366,71 @@ WorshipController.worshipAdd( Map<String,Object> worship) : String
 	
 ```
 
+----
+
+
+`[Enabled]`
+### [4] _delete_ /worship/delete
+
+
+1) Description
+
+```
+worship데이터를 삭제한다
+```
+
+2) Headers
+
+```
+Content-Type: application/json
+```
+
+3) Body
+
+```
+{
+    "churchId": 1,
+    "worshipId": "19-004"
+}
+```
+
+
+4) Response Data
+
+- 성공시, true 반환
+
+- 실패시, false 반환
+
+- Response Example
+
+
+```
+true
+```
+
+5) Back-End Info
+
+```
+* Controller
+WorshipController.worshipDelete(@RequestBody Map<String,String> map) : boolean
+  
+	- orderService.deleteWorshipOrder(map) : int
+		>> Data <<
+		orderDAO.deleteWorshipOrder(Map<String,String> map) : int
+		* SQL : order.deleteWorshipOrder
+		
+  
+	- adService.deleteWorshipAd(map) : int
+		>> Data <<
+		advertisementDAO.deleteWorshipAd(Map<String,String> map) : int
+		* SQL : advertisement.deleteWorshipAd		
+		
+	- worshipService.deleteWorship(map) : int
+		>> Data <<
+		worshipDAO.deleteWorship(Map<String,String> map) : int
+		* SQL : worship.deleteWorship
+	
+```
 
 
 
