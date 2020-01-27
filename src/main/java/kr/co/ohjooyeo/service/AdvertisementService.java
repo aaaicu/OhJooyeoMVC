@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +23,8 @@ public class AdvertisementService {
 	@Autowired
 	AdvertisementDAO advertisementDAO;
 	
+	private static final Logger logger = LoggerFactory.getLogger(WorshipService.class);
+	
 	/* 광고추가 */
 //	public void setWorshipAd(String worshipId, String[] titles, String[] contents) {
 //		List<WorshipAdVO> adList = new ArrayList<>();
@@ -31,6 +35,7 @@ public class AdvertisementService {
 //	}
 
 	public Map<String,Object> getWorshipAd(String churchId,String worshipId, Map<String,Object> info) {
+		logger.debug(advertisementDAO.getWorshipAd(churchId,worshipId).toString());
 		info.put("worshipAd", advertisementDAO.getWorshipAd(churchId,worshipId));
 		return info;
 	}

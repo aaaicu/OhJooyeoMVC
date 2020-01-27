@@ -1,5 +1,7 @@
 package kr.co.ohjooyeo.controller;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.log;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -83,6 +85,9 @@ public class WorshipController {
 		
 		String newWorshipId = worshipService.getNewWorshipId((int)worshipData.get("churchId"));
 		
+		logger.debug(newWorshipId);
+		logger.debug(worshipData.get("churchId").toString());
+		
 		WorshipVO worshipVO = new WorshipVO();
 		
 		worshipVO.setWorshipId(newWorshipId);
@@ -156,13 +161,15 @@ public class WorshipController {
 	public @ResponseBody Map<String, Object> worshipAdInfo(@RequestBody Map<String, String> reqMap) {
 		String churchId = reqMap.get("churchId");
 		String worshipId = reqMap.get("worshipId");
-		
 		int reqVersion = Integer.valueOf(reqMap.get("version"));
+		
 		Map<String, Object> info = new HashMap<String, Object>();
 		info = adService.getWorshipAd(churchId,worshipId,info);
 		List<Map<String, Object>> worshipAd = (List<Map<String, Object>>)info.get("worshipAd");
-		int version = (int)worshipAd.get(0).get("version");
+		
+		
 		if(worshipAd.size() >0) {
+			int version = (int)worshipAd.get(0).get("version");
 			if(reqVersion == version) {
 				info = null;
 			}

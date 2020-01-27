@@ -69,6 +69,7 @@ public class WorshipService {
 	
 	public String getNewWorshipId(int churchId) {
 		String lastWorshipId = getLastWorshipId(churchId);
+		logger.debug(WorshipIdGenerator.nextWorshipId(lastWorshipId));
 		String newWorshipId = "";
 		if("".equals(lastWorshipId.trim())) {
 			newWorshipId = WorshipIdGenerator.newWorshipId();

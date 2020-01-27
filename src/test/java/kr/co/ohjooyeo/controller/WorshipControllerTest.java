@@ -77,13 +77,13 @@ public class WorshipControllerTest {
 		this.mockMvc.perform(post("/worship/add")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content("{ "
-						+ 	"\"worshipInfo\" :  "
+						+ "\"worshipInfo\" :  "
 						+ "{\"churchId\" : 1,"
-						+	"\"worshipDate\" : \"2019-10-19\","
-						+ 	"\"mainPresenter\" : \"사회자\","
-						+ 	"\"nextPresenter\" : \"다음사회자\","
-						+ 	"\"nextPrayer\" : \"다음기도자\","
-						+ 	"\"nextOffer\" : \"다음봉헌자\""
+						+ "\"worshipDate\" : \"2019-10-19\","
+						+ "\"mainPresenter\" : \"사회자\","
+						+ "\"nextPresenter\" : \"다음사회자\","
+						+ "\"nextPrayer\" : \"다음기도자\","
+						+ "\"nextOffer\" : \"다음봉헌자\""
 						+ "},"
 						+ "\"worshipOrder\" : "
 						+ "[{ "
@@ -194,7 +194,7 @@ public class WorshipControllerTest {
 	public void testWorshipAd() throws Exception {
 		this.mockMvc.perform(post("/worship/ad/info")
 				.contentType(MediaType.APPLICATION_JSON)
-				.content("{\"churchId\":\"1\",\"worshipId\":\"19-001\",\"version\" : 1}"))
+				.content("{\"churchId\":\"1\",\"worshipId\":\"19-005\",\"version\" : 1}"))
 		.andDo(print())
 		.andExpect(status().isOk())
 //		.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
