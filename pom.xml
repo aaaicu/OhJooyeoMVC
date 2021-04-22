@@ -173,7 +173,7 @@
 		<dependency>
 			<groupId>org.mybatis</groupId>
 			<artifactId>mybatis</artifactId>
-			<version>3.4.5</version>
+			<version>3.5.6</version>
 		</dependency>
 
 		<!-- MyBatis-Spring 모듈 (두 프레임워크의 접착제 역할) -->
